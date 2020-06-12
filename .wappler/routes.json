@@ -1,0 +1,35 @@
+{
+  "routes": [
+    {
+      "path": "/",
+      "url": "/index.php",
+      "name": "index",
+      "routes": [
+        {
+          "type": "page",
+          "path": "/dashboard",
+          "id": "routeDashboard",
+          "url": "spa_dashboard.php"
+        },
+        {
+          "type": "page",
+          "path": "/expense/create",
+          "id": "routeCreateExpense",
+          "url": "Expense/spa_createExpense.php"
+        },
+        {
+          "type": "page",
+          "path": "/targetList",
+          "id": "routeTarget",
+          "url": "Other/spa_targetList.php"
+        },
+        {
+          "type": "page",
+          "path": "/expense/list",
+          "id": "routeExpenseList",
+          "url": "Expense/spa_expenseList.php"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+ html * {
+	 font-family: 'Open Sans', sans-serif;
+ }
+ 
+ .header-menu .menu-nav > .menu-item .menu-submenu > .menu-subnav > .menu-item > .menu-link .menu-text {
+	 font-weight: 600;
+ }
+ 
+ .header-menu .menu-nav > .menu-item > .menu-link .menu-text {
+	 font-weight: 600;
+ }
+ 
+ .form-control {
+	 font-size: 1.2rem;
+ }
