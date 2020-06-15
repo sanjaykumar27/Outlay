@@ -19,10 +19,6 @@ $app->define(<<<'JSON'
       {
         "type": "text",
         "name": "dir"
-      },
-      {
-        "type": "text",
-        "name": "categoryid"
       }
     ]
   },
@@ -42,7 +38,7 @@ $app->define(<<<'JSON'
         }
       },
       {
-        "name": "getItems",
+        "name": "queryAccountList",
         "module": "dbconnector",
         "action": "select",
         "options": {
@@ -51,76 +47,53 @@ $app->define(<<<'JSON'
             "type": "SELECT",
             "columns": [
               {
-                "table": "sub_categories",
+                "table": "account_master",
                 "column": "id"
               },
               {
-                "table": "sub_categories",
-                "column": "subcategory_name"
+                "table": "account_master",
+                "column": "account_owner"
               },
               {
-                "table": "sub_categories",
-                "column": "category_id"
+                "table": "account_master",
+                "column": "account_number"
+              },
+              {
+                "table": "account_master",
+                "column": "bank_name"
               }
             ],
             "table": {
-              "name": "sub_categories"
+              "name": "account_master"
             },
             "joins": [],
             "wheres": {
               "condition": "AND",
               "rules": [
                 {
-                  "id": "sub_categories.deleted",
-                  "field": "sub_categories.deleted",
+                  "id": "account_master.userid",
+                  "field": "account_master.userid",
                   "type": "double",
                   "operator": "equal",
-                  "value": 0,
+                  "value": "{{SecurityCS.identity}}",
                   "data": {
-                    "table": "sub_categories",
-                    "column": "deleted",
+                    "table": "account_master",
+                    "column": "userid",
                     "type": "number"
                   },
                   "operation": "="
-                },
-                {
-                  "condition": "AND",
-                  "rules": [
-                    {
-                      "id": "sub_categories.category_id",
-                      "field": "sub_categories.category_id",
-                      "type": "double",
-                      "operator": "equal",
-                      "value": "{{$_GET.categoryid}}",
-                      "data": {
-                        "table": "sub_categories",
-                        "column": "category_id",
-                        "type": "number"
-                      },
-                      "operation": "="
-                    }
-                  ],
-                  "conditional": "{{$_GET.categoryid}}"
                 }
               ],
               "conditional": null,
               "valid": true
             },
-            "query": "SELECT id, subcategory_name, category_id\nFROM sub_categories\nWHERE deleted = 0 AND (category_id = :P1 /* {{$_GET.categoryid}} */)\nORDER BY subcategory_name ASC",
+            "query": "SELECT id, account_owner, account_number, bank_name\nFROM account_master\nWHERE userid = :P1 /* {{SecurityCS.identity}} */",
             "params": [
               {
                 "operator": "equal",
                 "type": "expression",
                 "name": ":P1",
-                "value": "{{$_GET.categoryid}}"
-              }
-            ],
-            "orders": [
-              {
-                "table": "sub_categories",
-                "column": "subcategory_name",
-                "direction": "ASC",
-                "recid": 1
+                "value": "{{SecurityCS.identity}}"
               }
             ]
           }
@@ -132,12 +105,16 @@ $app->define(<<<'JSON'
             "type": "number"
           },
           {
-            "name": "subcategory_name",
-            "type": "text"
+            "name": "account_owner",
+            "type": "number"
           },
           {
-            "name": "category_id",
+            "name": "account_number",
             "type": "number"
+          },
+          {
+            "name": "bank_name",
+            "type": "text"
           }
         ],
         "outputType": "array"

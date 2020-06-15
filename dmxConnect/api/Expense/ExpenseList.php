@@ -506,6 +506,108 @@ $app->define(<<<'JSON'
           }
         ],
         "outputType": "array"
+      },
+      {
+        "name": "getItemslist",
+        "module": "dbconnector",
+        "action": "select",
+        "options": {
+          "connection": "ConnCS",
+          "sql": {
+            "type": "SELECT",
+            "columns": [
+              {
+                "table": "expense",
+                "column": "category_id",
+                "alias": "itemid"
+              },
+              {
+                "table": "sub_categories",
+                "column": "subcategory_name",
+                "alias": "itemname"
+              },
+              {
+                "table": "categories",
+                "column": "id",
+                "alias": "categoryid"
+              },
+              {
+                "table": "categories",
+                "column": "category_name",
+                "alias": "categoryname"
+              }
+            ],
+            "table": {
+              "name": "expense"
+            },
+            "joins": [
+              {
+                "table": "sub_categories",
+                "column": "*",
+                "type": "LEFT",
+                "clauses": {
+                  "condition": "AND",
+                  "rules": [
+                    {
+                      "table": "sub_categories",
+                      "column": "id",
+                      "operator": "equal",
+                      "value": {
+                        "table": "expense",
+                        "column": "category_id"
+                      },
+                      "operation": "="
+                    }
+                  ]
+                }
+              },
+              {
+                "table": "categories",
+                "column": "*",
+                "type": "LEFT",
+                "clauses": {
+                  "condition": "AND",
+                  "rules": [
+                    {
+                      "table": "categories",
+                      "column": "id",
+                      "operator": "equal",
+                      "value": {
+                        "table": "sub_categories",
+                        "column": "category_id"
+                      },
+                      "operation": "="
+                    }
+                  ]
+                }
+              }
+            ],
+            "distinct": true,
+            "query": "SELECT DISTINCT expense.category_id AS itemid, sub_categories.subcategory_name AS itemname, categories.id AS categoryid, categories.category_name AS categoryname\nFROM expense\nLEFT JOIN sub_categories ON (sub_categories.id = expense.category_id) LEFT JOIN categories ON (categories.id = sub_categories.category_id)",
+            "params": []
+          }
+        },
+        "output": true,
+        "meta": [
+          {
+            "name": "itemid",
+            "type": "number"
+          },
+          {
+            "name": "itemname",
+            "type": "text"
+          },
+          {
+            "name": "categoryid",
+            "type": "number"
+          },
+          {
+            "name": "categoryname",
+            "type": "text"
+          }
+        ],
+        "outputType": "array",
+        "disabled": true
       }
     ]
   }

@@ -61,6 +61,10 @@ JSON
 
 	<script src="dmxAppConnect/dmxCharts/Chart.min.js" defer=""></script>
 	<script src="dmxAppConnect/dmxCharts/dmxCharts.js" defer=""></script>
+	<link rel="stylesheet" href="dmxAppConnect/dmxDatePicker/daterangepicker.min.css" />
+	<script src="dmxAppConnect/dmxDatePicker/daterangepicker.min.js" defer=""></script>
+	<link rel="stylesheet" href="dmxAppConnect/dmxDatePicker/dmxDatePicker.css" />
+	<script src="dmxAppConnect/dmxDatePicker/dmxDatePicker.js" defer=""></script>
 </head>
 
 <body id="kt_body" class="header-fixed header-mobile-fixed sidebar-enabled page-loading">
