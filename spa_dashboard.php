@@ -46,8 +46,8 @@
 					</div>
 				</div>
 				<div class="card-body">
-					<dmx-chart id="chart1" legend="bottom" dmx-bind:data="scMonthlyReport.data.monthlyExpense" labels="dates" dataset-1:value="amount" dataset-1:label="Amount" points point-style="line" smooth thickness="4" width="1300" height="450"
-						responsive point-size="" cutout="" colors="colors5" noanimation>
+					<dmx-chart id="chart1" legend="bottom" dmx-bind:data="scMonthlyReport.data.monthlyExpense" labels="dates" dataset-1:value="amount" dataset-1:label="Amount" points point-style="line" smooth thickness="4" width="450px"
+						height="350px" responsive point-size="" cutout="" colors="colors5" noanimation>
 					</dmx-chart>
 				</div>
 			</div>

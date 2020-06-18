@@ -65,6 +65,7 @@ JSON
 	<script src="dmxAppConnect/dmxDatePicker/daterangepicker.min.js" defer=""></script>
 	<link rel="stylesheet" href="dmxAppConnect/dmxDatePicker/dmxDatePicker.css" />
 	<script src="dmxAppConnect/dmxDatePicker/dmxDatePicker.js" defer=""></script>
+	<script src="dmxAppConnect/dmxBootstrap4Toasts/dmxBootstrap4Toasts.js" defer=""></script>
 </head>
 
 <body id="kt_body" class="header-fixed header-mobile-fixed sidebar-enabled page-loading">
