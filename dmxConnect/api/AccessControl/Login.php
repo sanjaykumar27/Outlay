@@ -36,7 +36,8 @@ $app->define(<<<'JSON'
         "action": "login",
         "options": {
           "provider": "SecurityCS",
-          "password": "{{$_POST.password.md5(\"\")}}"
+          "password": "{{$_POST.password.md5(\"\")}}",
+          "remember": ""
         },
         "output": true,
         "meta": []

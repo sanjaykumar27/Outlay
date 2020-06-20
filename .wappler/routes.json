@@ -28,6 +28,12 @@
           "path": "/expense/list",
           "id": "routeExpenseList",
           "url": "Expense/spa_expenseList.php"
+        },
+        {
+          "type": "page",
+          "path": "/master/items",
+          "id": "routeItems",
+          "url": "Master/spa_items.php"
         }
       ]
     }

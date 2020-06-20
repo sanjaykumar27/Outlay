@@ -62,9 +62,11 @@ JSON
 	<link rel="stylesheet" href="dmxAppConnect/dmxDatePicker/dmxDatePicker.css" />
 	<script src="dmxAppConnect/dmxDatePicker/dmxDatePicker.js" defer=""></script>
 	<script src="dmxAppConnect/dmxBootstrap4Toasts/dmxBootstrap4Toasts.js" defer=""></script>
+	<script src="dmxAppConnect/dmxBrowser/dmxBrowser.js" defer=""></script>
 </head>
 
-<body id="kt_body" class="header-fixed header-mobile-fixed sidebar-enabled page-loading">
+<body id="index" class="header-fixed header-mobile-fixed sidebar-enabled page-loading">
+	<div is="dmx-browser" id="browser1"></div>
 	<!--begin::Main-->
 	<!--begin::Header Mobile-->
 	<div id="kt_header_mobile" class="header-mobile  header-mobile-fixed ">
@@ -476,7 +478,7 @@ JSON
 												</ul>
 											</div>
 										</li>
-										
+
 										<li class="menu-item  menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 											<a href="javascript:;" class="menu-link menu-toggle">
 												<span class="menu-text">Investement</span>
@@ -550,7 +552,7 @@ JSON
 												</ul>
 											</div>
 										</li>
-										
+
 										<li class="menu-item  menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 											<a href="javascript:;" class="menu-link menu-toggle">
 												<span class="menu-text">Accounts</span>
@@ -600,11 +602,11 @@ JSON
 															<span class="menu-text">Cards</span>
 														</a>
 													</li>
-													
+
 												</ul>
 											</div>
 										</li>
-	
+
 										<li class="menu-item  menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 											<a href="javascript:;" class="menu-link menu-toggle">
 												<span class="menu-text">Utitilites</span>
@@ -673,11 +675,11 @@ JSON
 																<!--end::Svg Icon-->
 															</span>
 															<span class="menu-text">Sticky Notes</span>
-														</a
+														</a>
+													</li>
 												</ul>
 											</div>
 										</li>
-										
 										<li class="menu-item  menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
 											<a href="javascript:;" class="menu-link menu-toggle">
 												<span class="menu-text">Masters</span>
@@ -707,7 +709,7 @@ JSON
 														</a>
 													</li>
 													<li class="menu-item  menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-														<a href="javascript:;" class="menu-link">
+														<a href="./master/items" class="menu-link">
 															<span class="svg-icon menu-icon">
 																<!--begin::Svg Icon | path:/assets/media/svg/icons/Files/Pictures1.svg-->
 																<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -746,11 +748,11 @@ JSON
 																<!--end::Svg Icon-->
 															</span>
 															<span class="menu-text">Users</span>
-														</a
+														</a>
+													</li>
 												</ul>
 											</div>
 										</li>
-										
 										<li class="menu-item  menu-item-submenu" data-menu-toggle="click" aria-haspopup="true">
 											<a href="javascript:;" class="menu-link menu-toggle">
 												<span class="menu-text">All Pages</span>
@@ -1183,15 +1185,15 @@ JSON
 				<!--begin::Content-->
 				<div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
 					<!--begin::Entry-->
-					<div class="content  d-flex flex-column flex-column-fluid" id="kt_subheader">
-
+					<div class="content d-flex flex-column flex-column-fluid" id="kt_subheader">
 						<!--begin::Container Routes-->
 						<div id="routes">
 							<div is="dmx-route" id="routeDashboard" path="/dashboard" url="spa_dashboard.php"></div>
 							<div is="dmx-route" id="routeCreateExpense" path="/expense/create" url="Expense/spa_createExpense.php"></div>
 							<div is="dmx-route" id="routeTarget" path="/targetList" url="Other/spa_targetList.php"></div>
-							<div is="dmx-route" id="routeExpenseList" path="/expense/list" url="Expense/spa_expenseList.php" dmx-on:show="scExpenseList.load({})"></div>
-
+							<div is="dmx-route" id="routeExpenseList" path="/expense/list" url="Expense/spa_expenseList.php" dmx-on:show="scExpenseList.load({})">
+							</div>
+							<div is="dmx-route" id="routeItems" path="/master/items" url="Master/spa_items.php" dmx-on:show="scItemList.load()"></div>
 						</div>
 					</div>
 					<!--end::Entry-->

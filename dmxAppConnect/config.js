@@ -96,5 +96,61 @@ dmx.config({
       "meta": null,
       "outputType": "number"
     }
+  },
+  "Items": {
+    "query": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      },
+      {
+        "type": "text",
+        "name": "offset"
+      }
+    ],
+    "repeatCategories": {
+      "meta": [
+        {
+          "name": "CategoryID",
+          "type": "number"
+        },
+        {
+          "name": "CategoryName",
+          "type": "text"
+        },
+        {
+          "name": "queryItems",
+          "type": "array",
+          "sub": [
+            {
+              "name": "ItemName",
+              "type": "text"
+            },
+            {
+              "name": "ItemID",
+              "type": "number"
+            }
+          ]
+        }
+      ],
+      "outputType": "array"
+    },
+    "repeat1": {
+      "meta": [
+        {
+          "name": "ItemName",
+          "type": "text"
+        },
+        {
+          "name": "ItemID",
+          "type": "number"
+        }
+      ],
+      "outputType": "array"
+    }
   }
 });

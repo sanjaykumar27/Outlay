@@ -32,3 +32,22 @@ RewriteRule ^/?targetList(?:/)?$ index.php [QSA,NC,L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^/?expense/list(?:/)?$ index.php [QSA,NC,L]
 ## End Wappler routing
+
+## Wappler routing
+RewriteEngine On
+<IfModule mod_negotiation.c>
+    Options -MultiViews
+</IfModule>
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^/?(?:/)?$ index.php [QSA,NC,L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^/?dashboard(?:/)?$ index.php [QSA,NC,L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^/?expense/create(?:/)?$ index.php [QSA,NC,L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^/?targetList(?:/)?$ index.php [QSA,NC,L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^/?expense/list(?:/)?$ index.php [QSA,NC,L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^/?master/items(?:/)?$ index.php [QSA,NC,L]
+## End Wappler routing

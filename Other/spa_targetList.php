@@ -6,20 +6,13 @@
 <dmx-query-manager id="qm"></dmx-query-manager>
 <dmx-serverconnect id="scTargetList" url="dmxConnect/api/Other/Target/getTargetList.php"></dmx-serverconnect>
 <div class=" container-fluid  d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
-	<!--begin::Info-->
 	<div class="d-flex align-items-center flex-wrap mr-1">
-		<!--begin::Page Heading-->
 		<div class="d-flex align-items-baseline mr-5">
-			<!--begin::Page Title-->
 			<h1 class="text-dark my-2 mr-5 font-weight-light">
-				Target List </h1>
-			<!--end::Page Title-->
+				Target List
+			</h1>
 		</div>
-		<!--end::Page Heading-->
 	</div>
-	<!--end::Info-->
-
-	<!--begin::Toolbar-->
 	<div class="d-flex align-items-center">
 		<!--begin::Actions-->
 		<button class="btn btn-primary font-weight-bold btn-sm" data-toggle="modal" data-target="#createtarget">
@@ -27,8 +20,6 @@
 			Add Target
 		</button>
 	</div>
-
-	<!--end::Toolbar-->
 </div>
 
 <div class="d-flex flex-column-fluid pt-2">
