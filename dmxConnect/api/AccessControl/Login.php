@@ -150,6 +150,15 @@ $app->define(<<<'JSON'
           }
         ],
         "outputType": "object"
+      },
+      {
+        "name": "userid",
+        "module": "core",
+        "action": "setsession",
+        "options": {
+          "value": "{{UserInfo.id}}"
+        },
+        "output": true
       }
     ]
   }

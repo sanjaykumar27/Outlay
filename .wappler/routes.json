@@ -3,7 +3,7 @@
     {
       "path": "/",
       "url": "/index.php",
-      "name": "index",
+      "name": "",
       "routes": [
         {
           "type": "page",

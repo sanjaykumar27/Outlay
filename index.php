@@ -1,24 +1,3 @@
-<?php 
-require('dmxConnectLib/dmxConnect.php');
-
-$app = new \lib\App();
-
-$app->exec(<<<'JSON'
-{
-	"steps": [
-		"Connections/ConnCS",
-		"SecurityProviders/SecurityCS",
-		{
-			"module": "auth",
-			"action": "restrict",
-			"options": {"permissions":"Active","loginUrl":"login.php","forbiddenUrl":"login.php","provider":"SecurityCS"}
-		}
-	]
-}
-JSON
-, TRUE)
-?>
-<!doctype html>
 <html is="dmx-app">
 
 <head>
@@ -66,6 +45,8 @@ JSON
 </head>
 
 <body id="index" class="header-fixed header-mobile-fixed sidebar-enabled page-loading">
+	<dmx-serverconnect id="scLogout" url="dmxConnect/api/AccessControl/logout.php" noload="noload"></dmx-serverconnect>
+	<dmx-serverconnect id="scVerify" url="dmxConnect/api/AccessControl/scVerify.php" dmx-on:unauthorized="browser1.goto('login.php')"></dmx-serverconnect>
 	<div is="dmx-browser" id="browser1"></div>
 	<!--begin::Main-->
 	<!--begin::Header Mobile-->
@@ -1183,19 +1164,16 @@ JSON
 				</div>
 				<!--end::Header-->
 				<!--begin::Content-->
-				<div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
+				<div class="content  d-flex flex-column flex-column-fluid">
 					<!--begin::Entry-->
-					<div class="content d-flex flex-column flex-column-fluid" id="kt_subheader">
-						<!--begin::Container Routes-->
-						<div id="routes">
-							<div is="dmx-route" id="routeDashboard" path="/dashboard" url="spa_dashboard.php"></div>
-							<div is="dmx-route" id="routeCreateExpense" path="/expense/create" url="Expense/spa_createExpense.php"></div>
-							<div is="dmx-route" id="routeTarget" path="/targetList" url="Other/spa_targetList.php"></div>
-							<div is="dmx-route" id="routeExpenseList" path="/expense/list" url="Expense/spa_expenseList.php" dmx-on:show="scExpenseList.load({})">
-							</div>
-							<div is="dmx-route" id="routeItems" path="/master/items" url="Master/spa_items.php" dmx-on:show="scItemList.load()"></div>
-						</div>
+					<!--begin::Container Routes-->
+					<div is="dmx-route" id="routeDashboard" path="/dashboard" url="spa_dashboard.php"></div>
+					<div is="dmx-route" id="routeCreateExpense" path="/expense/create" url="Expense/spa_createExpense.php"></div>
+					<div is="dmx-route" id="routeTarget" path="/targetList" url="Other/spa_targetList.php"></div>
+					<div is="dmx-route" id="routeExpenseList" path="/expense/list" url="Expense/spa_expenseList.php" dmx-on:show="scExpenseList.load({})">
 					</div>
+					<div is="dmx-route" id="routeItems" path="/master/items" url="Master/spa_items.php" dmx-on:show="scItemList.load()"></div>
+
 					<!--end::Entry-->
 				</div>
 				<!--end::Content-->
@@ -1511,7 +1489,7 @@ JSON
 								<span class="navi-text text-muted text-hover-primary">jm@softplus.com</span>
 							</span>
 						</a>
-						<a href="#" class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">Sign Out</a>
+						<a href="#" class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5" dmx-on:click="scLogout.load()">Sign Out</a>
 					</div>
 				</div>
 			</div>
