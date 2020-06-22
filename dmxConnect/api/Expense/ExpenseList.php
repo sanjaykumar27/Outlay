@@ -128,6 +128,24 @@ $app->define(<<<'JSON'
                 "table": "C2",
                 "column": "name",
                 "alias": "PaymentType"
+              },
+              {
+                "table": "expense",
+                "column": "id",
+                "alias": "Expense_ID"
+              },
+              {
+                "table": "expense",
+                "column": "unit",
+                "alias": "unitid"
+              },
+              {
+                "table": "expense",
+                "column": "category_id"
+              },
+              {
+                "table": "expense",
+                "column": "invoice_name"
               }
             ],
             "table": {
@@ -316,7 +334,7 @@ $app->define(<<<'JSON'
               "conditional": null,
               "valid": true
             },
-            "query": "SELECT expense.invoice_number, expense.quantity, expense.purchase_date, expense.receipt_name, expense.receipt_url, expense.account, expense.payment_type, expense.remark, expense.amount, sub_categories.subcategory_name AS ItemName, C1.name AS Unit, C2.name AS PaymentType\nFROM expense\nLEFT JOIN sub_categories ON (sub_categories.id = expense.category_id) LEFT JOIN collections AS C1 ON (C1.id = expense.unit) LEFT JOIN categories ON (categories.id = sub_categories.category_id) LEFT JOIN collections AS C2 ON (C2.id = expense.payment_type)\nWHERE expense.user_id = :P1 /* {{SecurityCS.identity}} */ AND (sub_categories.category_id = :P2 /* {{$_GET.categoryid}} */) AND (expense.category_id = :P3 /* {{$_GET.itemid}} */) AND (expense.purchase_date BETWEEN :P4 /* {{$_GET.crstartdate}} */ AND :P5 /* {{$_GET.crenddate}} */) AND (expense.purchase_date = :P6 /* {{$_GET.date}} */)\nORDER BY expense.purchase_date DESC",
+            "query": "SELECT expense.invoice_number, expense.quantity, expense.purchase_date, expense.receipt_name, expense.receipt_url, expense.account, expense.payment_type, expense.remark, expense.amount, sub_categories.subcategory_name AS ItemName, C1.name AS Unit, C2.name AS PaymentType, expense.id AS Expense_ID, expense.unit AS unitid, expense.category_id, expense.invoice_name\nFROM expense\nLEFT JOIN sub_categories ON (sub_categories.id = expense.category_id) LEFT JOIN collections AS C1 ON (C1.id = expense.unit) LEFT JOIN categories ON (categories.id = sub_categories.category_id) LEFT JOIN collections AS C2 ON (C2.id = expense.payment_type)\nWHERE expense.user_id = :P1 /* {{SecurityCS.identity}} */ AND (sub_categories.category_id = :P2 /* {{$_GET.categoryid}} */) AND (expense.category_id = :P3 /* {{$_GET.itemid}} */) AND (expense.purchase_date BETWEEN :P4 /* {{$_GET.crstartdate}} */ AND :P5 /* {{$_GET.crenddate}} */) AND (expense.purchase_date = :P6 /* {{$_GET.date}} */)\nORDER BY expense.purchase_date DESC",
             "params": [
               {
                 "operator": "equal",
@@ -465,6 +483,22 @@ $app->define(<<<'JSON'
               },
               {
                 "name": "PaymentType",
+                "type": "text"
+              },
+              {
+                "name": "Expense_ID",
+                "type": "number"
+              },
+              {
+                "name": "unitid",
+                "type": "number"
+              },
+              {
+                "name": "category_id",
+                "type": "number"
+              },
+              {
+                "name": "invoice_name",
                 "type": "text"
               }
             ]

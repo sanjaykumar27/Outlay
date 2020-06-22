@@ -38,7 +38,7 @@
 <div class="d-flex flex-column-fluid pt-2">
 	<div class="container-fluid">
 		<form class="form" method="post" is="dmx-serverconnect-form" id="CreateExpense" action="dmxConnect/api/Expense/createExpense.php"
-			dmx-on:success="CreateExpense.reset();scGetExpense.load({});varCounter.setValue(1);scInvoiceID.load();notifies1.success(&quot;Expense Created Succesfully&quot;">
+			dmx-on:success="CreateExpense.reset();scGetExpense.load();varCounter.setValue(1);scInvoiceID.load();notifies1.success(&quot;Expense Created Succesfully&quot;)">
 			<div class="card-body">
 				<h3 class="font-size-lg text-dark font-weight-bold mb-6">1. Invoice Info:</h3>
 				<div class="row">
@@ -99,15 +99,15 @@
 				<h3 class="font-size-lg text-dark font-weight-bold mb-6">3. Item Info:</h3>
 
 				<div class="row" is="dmx-repeat" id="repeatItem" dmx-bind:repeat="varCounter.value">
-					<!-- <div class="col-lg-3">
+					<div class="col-lg-3">
 						<div class="form-group">
 							<label>Category:</label>
 							<select class="form-control" name="CategoryID" dmx-bind:options="scCategories.data.getCategories" optiontext="category_name" optionvalue="id" dmx-on:changed="scItemLists.load({categoryid: value})">
 								<option selected disabled value="">Categories</option>
 							</select>
 						</div>
-					</div> -->
-					<div class="col-lg-4">
+					</div>
+					<div class="col-lg-3">
 						<div class="form-group">
 							<label>Item:</label>
 							<select class="form-control" name="ItemID[]" style="width: 100% !important;" dmx-bind:options="scItemLists.data.getItems" optiontext="subcategory_name" optionvalue="id">
@@ -115,13 +115,13 @@
 							</select>
 						</div>
 					</div>
-					<div class="col-lg-3">
+					<div class="col-lg-2">
 						<div class="form-group">
 							<label>Quantity:</label>
 							<input type="number" value="1" name="Quantity[]" class="form-control form-control-solid" placeholder="Quantity" />
 						</div>
 					</div>
-					<div class="col-lg-3">
+					<div class="col-lg-2">
 						<div class="form-group">
 							<label>Unit:</label>
 							<select class="form-control" name="UnitID[]" style="width: 100% !important;" dmx-bind:options="scUnits.data.queryUnits" optiontext="UnitName" optionvalue="UnitID">
@@ -137,8 +137,11 @@
 					</div>
 
 				</div>
-				<div class="row text-right">
-					<div class="col">
+				<div class="row">
+					<div class="col float-left">
+						<button class="btn btn-sm btn-success">Add Item</button>
+					</div>
+					<div class="col float-right text-right">
 						<button class="btn btn-icon btn-light-success" dmx-on:click="varCounter.setValue(varCounter.value + 1)">
 							<i class="fa fa-plus"></i>
 						</button>
