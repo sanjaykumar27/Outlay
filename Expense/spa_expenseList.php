@@ -1,4 +1,5 @@
 <!-- Wappler include head-page="../index.php" appconnect="local" is="dmx-app" bootstrap4="cdn" fontawesome_4="cdn" jquery_slim_33="cdn" id="ExpenseList" components="{dmxStateManagement:{},dmxBootstrap4Collapse:{},dmxFormatter:{},dmxBootstrap4Tooltips:{},dmxBootstrap4PagingGenerator:{},dmxBootstrap4Modal:{}}" -->
+<dmx-value id="varItems" dmx-bind:value="scExpenseList.data.queryUniqueItems[0].item_id"></dmx-value>
 <dmx-value id="varExpenseID"></dmx-value>
 
 <dmx-value id="varPreviousLast" dmx-bind:value="'<?php echo date('Y-m-d', mktime(0, 0, 0, date('m'), 0)) ?>'"></dmx-value>
@@ -46,7 +47,8 @@
 					</select>
 				</div>
 				<div class="col-lg-3">
-					<select class="form-control" id="FilterItem" name="FilterItem" style="width: 100% !important;" dmx-bind:options="scGetItems.data.getItems" optiontext="subcategory_name" optionvalue="id">
+					<select class="form-control" id="FilterItem" name="FilterItem" style="width: 100% !important;" dmx-bind:options="scGetItems.data.getItems.where(`id`, varItems.value.split(','), &quot;contains&quot;)" optiontext="subcategory_name"
+						optionvalue="id">
 						<option value="" selected>Select Item</option>
 					</select>
 				</div>

@@ -70,6 +70,26 @@ $app->define(<<<'JSON'
         }
       },
       {
+        "name": "queryUniqueItems",
+        "module": "dbupdater",
+        "action": "custom",
+        "options": {
+          "connection": "ConnCS",
+          "sql": {
+            "query": "SELECT GROUP_CONCAT(DISTINCT(expense.category_id)) as item_id from expense;",
+            "params": []
+          }
+        },
+        "output": true,
+        "meta": [
+          {
+            "name": "item_id",
+            "type": "text"
+          }
+        ],
+        "outputType": "array"
+      },
+      {
         "name": "queryExpenseList",
         "module": "dbconnector",
         "action": "paged",

@@ -78,6 +78,10 @@ dmx.config({
         }
       ],
       "outputType": "array"
+    },
+    "varItems": {
+      "meta": null,
+      "outputType": "text"
     }
   },
   "TargetList": {
