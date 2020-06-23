@@ -82,6 +82,20 @@ dmx.config({
     "varItems": {
       "meta": null,
       "outputType": "text"
+    },
+    "varCategoryIDs": {
+      "meta": null,
+      "outputType": "text"
+    },
+    "varItemIDs": {
+      "meta": null,
+      "outputType": "text"
+    },
+    "arrItemIDs": {
+      "outputType": "array"
+    },
+    "arrCategoryIDs": {
+      "outputType": "array"
     }
   },
   "TargetList": {

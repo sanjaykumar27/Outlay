@@ -395,7 +395,7 @@
 											<div class="menu-submenu menu-submenu-classic menu-submenu-left">
 												<ul class="menu-subnav">
 													<li class="menu-item  menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-														<a href="javascript:;" class="menu-link">
+														<a href="./expense/list" class="menu-link">
 															<span class="svg-icon menu-icon">
 																<!--begin::Svg Icon | path:/assets/media/svg/icons/Communication/Add-user.svg-->
 																<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -415,7 +415,7 @@
 														</a>
 													</li>
 													<li class="menu-item  menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-														<a href="javascript:;" class="menu-link">
+														<a href="./expense/create" class="menu-link">
 															<span class="svg-icon menu-icon">
 																<!--begin::Svg Icon | path:/assets/media/svg/icons/Files/Pictures1.svg-->
 																<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">

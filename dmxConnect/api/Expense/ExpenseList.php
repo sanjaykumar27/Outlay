@@ -70,26 +70,6 @@ $app->define(<<<'JSON'
         }
       },
       {
-        "name": "queryUniqueItems",
-        "module": "dbupdater",
-        "action": "custom",
-        "options": {
-          "connection": "ConnCS",
-          "sql": {
-            "query": "SELECT GROUP_CONCAT(DISTINCT(expense.category_id)) as item_id from expense;",
-            "params": []
-          }
-        },
-        "output": true,
-        "meta": [
-          {
-            "name": "item_id",
-            "type": "text"
-          }
-        ],
-        "outputType": "array"
-      },
-      {
         "name": "queryExpenseList",
         "module": "dbconnector",
         "action": "paged",
@@ -527,6 +507,111 @@ $app->define(<<<'JSON'
         "outputType": "object"
       },
       {
+        "name": "repeat1",
+        "module": "core",
+        "action": "repeat",
+        "options": {
+          "repeat": "{{queryExpenseList.data}}",
+          "exec": {
+            "steps": {
+              "name": "ExpenseID",
+              "module": "core",
+              "action": "setvalue",
+              "options": {
+                "key": "ExpenseID",
+                "value": "{{ExpenseID + ',' + Expense_ID}}"
+              },
+              "output": true,
+              "outputType": "array"
+            }
+          }
+        },
+        "output": true,
+        "meta": [
+          {
+            "name": "$index",
+            "type": "number"
+          },
+          {
+            "name": "$number",
+            "type": "number"
+          },
+          {
+            "name": "$name",
+            "type": "text"
+          },
+          {
+            "name": "$value",
+            "type": "object"
+          },
+          {
+            "name": "invoice_number",
+            "type": "number"
+          },
+          {
+            "name": "quantity",
+            "type": "number"
+          },
+          {
+            "name": "purchase_date",
+            "type": "date"
+          },
+          {
+            "name": "receipt_name",
+            "type": "text"
+          },
+          {
+            "name": "receipt_url",
+            "type": "text"
+          },
+          {
+            "name": "account",
+            "type": "number"
+          },
+          {
+            "name": "payment_type",
+            "type": "number"
+          },
+          {
+            "name": "remark",
+            "type": "text"
+          },
+          {
+            "name": "amount",
+            "type": "number"
+          },
+          {
+            "name": "ItemName",
+            "type": "text"
+          },
+          {
+            "name": "Unit",
+            "type": "text"
+          },
+          {
+            "name": "PaymentType",
+            "type": "text"
+          },
+          {
+            "name": "Expense_ID",
+            "type": "number"
+          },
+          {
+            "name": "unitid",
+            "type": "number"
+          },
+          {
+            "name": "category_id",
+            "type": "number"
+          },
+          {
+            "name": "invoice_name",
+            "type": "text"
+          }
+        ],
+        "outputType": "array"
+      },
+      {
         "name": "groupByDateCurrentMonth",
         "module": "dbupdater",
         "action": "custom",
@@ -562,106 +647,67 @@ $app->define(<<<'JSON'
         "outputType": "array"
       },
       {
-        "name": "getItemslist",
-        "module": "dbconnector",
-        "action": "select",
+        "name": "exp",
+        "module": "core",
+        "action": "setvalue",
+        "options": {
+          "key": "exp",
+          "value": "{{ExpenseID.split(\",\")}}"
+        },
+        "output": true,
+        "disabled": true
+      },
+      {
+        "name": "GetItemIDs",
+        "module": "dbupdater",
+        "action": "custom",
         "options": {
           "connection": "ConnCS",
           "sql": {
-            "type": "SELECT",
-            "columns": [
+            "query": "Select GROUP_CONCAT(DISTINCT(expense.category_id)) as itemid from expense\nwhere FIND_IN_SET(expense.id,:P1)",
+            "params": [
               {
-                "table": "expense",
-                "column": "category_id",
-                "alias": "itemid"
-              },
-              {
-                "table": "sub_categories",
-                "column": "subcategory_name",
-                "alias": "itemname"
-              },
-              {
-                "table": "categories",
-                "column": "id",
-                "alias": "categoryid"
-              },
-              {
-                "table": "categories",
-                "column": "category_name",
-                "alias": "categoryname"
+                "name": ":P1",
+                "value": "{{ExpenseID}}",
+                "test": "35,36,37"
               }
-            ],
-            "table": {
-              "name": "expense"
-            },
-            "joins": [
-              {
-                "table": "sub_categories",
-                "column": "*",
-                "type": "LEFT",
-                "clauses": {
-                  "condition": "AND",
-                  "rules": [
-                    {
-                      "table": "sub_categories",
-                      "column": "id",
-                      "operator": "equal",
-                      "value": {
-                        "table": "expense",
-                        "column": "category_id"
-                      },
-                      "operation": "="
-                    }
-                  ]
-                }
-              },
-              {
-                "table": "categories",
-                "column": "*",
-                "type": "LEFT",
-                "clauses": {
-                  "condition": "AND",
-                  "rules": [
-                    {
-                      "table": "categories",
-                      "column": "id",
-                      "operator": "equal",
-                      "value": {
-                        "table": "sub_categories",
-                        "column": "category_id"
-                      },
-                      "operation": "="
-                    }
-                  ]
-                }
-              }
-            ],
-            "distinct": true,
-            "query": "SELECT DISTINCT expense.category_id AS itemid, sub_categories.subcategory_name AS itemname, categories.id AS categoryid, categories.category_name AS categoryname\nFROM expense\nLEFT JOIN sub_categories ON (sub_categories.id = expense.category_id) LEFT JOIN categories ON (categories.id = sub_categories.category_id)",
-            "params": []
+            ]
           }
         },
         "output": true,
         "meta": [
           {
             "name": "itemid",
-            "type": "number"
-          },
-          {
-            "name": "itemname",
-            "type": "text"
-          },
-          {
-            "name": "categoryid",
-            "type": "number"
-          },
-          {
-            "name": "categoryname",
             "type": "text"
           }
         ],
-        "outputType": "array",
-        "disabled": true
+        "outputType": "array"
+      },
+      {
+        "name": "getCategoryIDs",
+        "module": "dbupdater",
+        "action": "custom",
+        "options": {
+          "connection": "ConnCS",
+          "sql": {
+            "query": "Select GROUP_CONCAT(DISTINCT(sub_categories.category_id)) as category_id from sub_categories where FIND_IN_SET(sub_categories.id,:P1)",
+            "params": [
+              {
+                "name": ":P1",
+                "value": "{{GetItemIDs[0].itemid}}",
+                "test": "1,2,3"
+              }
+            ]
+          }
+        },
+        "output": true,
+        "meta": [
+          {
+            "name": "category_id",
+            "type": "text"
+          }
+        ],
+        "outputType": "array"
       }
     ]
   }
