@@ -60,6 +60,7 @@
 							<input type="date" name="PurchaseDate" class="form-control form-control-solid" placeholder="Purchase Date" dmx-bind:value="varDateTime.datetime.formatDate(&quot;yyyy-MM-dd&quot;)" />
 						</div>
 					</div>
+
 				</div>
 				<hr>
 				<h3 class="font-size-lg text-dark font-weight-bold mb-6">2. Payment Info:</h3>

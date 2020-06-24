@@ -42,6 +42,12 @@
 	<script src="dmxAppConnect/dmxDatePicker/dmxDatePicker.js" defer=""></script>
 	<script src="dmxAppConnect/dmxBootstrap4Toasts/dmxBootstrap4Toasts.js" defer=""></script>
 	<script src="dmxAppConnect/dmxBrowser/dmxBrowser.js" defer=""></script>
+	<link rel="stylesheet" href="dmxAppConnect/dmxMediumEditor/dmxMediumEditor.css" />
+	<script src="dmxAppConnect/dmxMediumEditor/dmxMediumEditor.js" defer=""></script>
+	<link rel="stylesheet" href="dmxAppConnect/dmxMediumEditor/medium-editor.css" />
+	<script src="dmxAppConnect/dmxMediumEditor/medium-editor.js" defer=""></script>
+	<link rel="stylesheet" href="dmxAppConnect/dmxMediumEditor/themes/default.css" />
+	<script src="dmxAppConnect/dmxSummernote/dmxSummernote.js" defer=""></script>
 </head>
 
 <body id="index" class="header-fixed header-mobile-fixed sidebar-enabled page-loading">
@@ -1183,6 +1189,7 @@
 				<!--end::Header-->
 				<!--begin::Content-->
 				<div class="content  d-flex flex-column flex-column-fluid">
+					<div is="dmx-route" id="routeFormDetails" path="/form/detail/:form_id" url="Master/spa_formDetails.php"></div>
 					<div is="dmx-route" id="routeFormManagement" path="/form-management" url="Master/spa_formManagement.php"></div>
 					<!--begin::Entry-->
 					<!--begin::Container Routes-->

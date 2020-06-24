@@ -7,6 +7,12 @@
       "routes": [
         {
           "type": "page",
+          "path": "/form/detail/:form_id",
+          "id": "routeFormDetails",
+          "url": "Master/spa_formDetails.php"
+        },
+        {
+          "type": "page",
           "path": "/form-management",
           "id": "routeFormManagement",
           "url": "Master/spa_formManagement.php"
