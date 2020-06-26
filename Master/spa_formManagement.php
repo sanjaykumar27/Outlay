@@ -10,7 +10,7 @@
 	</div>
 	<div class="d-flex align-items-center">
 		<!--begin::Actions-->
-		<a href="./form/list" class="btn btn-primary font-weight-bold btn-sm">
+		<a href="./form-management" class="btn btn-primary font-weight-bold btn-sm">
 			<i class="flaticon-plus"></i>
 			Form List
 		</a>

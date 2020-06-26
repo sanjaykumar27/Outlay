@@ -69,6 +69,10 @@ $app->define(<<<'JSON'
               {
                 "table": "form_master",
                 "column": "form_description"
+              },
+              {
+                "table": "form_master",
+                "column": "grid_size"
               }
             ],
             "table": {
@@ -95,7 +99,7 @@ $app->define(<<<'JSON'
               "conditional": null,
               "valid": true
             },
-            "query": "SELECT form_id, form_name, form_logo, form_description\nFROM form_master\nWHERE is_deleted IS NULL",
+            "query": "SELECT form_id, form_name, form_logo, form_description, grid_size\nFROM form_master\nWHERE is_deleted IS NULL",
             "params": []
           }
         },
@@ -168,6 +172,10 @@ $app->define(<<<'JSON'
               {
                 "name": "form_description",
                 "type": "text"
+              },
+              {
+                "name": "grid_size",
+                "type": "number"
               }
             ]
           }

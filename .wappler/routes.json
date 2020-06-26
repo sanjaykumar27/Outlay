@@ -13,9 +13,15 @@
         },
         {
           "type": "page",
+          "path": "/form/create",
+          "id": "routeFormCreate",
+          "url": "Master/spa_formManagement.php"
+        },
+        {
+          "type": "page",
           "path": "/form-management",
           "id": "routeFormManagement",
-          "url": "Master/spa_formManagement.php"
+          "url": "Master/spa_formList.php"
         },
         {
           "type": "page",

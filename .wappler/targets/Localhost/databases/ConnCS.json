@@ -1,0 +1,1737 @@
+{
+  "schema": {
+    "tables": {
+      "form_master": {
+        "db": {
+          "engine": "InnoDB",
+          "schema": "expense_manager",
+          "collation": "utf8mb4_general_ci",
+          "comment": ""
+        },
+        "columns": {
+          "form_id": {
+            "db": {
+              "type": "increments",
+              "primary": true,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "form_name": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "form_description": {
+            "db": {
+              "type": "text",
+              "default": "NULL",
+              "maxLength": 65535,
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "form_instructions": {
+            "db": {
+              "type": "text",
+              "default": "NULL",
+              "maxLength": 65535,
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "form_logo": {
+            "db": {
+              "type": "string",
+              "default": "NULL",
+              "maxLength": 255,
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "grid_size": {
+            "db": {
+              "type": "string",
+              "default": "'col-lg-4'",
+              "maxLength": 20,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "is_edit": {
+            "db": {
+              "type": "boolean",
+              "default": "1",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "is_delete": {
+            "db": {
+              "type": "boolean",
+              "default": "1",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "is_active": {
+            "db": {
+              "type": "datetime",
+              "default": "current_timestamp()",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "is_deleted": {
+            "db": {
+              "type": "datetime",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          }
+        }
+      },
+      "form_values": {
+        "db": {
+          "engine": "InnoDB",
+          "schema": "expense_manager",
+          "collation": "utf8mb4_general_ci",
+          "comment": ""
+        },
+        "columns": {
+          "value_id": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "field_id": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "comment": "",
+              "nullable": false,
+              "references": "field_id",
+              "inTable": "form_fields",
+              "onUpdate": "RESTRICT",
+              "onDelete": "RESTRICT"
+            }
+          },
+          "value": {
+            "db": {
+              "type": "string",
+              "maxLength": 100,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "is_active": {
+            "db": {
+              "type": "datetime",
+              "default": "current_timestamp()",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "is_deleted": {
+            "db": {
+              "type": "datetime",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          }
+        }
+      },
+      "form_fields": {
+        "db": {
+          "engine": "InnoDB",
+          "schema": "expense_manager",
+          "collation": "utf8mb4_general_ci",
+          "comment": ""
+        },
+        "columns": {
+          "field_id": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "comment": "",
+              "nullable": false,
+              "references": "form_id",
+              "inTable": "form_master",
+              "onUpdate": "RESTRICT",
+              "onDelete": "RESTRICT"
+            }
+          },
+          "form_id": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "field_name": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "field_type": {
+            "db": {
+              "type": "enum",
+              "maxLength": 6,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "min_length": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "max_length": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "is_required": {
+            "db": {
+              "type": "text",
+              "default": "'1'",
+              "maxLength": 255,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "is_active": {
+            "db": {
+              "type": "datetime",
+              "default": "current_timestamp()",
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "is_deleted": {
+            "db": {
+              "type": "datetime",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          }
+        }
+      },
+      "form_data": {
+        "db": {
+          "engine": "InnoDB",
+          "schema": "expense_manager",
+          "collation": "utf8mb4_general_ci",
+          "comment": ""
+        },
+        "columns": {
+          "data_id": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "form_id": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "comment": "",
+              "nullable": false,
+              "references": "form_id",
+              "inTable": "form_master",
+              "onUpdate": "RESTRICT",
+              "onDelete": "RESTRICT"
+            }
+          },
+          "field_id": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "comment": "",
+              "nullable": false,
+              "references": "field_id",
+              "inTable": "form_fields",
+              "onUpdate": "RESTRICT",
+              "onDelete": "RESTRICT"
+            }
+          },
+          "field_data": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "created_by": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "created_on": {
+            "db": {
+              "type": "timestamp",
+              "default": "current_timestamp()",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "updated_by": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "updated_on": {
+            "db": {
+              "type": "integer",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "is_deleted": {
+            "db": {
+              "type": "timestamp",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          }
+        }
+      },
+      "expense": {
+        "db": {
+          "engine": "InnoDB",
+          "schema": "expense_manager",
+          "collation": "latin1_swedish_ci",
+          "comment": ""
+        },
+        "columns": {
+          "id": {
+            "db": {
+              "type": "increments",
+              "primary": true,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "user_id": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "comment": "",
+              "nullable": false,
+              "references": "id",
+              "inTable": "user",
+              "onUpdate": "RESTRICT",
+              "onDelete": "RESTRICT"
+            }
+          },
+          "category_id": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "comment": "",
+              "nullable": false,
+              "references": "id",
+              "inTable": "sub_categories",
+              "onUpdate": "RESTRICT",
+              "onDelete": "RESTRICT"
+            }
+          },
+          "invoice_number": {
+            "db": {
+              "type": "integer",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "invoice_name": {
+            "db": {
+              "type": "string",
+              "default": "NULL",
+              "maxLength": 255,
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "quantity": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "unit": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "comment": "",
+              "nullable": false,
+              "references": "id",
+              "inTable": "collections",
+              "onUpdate": "RESTRICT",
+              "onDelete": "RESTRICT"
+            }
+          },
+          "purchase_date": {
+            "db": {
+              "type": "date",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "receipt_url": {
+            "db": {
+              "type": "string",
+              "default": "NULL",
+              "maxLength": 255,
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "receipt_name": {
+            "db": {
+              "type": "string",
+              "default": "NULL",
+              "maxLength": 255,
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "account": {
+            "db": {
+              "type": "reference",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true,
+              "references": "id",
+              "inTable": "account_master",
+              "onUpdate": "RESTRICT",
+              "onDelete": "RESTRICT"
+            }
+          },
+          "payment_type": {
+            "db": {
+              "type": "reference",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true,
+              "references": "id",
+              "inTable": "collections",
+              "onUpdate": "RESTRICT",
+              "onDelete": "RESTRICT"
+            }
+          },
+          "remark": {
+            "db": {
+              "type": "text",
+              "default": "NULL",
+              "maxLength": 65535,
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "amount": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "deleted": {
+            "db": {
+              "type": "boolean",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          }
+        }
+      },
+      "userlogged": {
+        "db": {
+          "engine": "InnoDB",
+          "schema": "expense_manager",
+          "collation": "latin1_swedish_ci",
+          "comment": ""
+        },
+        "columns": {
+          "id": {
+            "db": {
+              "type": "increments",
+              "primary": true,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "user_id": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "comment": "",
+              "nullable": false,
+              "references": "id",
+              "inTable": "user",
+              "onUpdate": "RESTRICT",
+              "onDelete": "RESTRICT"
+            }
+          },
+          "phpsessid": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "ip_address": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "logged_in": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "logged_out": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          }
+        }
+      },
+      "user": {
+        "db": {
+          "engine": "InnoDB",
+          "schema": "expense_manager",
+          "collation": "latin1_swedish_ci",
+          "comment": ""
+        },
+        "columns": {
+          "id": {
+            "db": {
+              "type": "increments",
+              "primary": true,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "first_name": {
+            "db": {
+              "type": "string",
+              "maxLength": 20,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "last_name": {
+            "db": {
+              "type": "string",
+              "maxLength": 20,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "username": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "email": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "password": {
+            "db": {
+              "type": "string",
+              "maxLength": 100,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "mobile": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "user_type": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "comment": "",
+              "nullable": false,
+              "references": "id",
+              "inTable": "user_type",
+              "onUpdate": "RESTRICT",
+              "onDelete": "RESTRICT"
+            }
+          },
+          "profile_pic": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "status": {
+            "db": {
+              "type": "boolean",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "deleted": {
+            "db": {
+              "type": "boolean",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "created_at": {
+            "db": {
+              "type": "date",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "updated_at": {
+            "db": {
+              "type": "date",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          }
+        }
+      },
+      "theme": {
+        "db": {
+          "engine": "InnoDB",
+          "schema": "expense_manager",
+          "collation": "latin1_swedish_ci",
+          "comment": ""
+        },
+        "columns": {
+          "id": {
+            "db": {
+              "type": "increments",
+              "primary": true,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "user_id": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "comment": "",
+              "nullable": false,
+              "references": "id",
+              "inTable": "user",
+              "onUpdate": "RESTRICT",
+              "onDelete": "RESTRICT"
+            }
+          },
+          "main_theme": {
+            "db": {
+              "type": "enum",
+              "maxLength": 5,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          }
+        }
+      },
+      "sub_categories": {
+        "db": {
+          "engine": "InnoDB",
+          "schema": "expense_manager",
+          "collation": "latin1_swedish_ci",
+          "comment": ""
+        },
+        "columns": {
+          "id": {
+            "db": {
+              "type": "increments",
+              "primary": true,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "category_id": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "comment": "",
+              "nullable": false,
+              "references": "id",
+              "inTable": "categories",
+              "onUpdate": "RESTRICT",
+              "onDelete": "RESTRICT"
+            }
+          },
+          "subcategory_name": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "status": {
+            "db": {
+              "type": "enum",
+              "default": "'Active'",
+              "maxLength": 8,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "deleted": {
+            "db": {
+              "type": "boolean",
+              "default": "0",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "created_at": {
+            "db": {
+              "type": "timestamp",
+              "default": "current_timestamp()",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "updated_at": {
+            "db": {
+              "type": "timestamp",
+              "default": "current_timestamp()",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          }
+        }
+      },
+      "loan_master": {
+        "db": {
+          "engine": "InnoDB",
+          "schema": "expense_manager",
+          "collation": "latin1_swedish_ci",
+          "comment": ""
+        },
+        "columns": {
+          "id": {
+            "db": {
+              "type": "increments",
+              "primary": true,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "userid": {
+            "db": {
+              "type": "reference",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true,
+              "references": "id",
+              "inTable": "user",
+              "onUpdate": "RESTRICT",
+              "onDelete": "RESTRICT"
+            }
+          },
+          "loan_name": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "starting_date": {
+            "db": {
+              "type": "date",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "ending_date": {
+            "db": {
+              "type": "date",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "total_amount": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "no_of_emi": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "interest_amount": {
+            "db": {
+              "type": "integer",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "paid_via": {
+            "db": {
+              "type": "reference",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true,
+              "references": "id",
+              "inTable": "collections",
+              "onUpdate": "RESTRICT",
+              "onDelete": "RESTRICT"
+            }
+          },
+          "cash_paid": {
+            "db": {
+              "type": "integer",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "status": {
+            "db": {
+              "type": "integer",
+              "default": "1",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          }
+        }
+      },
+      "lic_premiums": {
+        "db": {
+          "engine": "InnoDB",
+          "schema": "expense_manager",
+          "collation": "utf8mb4_general_ci",
+          "comment": ""
+        },
+        "columns": {
+          "id": {
+            "db": {
+              "type": "increments",
+              "primary": true,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "lic_id": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "comment": "",
+              "nullable": false,
+              "references": "id",
+              "inTable": "lic_master",
+              "onUpdate": "RESTRICT",
+              "onDelete": "RESTRICT"
+            }
+          },
+          "premium_date": {
+            "db": {
+              "type": "date",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "premium_status": {
+            "db": {
+              "type": "enum",
+              "default": "'Due'",
+              "maxLength": 4,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "premium_amount": {
+            "db": {
+              "type": "decimal",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "payment_date": {
+            "db": {
+              "type": "date",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "payment_mode": {
+            "db": {
+              "type": "integer",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "premium_reciept": {
+            "db": {
+              "type": "string",
+              "default": "NULL",
+              "maxLength": 255,
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          }
+        }
+      },
+      "collections": {
+        "db": {
+          "engine": "InnoDB",
+          "schema": "expense_manager",
+          "collation": "latin1_swedish_ci",
+          "comment": ""
+        },
+        "columns": {
+          "id": {
+            "db": {
+              "type": "increments",
+              "primary": true,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "collectiontype_id": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "comment": "",
+              "nullable": false,
+              "references": "id",
+              "inTable": "collection_type",
+              "onUpdate": "RESTRICT",
+              "onDelete": "RESTRICT"
+            }
+          },
+          "name": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "deleted": {
+            "db": {
+              "type": "boolean",
+              "default": "0",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          }
+        }
+      },
+      "borrowed_master": {
+        "db": {
+          "engine": "InnoDB",
+          "schema": "expense_manager",
+          "collation": "latin1_swedish_ci",
+          "comment": ""
+        },
+        "columns": {
+          "id": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "userid": {
+            "db": {
+              "type": "reference",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true,
+              "references": "id",
+              "inTable": "user",
+              "onUpdate": "RESTRICT",
+              "onDelete": "RESTRICT"
+            }
+          },
+          "borrowed_from": {
+            "db": {
+              "type": "string",
+              "default": "NULL",
+              "maxLength": 50,
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "amount": {
+            "db": {
+              "type": "integer",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "borrowed_date": {
+            "db": {
+              "type": "date",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "paying_date": {
+            "db": {
+              "type": "date",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "borrow_mode": {
+            "db": {
+              "type": "integer",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "purpose": {
+            "db": {
+              "type": "text",
+              "default": "NULL",
+              "maxLength": 65535,
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "paid_status": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          }
+        }
+      },
+      "account_transaction": {
+        "db": {
+          "engine": "InnoDB",
+          "schema": "expense_manager",
+          "collation": "latin1_swedish_ci",
+          "comment": ""
+        },
+        "columns": {
+          "id": {
+            "db": {
+              "type": "increments",
+              "primary": true,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "account_id": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "comment": "",
+              "nullable": false,
+              "references": "id",
+              "inTable": "account_master",
+              "onUpdate": "RESTRICT",
+              "onDelete": "RESTRICT"
+            }
+          },
+          "credit": {
+            "db": {
+              "type": "decimal",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "debit": {
+            "db": {
+              "type": "decimal",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "date_of_transaction": {
+            "db": {
+              "type": "date",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "expense_id": {
+            "db": {
+              "type": "integer",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "type": {
+            "db": {
+              "type": "reference",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true,
+              "references": "id",
+              "inTable": "collections",
+              "onUpdate": "RESTRICT",
+              "onDelete": "RESTRICT"
+            }
+          },
+          "from_account": {
+            "db": {
+              "type": "reference",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true,
+              "references": "id",
+              "inTable": "account_master",
+              "onUpdate": "RESTRICT",
+              "onDelete": "RESTRICT"
+            }
+          },
+          "to_account": {
+            "db": {
+              "type": "reference",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true,
+              "references": "id",
+              "inTable": "account_master",
+              "onUpdate": "RESTRICT",
+              "onDelete": "RESTRICT"
+            }
+          },
+          "transaction_detail": {
+            "db": {
+              "type": "string",
+              "default": "NULL",
+              "maxLength": 255,
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "created_at": {
+            "db": {
+              "type": "datetime",
+              "default": "current_timestamp()",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "deleted": {
+            "db": {
+              "type": "boolean",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          }
+        }
+      },
+      "account_master": {
+        "db": {
+          "engine": "InnoDB",
+          "schema": "expense_manager",
+          "collation": "latin1_swedish_ci",
+          "comment": ""
+        },
+        "columns": {
+          "id": {
+            "db": {
+              "type": "increments",
+              "primary": true,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "userid": {
+            "db": {
+              "type": "reference",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true,
+              "references": "id",
+              "inTable": "user",
+              "onUpdate": "RESTRICT",
+              "onDelete": "RESTRICT"
+            }
+          },
+          "account_owner": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "comment": "",
+              "nullable": false,
+              "references": "id",
+              "inTable": "user",
+              "onUpdate": "RESTRICT",
+              "onDelete": "RESTRICT"
+            }
+          },
+          "account_number": {
+            "db": {
+              "type": "bigInteger",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "CRN": {
+            "db": {
+              "type": "integer",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "card_limit": {
+            "db": {
+              "type": "integer",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "bank_name": {
+            "db": {
+              "type": "string",
+              "default": "NULL",
+              "maxLength": 50,
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "ifsc_code": {
+            "db": {
+              "type": "string",
+              "default": "NULL",
+              "maxLength": 50,
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "address": {
+            "db": {
+              "type": "string",
+              "default": "NULL",
+              "maxLength": 255,
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "type": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "comment": "",
+              "nullable": false,
+              "references": "id",
+              "inTable": "collections",
+              "onUpdate": "RESTRICT",
+              "onDelete": "RESTRICT"
+            }
+          },
+          "status": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          }
+        }
+      },
+      "user_type": {
+        "db": {
+          "engine": "InnoDB",
+          "schema": "expense_manager",
+          "collation": "latin1_swedish_ci",
+          "comment": ""
+        },
+        "columns": {
+          "id": {
+            "db": {
+              "type": "increments",
+              "primary": true,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "user_type": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          }
+        }
+      },
+      "loan_details": {
+        "db": {
+          "engine": "InnoDB",
+          "schema": "expense_manager",
+          "collation": "latin1_swedish_ci",
+          "comment": ""
+        },
+        "columns": {
+          "id": {
+            "db": {
+              "type": "increments",
+              "primary": true,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "loan_id": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "due_date": {
+            "db": {
+              "type": "date",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "paid_on": {
+            "db": {
+              "type": "date",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "loan_amount": {
+            "db": {
+              "type": "float",
+              "default": "NULL",
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "status": {
+            "db": {
+              "type": "integer",
+              "default": "0",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          }
+        }
+      },
+      "lic_master": {
+        "db": {
+          "engine": "InnoDB",
+          "schema": "expense_manager",
+          "collation": "utf8mb4_general_ci",
+          "comment": ""
+        },
+        "columns": {
+          "id": {
+            "db": {
+              "type": "increments",
+              "primary": true,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "policy_number": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "policy_holder": {
+            "db": {
+              "type": "string",
+              "maxLength": 100,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "plan_name": {
+            "db": {
+              "type": "string",
+              "maxLength": 100,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "installment_premium": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "premium_due_from": {
+            "db": {
+              "type": "date",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "maturity_date": {
+            "db": {
+              "type": "date",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "sum_assured": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "policy_status": {
+            "db": {
+              "type": "string",
+              "maxLength": 200,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "nominee": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "nominee_relation": {
+            "db": {
+              "type": "string",
+              "maxLength": 200,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "premium_mode": {
+            "db": {
+              "type": "string",
+              "maxLength": 200,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "created_on": {
+            "db": {
+              "type": "date",
+              "default": "current_timestamp()",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "user_id": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          }
+        }
+      },
+      "collection_type": {
+        "db": {
+          "engine": "InnoDB",
+          "schema": "expense_manager",
+          "collation": "latin1_swedish_ci",
+          "comment": ""
+        },
+        "columns": {
+          "id": {
+            "db": {
+              "type": "increments",
+              "primary": true,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "name": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "status": {
+            "db": {
+              "type": "enum",
+              "default": "'Active'",
+              "maxLength": 8,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "deleted": {
+            "db": {
+              "type": "boolean",
+              "default": "0",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          }
+        }
+      },
+      "categories": {
+        "db": {
+          "engine": "InnoDB",
+          "schema": "expense_manager",
+          "collation": "latin1_swedish_ci",
+          "comment": ""
+        },
+        "columns": {
+          "id": {
+            "db": {
+              "type": "increments",
+              "primary": true,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "category_name": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "status": {
+            "db": {
+              "type": "enum",
+              "default": "'Active'",
+              "maxLength": 8,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "deleted": {
+            "db": {
+              "type": "boolean",
+              "default": "0",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "created_at": {
+            "db": {
+              "type": "timestamp",
+              "default": "current_timestamp()",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "updated_at": {
+            "db": {
+              "type": "timestamp",
+              "default": "'0000-00-00 00:00:00'",
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          }
+        }
+      }
+    }
+  }
+}

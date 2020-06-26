@@ -1,6 +1,5 @@
-<!-- Wappler include head-page="../index.php" appconnect="local" is="dmx-app" bootstrap4="cdn" fontawesome_4="cdn" jquery_slim_34="local" id="formDetails" -->
-
-<dmx-serverconnect id="scFormDetails" url="dmxConnect/api/Form/getFormList.php" noload="noload"></dmx-serverconnect>
+<!-- Wappler include head-page="../index.php" appconnect="local" is="dmx-app" bootstrap4="cdn" fontawesome_4="cdn" jquery_slim_34="local" id="formList" -->
+<dmx-serverconnect id="scFormList" url="dmxConnect/api/Form/getFormList.php" noload="noload"></dmx-serverconnect>
 
 <dmx-notifications id="notifies1" offset-x="30" offset-y="30" closable newest-on-top></dmx-notifications>
 <dmx-query-manager id="qm"></dmx-query-manager>
@@ -8,18 +7,14 @@
 	<div class="d-flex align-items-center flex-wrap mr-1">
 		<div class="d-flex align-items-baseline mr-5">
 			<h1 class="text-dark my-2 mr-5 font-weight-light">
-				Form Fields </h1>
+				Form List </h1>
 		</div>
 	</div>
 	<div class="d-flex align-items-center">
 
-		<a href="./form/create" class="btn btn-primary font-weight-bold btn-sm mr-2">
+		<a href="./form/create" class="btn btn-primary font-weight-bold btn-sm">
 			<i class="flaticon-plus"></i>
 			Create Form
-		</a>
-		<a href="./form-management" class="btn btn-primary font-weight-bold btn-sm">
-			<i class="flaticon-list"></i>
-			Form List
 		</a>
 	</div>
 </div>

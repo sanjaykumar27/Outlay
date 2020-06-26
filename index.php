@@ -1190,7 +1190,8 @@
 				<!--begin::Content-->
 				<div class="content  d-flex flex-column flex-column-fluid">
 					<div is="dmx-route" id="routeFormDetails" path="/form/detail/:form_id" url="Master/spa_formDetails.php"></div>
-					<div is="dmx-route" id="routeFormManagement" path="/form-management" url="Master/spa_formManagement.php"></div>
+					<div is="dmx-route" id="routeFormCreate" path="/form/create" url="Master/spa_formManagement.php"></div>
+					<div is="dmx-route" id="routeFormManagement" path="/form-management" url="Master/spa_formList.php" dmx-on:show="scFormList.load()"></div>
 					<!--begin::Entry-->
 					<!--begin::Container Routes-->
 					<div is="dmx-route" id="routeDashboard" path="/dashboard" url="spa_dashboard.php"></div>

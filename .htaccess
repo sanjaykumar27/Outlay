@@ -64,6 +64,8 @@ RewriteRule ^/?(?:/)?$ index.php [QSA,NC,L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^/?form/detail/([^/]+?)(?:/)?$ index.php?form_id=$1 [QSA,NC,L]
 RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^/?form/create(?:/)?$ index.php [QSA,NC,L]
+RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^/?form-management(?:/)?$ index.php [QSA,NC,L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^/?dashboard(?:/)?$ index.php [QSA,NC,L]
