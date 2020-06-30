@@ -48,6 +48,7 @@
 	<script src="dmxAppConnect/dmxMediumEditor/medium-editor.js" defer=""></script>
 	<link rel="stylesheet" href="dmxAppConnect/dmxMediumEditor/themes/default.css" />
 	<script src="dmxAppConnect/dmxSummernote/dmxSummernote.js" defer=""></script>
+	<script src="js/custom.js" defer=""></script>
 </head>
 
 <body id="index" class="header-fixed header-mobile-fixed sidebar-enabled page-loading">
@@ -1194,7 +1195,7 @@
 					<div is="dmx-route" id="routeFormManagement" path="/form-management" url="Master/spa_formList.php" dmx-on:show="scFormList.load()"></div>
 					<!--begin::Entry-->
 					<!--begin::Container Routes-->
-					<div is="dmx-route" id="routeDashboard" path="/dashboard" url="spa_dashboard.php"></div>
+					<div is="dmx-route" id="routeDashboard" path="/dashboard" url="spa_dashboard.php" onshow="MonthlyGraph();"></div>
 					<div is="dmx-route" id="routeCreateExpense" path="/expense/create" url="Expense/spa_createExpense.php"></div>
 					<div is="dmx-route" id="routeTarget" path="/targetList" url="Other/spa_targetList.php"></div>
 					<div is="dmx-route" id="routeExpenseList" path="/expense/list" url="Expense/spa_expenseList.php" dmx-on:show="scExpenseList.load({})">
@@ -2832,6 +2833,7 @@
 	<script src="assets/plugins/custom/fullcalendar/fullcalendar.bundle79e8.js"></script>
 	<script src="http://maps.google.com/maps/api/js?key=AIzaSyBTGnKT7dt597vo9QgeQ7BFhvSRP4eiMSM"></script>
 	<script src="assets/plugins/custom/gmaps/gmaps79e8.js"></script>
+	<script src="assets/js/pages/features/charts/apexcharts79e8.js"></script>
 	<!--end::Page Vendors-->
 
 	<!--begin::Page Scripts(used by this page)-->
@@ -2839,6 +2841,8 @@
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	<script src="https://apexcharts.com/samples/assets/irregular-data-series.js"></script>
+	<script src="https://apexcharts.com/samples/assets/ohlc.js"></script>
 </body>
 
 </html>

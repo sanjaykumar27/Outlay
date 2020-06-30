@@ -54,6 +54,51 @@ $app->define(<<<'JSON'
           }
         ],
         "outputType": "array"
+      },
+      {
+        "name": "data",
+        "module": "core",
+        "action": "setvalue",
+        "options": {
+          "key": "data",
+          "value": "{{monthlyExpense}}"
+        }
+      },
+      {
+        "name": "apiMonthGraph",
+        "module": "api",
+        "action": "send",
+        "options": {
+          "url": "http://localhost/outlay/api_generateGraph.php",
+          "method": "POST",
+          "data": {
+            "expense_data": "{{data}}"
+          },
+          "schema": [],
+          "dataType": "x-www-form-urlencoded"
+        },
+        "output": true,
+        "meta": [
+          {
+            "type": "array",
+            "name": "data"
+          },
+          {
+            "type": "object",
+            "name": "headers"
+          }
+        ],
+        "outputType": "object"
+      },
+      {
+        "name": "HTML",
+        "module": "core",
+        "action": "setvalue",
+        "options": {
+          "key": "HTML",
+          "value": "{{apiMonthGraph.data}}"
+        },
+        "output": true
       }
     ]
   }
