@@ -16,42 +16,40 @@
 </div>
 <div class="d-flex flex-column-fluid pt-2">
 	<div class="container-fluid">
-		<div class="row col-lg-8">
-			<div class="card card-custom gutter-b ">
-				<div class="card-header h-auto border-0">
-					<div class="card-title py-5">
-						<h3 class="card-label">
-							<span class="d-block text-dark font-weight-bolder">Recent Orders</span>
-							<span class="d-block text-muted mt-2 font-size-sm">More than 500+ new orders</span>
-						</h3>
-					</div>
-					<div class="card-toolbar">
-						<ul class="nav nav-pills nav-pills-sm nav-dark-75" role="tablist">
-							<li class="nav-item">
-								<a class="nav-link py-2 px-4" data-toggle="tab" href="#kt_charts_widget_2_chart_tab_1">
-									<span class="nav-text font-size-sm">Month</span>
-								</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link py-2 px-4" data-toggle="tab" href="#kt_charts_widget_2_chart_tab_2">
-									<span class="nav-text font-size-sm">Week</span>
-								</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link py-2 px-4 active" data-toggle="tab" href="#kt_charts_widget_2_chart_tab_3">
-									<span class="nav-text font-size-sm">Day</span>
-								</a>
-							</li>
-						</ul>
-					</div>
+		<div class="card card-custom gutter-b ">
+			<div class="card-header h-auto border-0">
+				<div class="card-title py-5">
+					<h3 class="card-label">
+						<span class="d-block text-dark font-weight-bolder">Recent Orders</span>
+						<span class="d-block text-muted mt-2 font-size-sm">More than 500+ new orders</span>
+					</h3>
 				</div>
-				<div class="card-body">
-					<!--<dmx-chart id="chart1" legend="bottom" dmx-bind:data="scMonthlyReport.data.monthlyExpense" labels="dates" dataset-1:value="amount" dataset-1:label="Amount" points point-style="line" smooth thickness="4" width="450px"
+				<div class="card-toolbar">
+					<ul class="nav nav-pills nav-pills-sm nav-dark-75" role="tablist">
+						<li class="nav-item">
+							<a class="nav-link py-2 px-4" data-toggle="tab" href="#kt_charts_widget_2_chart_tab_1">
+								<span class="nav-text font-size-sm">Month</span>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link py-2 px-4" data-toggle="tab" href="#kt_charts_widget_2_chart_tab_2">
+								<span class="nav-text font-size-sm">Week</span>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link py-2 px-4 active" data-toggle="tab" href="#kt_charts_widget_2_chart_tab_3">
+								<span class="nav-text font-size-sm">Day</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="card-body">
+				<!--<dmx-chart id="chart1" legend="bottom" dmx-bind:data="scMonthlyReport.data.monthlyExpense" labels="dates" dataset-1:value="amount" dataset-1:label="Amount" points point-style="line" smooth thickness="4" width="450px"
 						height="350px" responsive point-size="" cutout="" colors="colors5" noanimation>
 					</dmx-chart>-->
-					<div class="chart-demo col-lg-12">
-						<div id="expense_monthly" class="apex-charts" dmx-html="scMonthlyReport.data.HTML"></div>
-					</div>
+				<div class="chart-demo col-lg-12">
+					<div id="expense_monthly" class="apex-charts" dmx-html="scMonthlyReport.data.HTML"></div>
 				</div>
 			</div>
 		</div>
