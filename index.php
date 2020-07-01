@@ -42,13 +42,13 @@
 	<script src="dmxAppConnect/dmxDatePicker/dmxDatePicker.js" defer=""></script>
 	<script src="dmxAppConnect/dmxBootstrap4Toasts/dmxBootstrap4Toasts.js" defer=""></script>
 	<script src="dmxAppConnect/dmxBrowser/dmxBrowser.js" defer=""></script>
-	<link rel="stylesheet" href="dmxAppConnect/dmxMediumEditor/dmxMediumEditor.css" />
-	<script src="dmxAppConnect/dmxMediumEditor/dmxMediumEditor.js" defer=""></script>
-	<link rel="stylesheet" href="dmxAppConnect/dmxMediumEditor/medium-editor.css" />
-	<script src="dmxAppConnect/dmxMediumEditor/medium-editor.js" defer=""></script>
-	<link rel="stylesheet" href="dmxAppConnect/dmxMediumEditor/themes/default.css" />
+
 	<script src="dmxAppConnect/dmxSummernote/dmxSummernote.js" defer=""></script>
 	<script src="js/custom.js" defer=""></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="manifest" href="manifest.json">
+	<meta name="apple-mobile-web-app-status-bar" content="#663259">
+	<meta name="theme-color" content="#663259">
 </head>
 
 <body id="index" class="header-fixed header-mobile-fixed sidebar-enabled page-loading">
@@ -2831,7 +2831,7 @@
 
 	<!--begin::Page Vendors(used by this page)-->
 	<script src="assets/plugins/custom/fullcalendar/fullcalendar.bundle79e8.js"></script>
-	<script src="http://maps.google.com/maps/api/js?key=AIzaSyBTGnKT7dt597vo9QgeQ7BFhvSRP4eiMSM"></script>
+
 	<script src="assets/plugins/custom/gmaps/gmaps79e8.js"></script>
 	<script src="assets/js/pages/features/charts/apexcharts79e8.js"></script>
 	<!--end::Page Vendors-->
@@ -2841,8 +2841,7 @@
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-	<script src="https://apexcharts.com/samples/assets/irregular-data-series.js"></script>
-	<script src="https://apexcharts.com/samples/assets/ohlc.js"></script>
+
 </body>
 
 </html>

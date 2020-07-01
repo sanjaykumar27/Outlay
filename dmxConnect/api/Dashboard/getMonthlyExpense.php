@@ -6,12 +6,6 @@ $app = new \lib\App();
 
 $app->define(<<<'JSON'
 {
-  "settings": {
-    "options": {}
-  },
-  "meta": {
-    "options": {}
-  },
   "exec": {
     "steps": [
       "Connections/ConnCS",
@@ -69,13 +63,14 @@ $app->define(<<<'JSON'
         "module": "api",
         "action": "send",
         "options": {
-          "url": "http://localhost/outlay/api_generateGraph.php",
+          "url": "https://www.mindfulinternet.net/api_generateGraph.php",
           "method": "POST",
           "data": {
             "expense_data": "{{data}}"
           },
           "schema": [],
-          "dataType": "x-www-form-urlencoded"
+          "dataType": "x-www-form-urlencoded",
+          "passErrors": false
         },
         "output": true,
         "meta": [
