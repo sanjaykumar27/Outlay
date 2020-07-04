@@ -10,7 +10,7 @@ if ('serviceWorker' in navigator) {
 
 function MonthlyGraph() {
     setTimeout(function () {
-        var rec_data = dmx.app.data.routeDashboard.scMonthlyReport.data.HTML;
+        var rec_data = dmx.app.data.scMonthlyReport.data.HTML;
         $('#expense_monthly').html(rec_data);
     }, 400);
 }

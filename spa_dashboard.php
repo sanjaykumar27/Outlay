@@ -1,5 +1,5 @@
 <!-- Wappler include head-page="index.php" appconnect="local" is="dmx-app" bootstrap4="cdn" fontawesome_4="cdn" jquery_slim_34="local" id="Dashboard" -->
-<dmx-serverconnect id="scMonthlyReport" url="dmxConnect/api/Dashboard/getMonthlyExpense.php"></dmx-serverconnect>
+
 <div class=" container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 	<!--begin::Info-->
 	<div class="d-flex align-items-center flex-wrap mr-1">

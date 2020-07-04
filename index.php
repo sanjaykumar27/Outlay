@@ -54,6 +54,7 @@
 <body id="index" class="header-fixed header-mobile-fixed sidebar-enabled page-loading">
 	<dmx-serverconnect id="scLogout" url="dmxConnect/api/AccessControl/logout.php" noload="noload"></dmx-serverconnect>
 	<dmx-serverconnect id="scVerify" url="dmxConnect/api/AccessControl/scVerify.php" dmx-on:unauthorized="browser1.goto('login.php')"></dmx-serverconnect>
+	<dmx-serverconnect id="scMonthlyReport" url="dmxConnect/api/Dashboard/getMonthlyExpense.php" onsuccess="MonthlyGraph();"></dmx-serverconnect>
 	<div is="dmx-browser" id="browser1"></div>
 	<!--begin::Main-->
 	<!--begin::Header Mobile-->
@@ -1189,7 +1190,27 @@
 				</div>
 				<!--end::Header-->
 				<!--begin::Content-->
-				<div class="content  d-flex flex-column flex-column-fluid">
+				<div class="content d-flex flex-column flex-column-fluid">
+					<div id="crDashboardItems" is="dmx-if" dmx-bind:condition="browser1.location.pathname == '/outlay/'">
+						<div class="d-flex flex-column-fluid pt-2">
+							<div class="container-fluid">
+								<div class="card card-custom gutter-b ">
+									<div class="card-header h-auto border-0">
+										<div class="card-title py-5">
+											<h3 class="card-label">
+												<span class="d-block text-dark font-weight-bolder">Monthy Expense</span>
+											</h3>
+										</div>
+									</div>
+									<div class="card-body">
+										<div class="chart-demo col-lg-12">
+											<div id="expense_monthly" class="apex-charts" dmx-html="scMonthlyReport.data.HTML"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 					<div is="dmx-route" id="routeFormDetails" path="/form/detail/:form_id" url="Master/spa_formDetails.php"></div>
 					<div is="dmx-route" id="routeFormCreate" path="/form/create" url="Master/spa_formManagement.php"></div>
 					<div is="dmx-route" id="routeFormManagement" path="/form-management" url="Master/spa_formList.php" dmx-on:show="scFormList.load()"></div>
