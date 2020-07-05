@@ -1,18 +1,18 @@
-<!-- Wappler include head-page="../index.php" appconnect="local" is="dmx-app" bootstrap4="cdn" fontawesome_4="cdn" jquery_slim_33="cdn" id="ExpenseList" components="{dmxStateManagement:{},dmxBootstrap4Collapse:{},dmxFormatter:{},dmxBootstrap4Tooltips:{},dmxBootstrap4PagingGenerator:{},dmxBootstrap4Modal:{}}" -->
-<!-- <dmx-array id="arrItemIDs" dmx-bind:items="scExpenseList.data.GetItemIDs[0].itemid"></dmx-array>
-<dmx-array id="arrCategoryIDs" dmx-bind:items="scExpenseList.data.getCategoryIDs[0].category_id"></dmx-array> -->
+<!-- Wappler include head-page="../index.php" appconnect="local" is="dmx-app" bootstrap4="cdn" fontawesome_4="cdn" jquery_slim_33="cdn" id="ExpenseList" components="{dmxStateManagement:{},dmxBootstrap4Collapse:{},dmxFormatter:{},dmxBootstrap4Tooltips:{},dmxBootstrap4PagingGenerator:{},dmxBootstrap4Modal:{},dmxPreloader:{},dmxBootstrap4Alert:{}}" -->
+<dmx-preloader id="preloader1" preview="true" spinner="circle" color="#BF4990" dmx-show="scExpenseList.state.executing || scGetItems.state.executing || scCategories.state.executing"></dmx-preloader>
+
 <dmx-value id="varExpenseID"></dmx-value>
 
 <dmx-value id="varPreviousLast" dmx-bind:value="'<?php echo date('Y-m-d', mktime(0, 0, 0, date('m'), 0)) ?>'"></dmx-value>
 <dmx-value id="varPreviousFirst" dmx-bind:value="'<?php echo date('Y-m-d', mktime(0, 0, 0, date('m')-1, 1))?>'"></dmx-value>
 <dmx-value id="varStartDate" dmx-bind:value="'<?php echo date('Y-m-01') ?>'"></dmx-value>
 <dmx-value id="varEndDate" dmx-bind:value="'<?php echo date('Y-m-t') ?>'"></dmx-value>
-<dmx-serverconnect id="scInvoiceID" url="dmxConnect/api/Expense/getMaxInvoiceID.php"></dmx-serverconnect>
+
 <dmx-datetime id="varDateTime"></dmx-datetime>
 <dmx-notifications id="notifies1" offset-x="30" offset-y="30" closable newest-on-top></dmx-notifications>
-<dmx-serverconnect id="scAccountList" url="dmxConnect/api/Common/getAccountList.php"></dmx-serverconnect>
-<dmx-serverconnect id="scPaymentMethods" url="dmxConnect/api/Common/getPaymentMethods.php"></dmx-serverconnect>
-<dmx-serverconnect id="scUnits" url="dmxConnect/api/Common/getUnits.php"></dmx-serverconnect>
+<dmx-serverconnect id="scAccountList" url="dmxConnect/api/Common/getAccountList.php" noload="noload"></dmx-serverconnect>
+<dmx-serverconnect id="scPaymentMethods" url="dmxConnect/api/Common/getPaymentMethods.php" noload="noload"></dmx-serverconnect>
+<dmx-serverconnect id="scUnits" url="dmxConnect/api/Common/getUnits.php" noload="noload"></dmx-serverconnect>
 <dmx-query-manager id="qm"></dmx-query-manager>
 <dmx-serverconnect id="scCategories" url="dmxConnect/api/Common/getItemCategory.php"></dmx-serverconnect>
 <dmx-serverconnect id="scGetItems" url="dmxConnect/api/Common/getItems.php" dmx-param:categoryid="collapse1.FilterCategory.value"></dmx-serverconnect>
@@ -40,22 +40,22 @@
 	<div class="container-fluid">
 
 		<div class="bg-light-light border card card-custom collapse p-2 show" id="collapse1" is="dmx-bs4-collapse">
-			<div class="form-group row">
-				<div class="col-lg-3">
+			<div class="row">
+				<div class="col-lg-3 col-sm-3 form-group">
 					<select class="form-control" id="FilterCategory" name="FilterCategory" dmx-bind:options="scCategories.data.getCategories" optiontext="category_name" optionvalue="id" style="width: 100% !important;"
 						dmx-on:changed="scGetItems.load()">
 						<option value="" selected>Select Category</option>
 					</select>
 				</div>
-				<div class="col-lg-3">
+				<div class="col-lg-3 col-sm-3 form-group">
 					<select class="form-control" id="FilterItem" name="FilterItem" style="width: 100% !important;" dmx-bind:options="scGetItems.data.getItems" optiontext="subcategory_name" optionvalue="id">
 						<option value="" selected>Select Item</option>
 					</select>
 				</div>
-				<div class="col-lg-3">
+				<div class="col-lg-3 col-sm-3 form-group">
 					<input type="date" class="form-control" id="date" name="date">
 				</div>
-				<div class="col-lg-2 mt-3">
+				<div class="col-lg-3 col-sm-3 mt-3">
 					<div class="custom-control custom-checkbox">
 						<label class="checkbox checkbox-outline checkbox-success">
 							<input type="checkbox" checked name="ThisMonth" value="1" /> Current Month
@@ -64,7 +64,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="form-group row justify-content-center">
+			<div class="row justify-content-center">
 				<button class="btn btn-dropdown btn-light mr-2" dmx-on:click="FilterCategory.setValue('');FilterItem.setValue('');date.setValue('');scExpenseList.load({offset: 0});" data-toggle="collapse" data-target="#collapse1">Clear</button>
 				<button class="btn btn-outline-primary" dmx-on:click="scExpenseList.load({})" data-toggle="collapse" data-target="#collapse1">Search</button>
 			</div>
@@ -93,16 +93,23 @@
 						<tbody is="dmx-repeat" id="repeat1" dmx-bind:repeat="scExpenseList.data.queryExpenseList.data.sort(invoice_number)">
 							<tr>
 								<td>{{invoice_number}}</td>
-								<td>{{ItemName}}</td>
-								<td class="label label-lg label-light-danger label-inline  font-weight-bolder mt-3">{{amount.toNumber().formatCurrency("₹", ".", ",", "2")}}</td>
-								<td>{{quantity + ' ' + Unit}}</td>
-								<td>{{purchase_date.formatDate("dd MMM yy")}}</td>
-								<td>{{PaymentType}}</td>
-								<td dmx-bs-tooltip="remark">{{remark.trunc(15, true, "...")}}</td>
+								<td class="text-truncate">{{ItemName}}</td>
+								<td class="font-weight-bolder mt-3 text-truncate">{{amount.toNumber().formatCurrency("₹", ".", ",", "2")}}</td>
+								<td class="text-truncate">{{quantity + ' ' + Unit}}</td>
+								<td class="text-truncate">{{purchase_date.formatDate("dd MMM yy")}}</td>
+								<td class="text-truncate">{{PaymentType}}</td>
+								<td class="text-truncate" dmx-bs-tooltip="remark">{{remark.trunc(15, true, "...")}}</td>
 								<td>
 									<button class="btn btn-sm btn-clean btn-icon mr-2" data-toggle="modal" data-target="#modal_update_expense" dmx-on:click="varExpenseID.setValue(Expense_ID)">
 										<i class="fa fa-pencil-square-o"></i>
 									</button>
+								</td>
+							</tr>
+						</tbody>
+						<tbody dmx-hide="scExpenseList.data.queryExpenseList.data.hasItems()">
+							<tr>
+								<td colspan="8">
+									<h4 class="text-center text-danger font-weight-bolder">No expense found this month!</h4>
 								</td>
 							</tr>
 						</tbody>
@@ -139,13 +146,13 @@
 				</div>
 			</div>
 		</div>
-		<dmx-chart id="chart1" legend="bottom" dmx-bind:data="scExpenseList.data.groupByDateCurrentMonth" labels="purchase_date" dataset-1:value="totalamount" dataset-1:label="Amount" points point-style="line" smooth thickness="4" width="1300"
+		<!-- <dmx-chart id="chart1" legend="bottom" dmx-bind:data="scExpenseList.data.groupByDateCurrentMonth" labels="purchase_date" dataset-1:value="totalamount" dataset-1:label="Amount" points point-style="line" smooth thickness="4" width="1300"
 			height="300" responsive point-size="" cutout="" colors="colors5">
-		</dmx-chart>
+		</dmx-chart> -->
 	</div>
 </div>
 
-<div class="modal fade" id="modal_update_expense" is="dmx-bs4-modal" tabindex="-1" role="dialog" nocloseonclick>
+<div class="modal fade" id="modal_update_expense" is="dmx-bs4-modal" tabindex="-1" role="dialog" nocloseonclick dmx-on:show-bs-modal="scAccountList.load();scPaymentMethods.load();scUnits.load()">
 	<div class="modal-dialog modal-xl" role="document">
 		<form is="dmx-serverconnect-form" id="FormUpdateExpense" method="post" action="dmxConnect/api/Expense/updateExpense.php"
 			dmx-on:success="modal_update_expense.hide();modal_update_expense.FormUpdateExpense.reset();varExpenseID.setValue('');notifies1.success(&quot;Expense Updated&quot;);scExpenseList.load()">

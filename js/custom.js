@@ -1,16 +1,21 @@
 // JavaScript Document
 /* checking if browser supports service worker, if yes then registor */
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/service-worker.js')
-        /* remove these below two lines of code once development is complete
-     <- ignore this error, its a wappler issue, js is completely fine */
-        .then((reg) => console.log('Service worker registored', reg))
-        .catch((err) => console.log('Service worker not registored', err))
-}
 
 function MonthlyGraph() {
+    console.log('Graph Called');
     setTimeout(function () {
         var rec_data = dmx.app.data.scMonthlyReport.data.HTML;
         $('#expense_monthly').html(rec_data);
-    }, 400);
+    }, 2000);
 }
+
+$(function () {
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/service-worker.js')
+        /* remove these below two lines of code once development is complete
+     <- ignore this error, its a wappler issue, js is completely fine */
+        // .then((reg) => console.log('Service worker registored', reg))
+        // .catch((err) => console.log('Service worker not registored', err))
+    }
+
+});

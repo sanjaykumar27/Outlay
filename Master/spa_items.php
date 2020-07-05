@@ -17,7 +17,7 @@
 	</div>
 </div>
 
-<div class="d-flex flex-column-fluid pt-2 card shadow m-4">
+<div class="d-flex flex-column-fluid pt-2">
 	<div class="container-fluid">
 		<div class="row">
 			<div class="table-responsive">

@@ -32,7 +32,17 @@
       "name": "Localhost",
       "remoteURL": "http://localhost/outlay",
       "localFolder": "file:///F:/xampp/htdocs/Outlay"
+    },
+    {
+      "access": "ftp",
+      "name": "Server1",
+      "remoteURL": "https://www.mindfulinternet.net/",
+      "usage": "production",
+      "ftpServer": "103.129.97.81",
+      "ftpPort": 21,
+      "ftpUser": "sanjaykumar27@mindfulinternet.net",
+      "ftpPassword": "54fa8bb6d2aaeac71cd04b2f"
     }
   ],
-  "activeTarget": "Localhost"
+  "activeTarget": "Server1"
 }

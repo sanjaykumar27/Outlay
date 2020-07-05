@@ -70,7 +70,7 @@
 							dmx-on:success="notifies1.success(&quot;Succesfully Logged In&quot;);browser1.goto('./')" dmx-on:unauthorized="notifies1.danger(&quot;Invalid Login&quot;)">
 							<!--begin::Title-->
 							<div class="pb-13 pt-lg-0 pt-5">
-								<h3 class="text-dark" style="font-weight:300;font-size:32px">Welcome to OUTLAYY</h3>
+								<h3 class="text-dark" style="font-weight:300;font-size:32px">Welcome to OUTLAY</h3>
 								<span class="text-muted font-weight-bold font-size-h4">New Here? <a href="javascript:;" id="kt_login_signup" class="text-primary font-weight-bolder">Create an Account</a></span>
 							</div>
 							<!--begin::Title-->
