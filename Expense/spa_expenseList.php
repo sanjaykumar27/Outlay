@@ -30,7 +30,7 @@
 		<a href="#" class="btn btn-icon btn-light-primary btn-sm mr-2" data-toggle="collapse" data-target="#collapse1">
 			<i class="flaticon-interface-6"></i>
 		</a>
-		<a href="./expense/create" class="btn btn-primary font-weight-bold btn-sm">
+		<a href="./expense/create" class="btn btn-primary font-weight-bold">
 			<i class="flaticon-plus"></i>
 			Add Expense
 		</a>
@@ -74,10 +74,10 @@
 
 <div class="d-flex flex-column-fluid pt-2">
 	<div class="container-fluid">
-		<div class="card card-custom overflow-hidden">
-			<div class="card-body p-0">
+		<div class="card card-custom overflow-hidden shadow-lg">
+			<div class="card-body p-3">
 				<div class="table-responsive">
-					<table class="table table-hover table-striped font-weight-bolder">
+					<table class="table table-hover table-striped">
 						<thead>
 							<tr>
 								<th scope="col">INVOICE</th>
@@ -109,7 +109,7 @@
 						<tbody dmx-hide="scExpenseList.data.queryExpenseList.data.hasItems()">
 							<tr>
 								<td colspan="8">
-									<h4 class="text-center text-danger font-weight-bolder">No expense found this month!</h4>
+									<h4 class="text-center text-muted font-weight-bolder">No expense found this month!</h4>
 								</td>
 							</tr>
 						</tbody>

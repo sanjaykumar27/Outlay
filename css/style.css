@@ -10,11 +10,12 @@ html * {
   > .menu-item
   > .menu-link
   .menu-text {
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .header-menu .menu-nav > .menu-item > .menu-link .menu-text {
-  font-weight: 600;
+  font-weight: 400;
+  font-size: 15px;
 }
 
 .form-control {
@@ -30,10 +31,10 @@ html * {
   font-size: 14px !important;
 }
 
-html,
+/* html,
 body {
   overflow-y: scroll !important;
-}
+} */
 .sticky-toolbar {
   top: 82%;
 }
