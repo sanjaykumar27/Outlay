@@ -1,0 +1,9 @@
+#kt_wrapper,
+#kt_aside {
+  background-color: #333;
+}
+@media (min-width: 992px) .header-menu .menu-nav > .menu-item > .menu-link .menu-text {
+  font-size: 1.1rem;
+  color: #b8b2b7;
+  font-weight: 500;
+}
