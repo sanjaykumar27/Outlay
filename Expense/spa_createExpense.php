@@ -39,65 +39,8 @@
 	<div class="container-fluid">
 		<form class="form" method="post" is="dmx-serverconnect-form" id="CreateExpense" action="dmxConnect/api/Expense/createExpense.php"
 			dmx-on:success="CreateExpense.reset();scGetExpense.load();varCounter.setValue(1);scInvoiceID.load();notifies1.success(&quot;Expense Created Succesfully&quot;)">
-			<div class="card-body">
-				<h3 class="font-size-lg text-dark font-weight-bold mb-6">1. Invoice Info:</h3>
-				<div class="row">
-					<div class="col-lg-4">
-						<div class="form-group">
-							<label>Invoice No:</label>
-							<input type="number" name="InvoiceNumber" dmx-bind:value="scInvoiceID.data.getMaxInvoiceID.InvoiceID+1" class="form-control form-control-solid" />
-						</div>
-					</div>
-					<div class="col-lg-4">
-						<div class="form-group">
-							<label>Invoice Name:</label>
-							<input type="text" name="InvoiceName" class="form-control form-control-solid" placeholder="Invoice Name" />
-						</div>
-					</div>
-					<div class="col-lg-4">
-						<div class="form-group">
-							<label>Date:</label>
-							<input type="date" name="PurchaseDate" class="form-control form-control-solid" placeholder="Purchase Date" dmx-bind:value="varDateTime.datetime.formatDate(&quot;yyyy-MM-dd&quot;)" />
-						</div>
-					</div>
-
-				</div>
-				<hr>
-				<h3 class="font-size-lg text-dark font-weight-bold mb-6">2. Payment Info:</h3>
-				<div class="row">
-					<div class="col-lg-4">
-						<div class="form-group">
-							<label>Account</label>
-							<select class="form-control" name="AccountID" dmx-bind:options="scAccountList.data.queryAccountList" optiontext="bank_name + ' ' + account_number" optionvalue="id" value="2">
-								<option selected disabled value="">Account</option>
-							</select>
-						</div>
-					</div>
-					<div class="col-lg-4">
-						<div class="form-group">
-							<label>Payment Type:</label>
-							<select class="form-control" name="PaymentMethod" dmx-bind:options="scPaymentMethods.data.queryPaymentMethods" optiontext="PaymentType" optionvalue="PaymentID" value="6">
-								<option selected disabled value="">Payment Method</option>
-							</select>
-						</div>
-					</div>
-					<div class="col-lg-4">
-						<div class="form-group">
-							<label>Remark:</label>
-							<input type="text" name="Remark" class="form-control form-control-solid" placeholder="Enter full name" />
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="form-group">
-							<label>Upload Receipt</label>
-							<input is="dmx-dropzone" id="targetFile" type="file" name="target_photo" thumbs="false" data-msg-required="">
-						</div>
-					</div>
-				</div>
-				<hr>
-				<h3 class="font-size-lg text-dark font-weight-bold mb-6">3. Item Info:</h3>
+			<div class="card-body p-6 border-dark-75 rounded border">
+				<h3 class="font-size-lg text-dark font-weight-bold mb-6">1. Item Info:</h3>
 
 				<div class="row" is="dmx-repeat" id="repeatItem" dmx-bind:repeat="varCounter.value">
 					<div class="col-lg-3">
@@ -136,7 +79,6 @@
 							<input type="number" name="Amount[]" class="form-control form-control-solid" placeholder="Amount" />
 						</div>
 					</div>
-
 				</div>
 				<div class="row">
 					<div class="col float-left">
@@ -149,6 +91,63 @@
 						<button class="btn btn-icon btn-light-danger" dmx-show="varCounter.value != 1" dmx-on:click="varCounter.setValue(varCounter.value - 1)">
 							<i class="fa fa-minus"></i>
 						</button>
+					</div>
+				</div>
+				<hr>
+				<h3 class="font-size-lg text-dark font-weight-bold mb-6">2. Invoice Info:</h3>
+				<div class="row">
+					<div class="col-lg-4">
+						<div class="form-group">
+							<label>Invoice No:</label>
+							<input type="number" name="InvoiceNumber" dmx-bind:value="scInvoiceID.data.getMaxInvoiceID.InvoiceID+1" class="form-control form-control-solid" />
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<div class="form-group">
+							<label>Invoice Name:</label>
+							<input type="text" name="InvoiceName" class="form-control form-control-solid" placeholder="Invoice Name" />
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<div class="form-group">
+							<label>Date:</label>
+							<input type="date" name="PurchaseDate" class="form-control form-control-solid" placeholder="Purchase Date" dmx-bind:value="varDateTime.datetime.formatDate(&quot;yyyy-MM-dd&quot;)" />
+						</div>
+					</div>
+
+				</div>
+				<hr>
+				<h3 class="font-size-lg text-dark font-weight-bold mb-6">3. Payment Info:</h3>
+				<div class="row">
+					<div class="col-lg-4">
+						<div class="form-group">
+							<label>Account</label>
+							<select class="form-control" name="AccountID" dmx-bind:options="scAccountList.data.queryAccountList" optiontext="bank_name + ' ' + account_number" optionvalue="id" value="2">
+								<option selected disabled value="">Account</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<div class="form-group">
+							<label>Payment Type:</label>
+							<select class="form-control" name="PaymentMethod" dmx-bind:options="scPaymentMethods.data.queryPaymentMethods" optiontext="PaymentType" optionvalue="PaymentID" value="6">
+								<option selected disabled value="">Payment Method</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<div class="form-group">
+							<label>Remark:</label>
+							<input type="text" name="Remark" class="form-control form-control-solid" placeholder="Enter full name" />
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="form-group">
+							<label>Upload Receipt</label>
+							<input is="dmx-dropzone" id="targetFile" type="file" name="target_photo" thumbs="false" data-msg-required="">
+						</div>
 					</div>
 				</div>
 			</div>

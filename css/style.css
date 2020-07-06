@@ -34,3 +34,17 @@ html,
 body {
   overflow-y: scroll !important;
 }
+.sticky-toolbar {
+  top: 82%;
+}
+.form-control.form-control-solid {
+  border-color: #dfdfdf;
+  background-color: transparent;
+}
+
+.form-group label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #7d7e7f;
+  text-transform: uppercase;
+}
