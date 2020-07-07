@@ -87,7 +87,7 @@
 								<th scope="col">DATE</th>
 								<th scope="col">PAYMENT</th>
 								<th scope="col">REMARK</th>
-								<th scope="col">ACTION</th>
+								<th scope="col" class="text-center">ACTION</th>
 							</tr>
 						</thead>
 						<tbody is="dmx-repeat" id="repeat1" dmx-bind:repeat="scExpenseList.data.queryExpenseList.data.sort(invoice_number)">
@@ -99,7 +99,7 @@
 								<td class="text-truncate">{{purchase_date.formatDate("dd MMM yy")}}</td>
 								<td class="text-truncate">{{PaymentType}}</td>
 								<td class="text-truncate" dmx-bs-tooltip="remark">{{remark.trunc(15, true, "...")}}</td>
-								<td>
+								<td class="text-center p-1">
 									<button class="btn btn-sm btn-clean btn-icon mr-2" data-toggle="modal" data-target="#modal_update_expense" dmx-on:click="varExpenseID.setValue(Expense_ID)">
 										<i class="fa fa-pencil-square-o"></i>
 									</button>
@@ -117,7 +117,7 @@
 
 					<ul class="pagination justify-content-center" dmx-populate="scExpenseList.data.queryExpenseList" dmx-state="qm" dmx-offset="offset" dmx-generator="bs4paging">
 						<select class="form-control form-control-sm text-primary bg-light-light mr-4 rounded" style="width: 75px;" name="varPageValue" dmx-on:changed="scExpenseList.load()">
-							<option value="10" selected>10</option>
+							<option value="15" selected>15</option>
 							<option value="30">30</option>
 							<option value="50">50</option>
 							<option value="75">75</option>

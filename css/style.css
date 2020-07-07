@@ -31,10 +31,9 @@ html * {
   font-size: 14px !important;
 }
 
-/* html,
 body {
   overflow-y: scroll !important;
-} */
+}
 .sticky-toolbar {
   top: 82%;
 }

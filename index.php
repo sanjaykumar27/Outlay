@@ -955,7 +955,7 @@
 					<div id="crDashboardItems" is="dmx-if" dmx-bind:condition="browser1.location.pathname == '/'">
 						<div class="d-flex flex-column-fluid pt-2">
 							<div class="container-fluid">
-								<div class="card card-custom gutter-b ">
+								<div class="card card-custom gutter-b shadow-lg">
 									<div class="card-header h-auto border-0">
 										<div class="card-title py-5">
 											<h3 class="card-label">

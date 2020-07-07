@@ -1,0 +1,3 @@
+--- Dark Version ---
+Font color: #c5b2c1;
+themecolor: #ca8abb;
