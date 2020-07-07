@@ -1,5 +1,6 @@
 <!-- Wappler include head-page="../index.php" appconnect="local" is="dmx-app" bootstrap4="cdn" fontawesome_4="cdn" jquery_slim_33="cdn" id="ExpenseList" components="{dmxStateManagement:{},dmxBootstrap4Collapse:{},dmxFormatter:{},dmxBootstrap4Tooltips:{},dmxBootstrap4PagingGenerator:{},dmxBootstrap4Modal:{},dmxPreloader:{},dmxBootstrap4Alert:{}}" -->
-<dmx-preloader id="preloader1" preview="true" spinner="circle" color="#BF4990" dmx-show="scExpenseList.state.executing || scGetItems.state.executing || scCategories.state.executing"></dmx-preloader>
+
+<dmx-preloader id="preloader1" preview="true" spinner="circle" color="#d482b3" dmx-show="scExpenseList.state.executing || scGetItems.state.executing || scCategories.state.executing" bgcolor="#000000e3" size="80"></dmx-preloader>
 
 <dmx-value id="varExpenseID"></dmx-value>
 
@@ -27,7 +28,7 @@
 		</div>
 	</div>
 	<div class="d-flex align-items-center">
-		<a href="#" class="btn btn-icon btn-light-primary btn-sm mr-2" data-toggle="collapse" data-target="#collapse1">
+		<a href="#" class="btn btn-primary font-weight-bold mr-2 py-3" data-toggle="collapse" data-target="#collapse1">
 			<i class="flaticon-interface-6"></i>
 		</a>
 		<a href="./expense/create" class="btn btn-primary font-weight-bold">
@@ -132,7 +133,7 @@
 									aria-hidden="true">&lsaquo;</span></a>
 						</li>
 						<li class="page-item" dmx-class:active="title == scExpenseList.data.queryExpenseList.page.current" dmx-class:disabled="!active" dmx-repeat:gfgf="scExpenseList.data.queryExpenseList.getServerConnectPagination(2,1,'...')">
-							<a href="javascript:void(0)" class="page-link btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1" dmx-on:click="qm.set('offset',(page-1)*scExpenseList.data.queryExpenseList.limit);scExpenseList.load()">{{title}}</a>
+							<a href="javascript:void(0)" class="page-link btn btn-icon btn-sm  btn-hover-primary mr-2 my-1" dmx-on:click="qm.set('offset',(page-1)*scExpenseList.data.queryExpenseList.limit);scExpenseList.load()">{{title}}</a>
 						</li>
 						<li class="page-item" dmx-class:disabled="scExpenseList.data.queryExpenseList.page.current ==  scExpenseList.data.queryExpenseList.page.total" aria-label="Next">
 							<a href="javascript:void(0)" class="page-link btn btn-icon btn-sm btn-light-primary mr-2 my-1" dmx-on:click="qm.set('offset',scExpenseList.data.queryExpenseList.page.offset.next);scExpenseList.load()"><span
