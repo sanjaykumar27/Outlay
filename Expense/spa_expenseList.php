@@ -39,7 +39,6 @@
 </div>
 <div class="d-flex flex-column-fluid pt-2">
 	<div class="container-fluid">
-
 		<div class="bg-light-light border card card-custom collapse p-2 show" id="collapse1" is="dmx-bs4-collapse">
 			<div class="row">
 				<div class="col-lg-3 col-sm-3 form-group">
@@ -115,35 +114,39 @@
 							</tr>
 						</tbody>
 					</table>
+					<div class="d-flex flex-row justify-content-md-center align-items-center my-3">
+						<div class="col-9 col-md-auto">
+							<div class="d-flex flex-row justify-content-center align-items-center mb-2 mb-md-0">
+								<p class="mb-0">Page Size:&nbsp;</p>
+								<select class="form-control form-control-sm mr-4 rounded" style="width: 75px;" name="varPageValue" dmx-on:changed="scExpenseList.load()">
+									<option value="15" selected>15</option>
+									<option value="30">30</option>
+									<option value="50">50</option>
+									<option value="75">75</option>
+									<option value="100">100</option>
+								</select>
+							</div>
+						</div>
+						<ul class="pagination justify-content-center flex-row mb-0" dmx-populate="scExpenseList.data.queryExpenseList" dmx-state="qm" dmx-offset="offset" dmx-generator="bs4paging">
+							<li class="page-item" dmx-class:disabled="scExpenseList.data.queryExpenseList.page.current == 1" aria-label="First">
+								<a href="javascript:void(0)" class="page-link" dmx-on:click="qm.set('offset',scExpenseList.data.queryExpenseList.page.offset.first);scExpenseList.load()"><span aria-hidden="true">&lsaquo;&lsaquo;</span></a>
+							</li>
+							<li class="page-item" dmx-class:disabled="scExpenseList.data.queryExpenseList.page.current == 1" aria-label="Previous">
+								<a href="javascript:void(0)" class="page-link" dmx-on:click="qm.set('offset',scExpenseList.data.queryExpenseList.page.offset.prev);scExpenseList.load()"><span aria-hidden="true">&lsaquo;</span></a>
+							</li>
+							<li class="page-item" dmx-class:active="title == scExpenseList.data.queryExpenseList.page.current" dmx-class:disabled="!active" dmx-repeat="scExpenseList.data.queryExpenseList.getServerConnectPagination(2,1,'...')">
+								<a href="javascript:void(0)" class="page-link" dmx-on:click="qm.set('offset',(page-1)*scExpenseList.data.queryExpenseList.limit);scExpenseList.load()">{{title}}</a>
+							</li>
+							<li class="page-item" dmx-class:disabled="scExpenseList.data.queryExpenseList.page.current ==  scExpenseList.data.queryExpenseList.page.total" aria-label="Next">
+								<a href="javascript:void(0)" class="page-link" dmx-on:click="qm.set('offset',scExpenseList.data.queryExpenseList.page.offset.next);scExpenseList.load()"><span aria-hidden="true">&rsaquo;</span></a>
+							</li>
+							<li class="page-item" dmx-class:disabled="scExpenseList.data.queryExpenseList.page.current ==  scExpenseList.data.queryExpenseList.page.total" aria-label="Last">
+								<a href="javascript:void(0)" class="page-link" dmx-on:click="qm.set('offset',scExpenseList.data.queryExpenseList.page.offset.last);scExpenseList.load()"><span aria-hidden="true">&rsaquo;&rsaquo;</span></a>
+							</li>
+						</ul>
+					</div>
 
-					<ul class="pagination justify-content-center" dmx-populate="scExpenseList.data.queryExpenseList" dmx-state="qm" dmx-offset="offset" dmx-generator="bs4paging">
-						<select class="form-control form-control-sm text-primary bg-light-light mr-4 rounded" style="width: 75px;" name="varPageValue" dmx-on:changed="scExpenseList.load()">
-							<option value="15" selected>15</option>
-							<option value="30">30</option>
-							<option value="50">50</option>
-							<option value="75">75</option>
-							<option value="100">100</option>
-						</select>
-						<li class="page-item" dmx-class:disabled="scExpenseList.data.queryExpenseList.page.current == 1" aria-label="First">
-							<a href="javascript:void(0)" class="page-link btn btn-icon btn-sm btn-light-primary mr-2 my-1" dmx-on:click="qm.set('offset',scExpenseList.data.queryExpenseList.page.offset.first);scExpenseList.load()"><span
-									aria-hidden="true">&lsaquo;&lsaquo;</span></a>
-						</li>
-						<li class="page-item" dmx-class:disabled="scExpenseList.data.queryExpenseList.page.current == 1" aria-label="Previous">
-							<a href="javascript:void(0)" class="page-link btn btn-icon btn-sm btn-light-primary mr-2 my-1" dmx-on:click="qm.set('offset',scExpenseList.data.queryExpenseList.page.offset.prev);scExpenseList.load()"><span
-									aria-hidden="true">&lsaquo;</span></a>
-						</li>
-						<li class="page-item" dmx-class:active="title == scExpenseList.data.queryExpenseList.page.current" dmx-class:disabled="!active" dmx-repeat:gfgf="scExpenseList.data.queryExpenseList.getServerConnectPagination(2,1,'...')">
-							<a href="javascript:void(0)" class="page-link btn btn-icon btn-sm  btn-hover-primary mr-2 my-1" dmx-on:click="qm.set('offset',(page-1)*scExpenseList.data.queryExpenseList.limit);scExpenseList.load()">{{title}}</a>
-						</li>
-						<li class="page-item" dmx-class:disabled="scExpenseList.data.queryExpenseList.page.current ==  scExpenseList.data.queryExpenseList.page.total" aria-label="Next">
-							<a href="javascript:void(0)" class="page-link btn btn-icon btn-sm btn-light-primary mr-2 my-1" dmx-on:click="qm.set('offset',scExpenseList.data.queryExpenseList.page.offset.next);scExpenseList.load()"><span
-									aria-hidden="true">&rsaquo;</span></a>
-						</li>
-						<li class="page-item" dmx-class:disabled="scExpenseList.data.queryExpenseList.page.current ==  scExpenseList.data.queryExpenseList.page.total" aria-label="Last">
-							<a href="javascript:void(0)" class="page-link btn btn-icon btn-sm btn-light-primary mr-2 my-1" dmx-on:click="qm.set('offset',scExpenseList.data.queryExpenseList.page.offset.last);scExpenseList.load()"><span
-									aria-hidden="true">&rsaquo;&rsaquo;</span></a>
-						</li>
-					</ul>
+
 				</div>
 			</div>
 		</div>

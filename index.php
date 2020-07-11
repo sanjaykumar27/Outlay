@@ -53,7 +53,7 @@
 	<script src="dmxAppConnect/dmxPreloader/dmxPreloader.js" defer=""></script>
 	<script src="dmxAppConnect/dmxSmoothScroll/dmxSmoothScroll.js" defer=""></script>
 	<script src="dmxAppConnect/dmxBootstrap4Alert/dmxBootstrap4Alert.js" defer=""></script>
-	<link href="assets/css/dark.css" rel="stylesheet" type="text/css" />
+	<!-- <link href="assets/css/dark.css" rel="stylesheet" type="text/css" /> -->
 </head>
 
 <body id="index" class="header-fixed header-mobile-fixed sidebar-enabled page-loading" style="overflow-y: auto !important;">

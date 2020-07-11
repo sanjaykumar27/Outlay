@@ -69,8 +69,7 @@ $app->define(<<<'JSON'
             "expense_data": "{{data}}"
           },
           "schema": [],
-          "dataType": "x-www-form-urlencoded",
-          "passErrors": false
+          "dataType": "x-www-form-urlencoded"
         },
         "output": true,
         "meta": [

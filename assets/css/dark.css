@@ -370,3 +370,11 @@
 .btn.btn-light-primary i {
   color: #d6b1cd;
 }
+.card-footer {
+  padding: 2rem 2.25rem;
+  background-color: #333;
+  border-top: none;
+}
+.page-item.active .page-link {
+  border-color: #ca8abb;
+}
