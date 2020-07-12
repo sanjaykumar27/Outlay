@@ -6,11 +6,7 @@ $app = new \lib\App();
 
 $app->define(<<<'JSON'
 {
-  "settings": {
-    "options": {}
-  },
   "meta": {
-    "options": {},
     "$_GET": [
       {
         "type": "text",
@@ -81,8 +77,15 @@ $app->define(<<<'JSON'
               "conditional": null,
               "valid": true
             },
-            "query": "SELECT id AS PaymentID, name AS PaymentType\nFROM collections\nWHERE collectiontype_id = 2",
-            "params": []
+            "query": "SELECT id AS PaymentID, name AS PaymentType\nFROM collections\nWHERE collectiontype_id = 2\nORDER BY name ASC",
+            "params": [],
+            "orders": [
+              {
+                "table": "collections",
+                "column": "name",
+                "direction": "ASC"
+              }
+            ]
           }
         },
         "output": true,

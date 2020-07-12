@@ -1,4 +1,5 @@
 <!-- Wappler include head-page="../index.php" appconnect="local" is="dmx-app" bootstrap4="cdn" fontawesome_4="cdn" jquery_slim_34="local" id="CreateExpense" components="{dmxFormatter:{},dmxNotifications:{},dmxBootstrap4Toasts:{}}" -->
+<dmx-value id="varCategoryID"></dmx-value>
 
 <dmx-serverconnect id="scInvoiceID" url="dmxConnect/api/Expense/getMaxInvoiceID.php"></dmx-serverconnect>
 <dmx-datetime id="varDateTime"></dmx-datetime>
@@ -82,7 +83,7 @@
 				</div>
 				<div class="row">
 					<div class="col float-left">
-						<button class="btn btn-sm btn-success">Add Item</button>
+						<button class="btn btn-sm btn-success" data-toggle="modal" data-target="#modalAddItem" dmx-on:click="varCategoryID.setValue(repeatItem.CategoryID.value)">Add Item</button>
 					</div>
 					<div class="col float-right text-right">
 						<button class="btn btn-icon btn-light-success" dmx-on:click="varCounter.setValue(varCounter.value + 1)">
@@ -156,5 +157,39 @@
 				</button>
 			</div>
 		</form>
+	</div>
+</div>
+
+<div class="modal fade" id="modalAddItem" is="dmx-bs4-modal" tabindex="-1" role="dialog" nocloseonclick="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<form is="dmx-serverconnect-form" id="FormAddItem" action="dmxConnect/api/Master/createItem.php" method="post"
+				dmx-on:success="notifies1.success('Item added succesfully');scItemLists.load({categoryid: varCategoryID.value});modalAddItem.hide();modalAddItem.FormAddItem.reset();varCategoryID.setValue('')">
+				<div class="modal-header">
+					<h5 class="modal-title">Add Item</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label>Category:</label>
+						<select class="form-control" name="category_id" dmx-bind:options="scCategories.data.getCategories" optiontext="category_name" optionvalue="id"
+							dmx-bind:value="scCategories.data.getCategories.where(`id`, varCategoryID.value, '==').values(`id`)">
+							<option selected disabled value="">Categories</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Item:</label>
+						<input type="text" name="subcategory_name" class="form-control" required>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal" dmx-on:click="varCategoryID.setValue('')">Close</button>
+					<button type="submit" class="btn btn-primary" dmx-bind:disabled="state.executing">Save changes <span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span>
+					</button>
+				</div>
+			</form>
+		</div>
 	</div>
 </div>

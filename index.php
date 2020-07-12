@@ -58,11 +58,14 @@
 
 <body id="index" class="header-fixed header-mobile-fixed sidebar-enabled page-loading" style="overflow-y: auto !important;">
 	<dmx-smooth-scroll id="scroll1"></dmx-smooth-scroll>
-	<dmx-serverconnect id="scMonthlyReport" url="dmxConnect/api/Dashboard/getMonthlyExpense.php" onsuccess="MonthlyGraph();"></dmx-serverconnect>
+	<dmx-serverconnect id="scMonthlyReport" url="dmxConnect/api/Dashboard/getMonthlyExpense.php" onsuccess="MonthlyGraph();" noload="noload"></dmx-serverconnect>
+	<dmx-serverconnect id="scMostPurchasedItem" url="dmxConnect/api/Dashboard/getTop5Items.php" onsuccess="MonthlyGraph();" noload="noload"></dmx-serverconnect>
 	<dmx-serverconnect id="scLogout" url="dmxConnect/api/AccessControl/logout.php" noload="noload"></dmx-serverconnect>
 	<dmx-serverconnect id="scVerify" url="dmxConnect/api/AccessControl/scVerify.php" dmx-on:unauthorized="browser1.goto('login.php')"></dmx-serverconnect>
 
-	<dmx-preloader id="preloader1" preview="true" spinner="circle" color="#BF4990" dmx-show="scVerify.state.executing || getMonthlyExpense.state.executing"></dmx-preloader>
+	<dmx-preloader id="preloader1" preview="true" spinner="circle" color="#d482b3" bgcolor="#000000e3" size="80"
+		dmx-show="scVerify.state.executing || scMostPurchasedItem.state.executing || scMonthlyReport.state.executing || routeExpenseList.scExpenseList.state.executing || routeExpenseList.scGetItems.state.executing || routeExpenseList.scCategories.state.executing || routeCreateExpense.scItemLists.state.executing || routeCreateExpense.scPaymentMethods.state.executing || routeCreateExpense.scUnits.state.executing || routeCreateExpense.scCategories.state.executing || routeCreateExpense.scInvoiceID.state.executing">
+	</dmx-preloader>
 	<div is="dmx-browser" id="browser1"></div>
 	<!--begin::Main-->
 	<!--begin::Header Mobile-->
@@ -955,16 +958,44 @@
 					<div id="crDashboardItems" is="dmx-if" dmx-bind:condition="browser1.location.pathname == '/'">
 						<div class="d-flex flex-column-fluid pt-2">
 							<div class="container-fluid">
-								<div class="card card-custom gutter-b shadow-lg">
-									<div class="card-header h-auto border-0">
-										<div class="card-title py-5">
-											<h3 class="card-label">
-												<span class="d-block text-dark font-weight-bolder">Monthy Expense</span>
-											</h3>
+								<div class="text-right mb-2">
+									<a href="#" class="btn btn-sm btn-outline-primary" dmx-on:click="scMonthlyReport.load();scMostPurchasedItem.load()">
+										<i class="flaticon-refresh"></i>
+									</a>
+								</div>
+								<div class="row">
+									<div class="col-lg-8 mb-5">
+										<div class="card card-custom shadow-lg h-100">
+											<div class="card-header h-auto border-0">
+												<div class="card-title">
+													<h3 class="card-label">
+														<span class="d-block text-dark font-weight-bolder">Monthy Expense</span>
+													</h3>
+												</div>
+											</div>
+											<div class="chart-demo p-1">
+												<!-- <div id="expense_monthly" class="apex-charts"></div> -->
+												<dmx-chart id="chart1" legend="bottom" dmx-bind:data="scMonthlyReport.data.monthlyExpense" labels="dates.formatDate('MMM-yy')" dataset-1:value="amount" dataset-1:label="Amount" points="true"
+													point-style="rectRounded" width="1300" height="550" cutout="" colors="colors9" noanimation smooth="true" responsive="true" type="bar" point-size="" stacked="true">
+												</dmx-chart>
+											</div>
 										</div>
 									</div>
-									<div class="chart-demo col-lg-12">
-										<div id="expense_monthly" class="apex-charts"></div>
+									<div class="col-lg-4 mb-5">
+										<div class="card card-custom card-stretch shadow-lg">
+											<div class="card-header border-0">
+												<h4 class="card-title font-weight-bolder text-dark">Most Purchased Items</h4>
+											</div>
+											<div class="card-body pt-0">
+												<div class="align-items-center border-bottom d-flex flex-wrap mb-5 pb-2" dmx-repeat:repeatmostpurchaseditem="scMostPurchasedItem.data.TopItems">
+													<div class="d-flex flex-column flex-grow-1 mr-2">
+														<a href="#" class="font-weight-bold text-dark-75 text-hover-primary font-size-lg mb-1">{{subcategory_name}}</a>
+														<span class="text-muted font-weight-bold">{{category_name}}</span>
+													</div>
+													<span class="label label-xl label-light label-inline my-lg-0 my-2 text-dark-50 font-weight-bolder">{{total.toNumber().formatCurrency("₹", ".", ",", "2")}}</span>
+												</div>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>

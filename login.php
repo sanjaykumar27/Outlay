@@ -3,8 +3,7 @@
 
 <head>
 	<meta name="ac:route" content="/login">
-	<meta name="ac:base" content="/outlay">
-	<base href="/outlay/">
+	<base href="/">
 	<script src="dmxAppConnect/dmxAppConnect.js"></script>
 	<meta charset="utf-8" />
 	<title>OUTLAY | Login Page 1</title>
@@ -36,30 +35,6 @@
 		<!--begin::Login-->
 		<div class="login login-1 login-signin-on d-flex flex-column flex-lg-row flex-column-fluid bg-white" id="kt_login">
 			<!--begin::Aside-->
-			<div class="login-aside d-flex flex-column flex-row-auto" style="background-color: #F2C98A;">
-				<!--begin::Aside Top-->
-				<div class="d-flex flex-column-auto flex-column pt-lg-40 pt-15">
-					<!--begin::Aside header-->
-					<a href="#" class="text-center mb-10">
-						<img src="assets/media/logos/logo-letter-1.png" class="max-h-70px" alt="" />
-					</a>
-
-					<h3 class="font-weight-bolder text-center font-size-h4 font-size-h1-lg" style="color: #986923;">
-						Discover Amazing OUTLAY<br />
-						with great build tools
-					</h3>
-
-				</div>
-				<!--end::Aside Top-->
-
-				<!--begin::Aside Bottom-->
-				<div class="aside-img d-flex flex-row-fluid bgi-no-repeat bgi-position-y-bottom bgi-position-x-center"
-					style="background-image: url(https://keenthemes.com/metronic/themes/metronic/theme/html/demo10/dist/assets/media/svg/illustrations/login-visual-1.svg)"></div>
-				<!--end::Aside Bottom-->
-			</div>
-			<!--begin::Aside-->
-
-			<!--begin::Content-->
 			<div class="login-content flex-row-fluid d-flex flex-column justify-content-center position-relative overflow-hidden p-7 mx-auto">
 				<!--begin::Content body-->
 				<div class="d-flex flex-column-fluid flex-center">
@@ -195,6 +170,31 @@
 				</div>
 				<!--end::Content footer-->
 			</div>
+			<div class="login-aside d-flex flex-column flex-row-auto" style="background-color: #F2C98A;">
+				<!--begin::Aside Top-->
+				<div class="d-flex flex-column-auto flex-column pt-lg-40 pt-15">
+					<!--begin::Aside header-->
+					<a href="#" class="text-center mb-10">
+						<img src="assets/media/logos/logo-letter-1.png" class="max-h-70px" alt="" />
+					</a>
+
+					<h3 class="font-weight-bolder text-center font-size-h4 font-size-h1-lg" style="color: #986923;">
+						Discover Amazing OUTLAY<br />
+						with great build tools
+					</h3>
+
+				</div>
+				<!--end::Aside Top-->
+
+				<!--begin::Aside Bottom-->
+				<div class="aside-img d-flex flex-row-fluid bgi-no-repeat bgi-position-y-bottom bgi-position-x-center"
+					style="background-image: url(https://keenthemes.com/metronic/themes/metronic/theme/html/demo10/dist/assets/media/svg/illustrations/login-visual-1.svg)"></div>
+				<!--end::Aside Bottom-->
+			</div>
+			<!--begin::Aside-->
+
+			<!--begin::Content-->
+
 			<!--end::Content-->
 		</div>
 		<!--end::Login-->

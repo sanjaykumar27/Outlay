@@ -194,5 +194,24 @@ dmx.config({
       ],
       "outputType": "array"
     }
+  },
+  "index": {
+    "repeatmostpurchaseditem": {
+      "meta": [
+        {
+          "name": "total",
+          "type": "text"
+        },
+        {
+          "name": "subcategory_name",
+          "type": "text"
+        },
+        {
+          "name": "category_name",
+          "type": "text"
+        }
+      ],
+      "outputType": "array"
+    }
   }
 });
