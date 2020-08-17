@@ -82,8 +82,7 @@ $app->define(<<<'JSON'
             "name": "headers"
           }
         ],
-        "outputType": "object",
-        "disabled": true
+        "outputType": "object"
       },
       {
         "name": "HTML",
@@ -93,8 +92,7 @@ $app->define(<<<'JSON'
           "key": "HTML",
           "value": "{{apiMonthGraph.data}}"
         },
-        "output": true,
-        "disabled": true
+        "output": true
       }
     ]
   }

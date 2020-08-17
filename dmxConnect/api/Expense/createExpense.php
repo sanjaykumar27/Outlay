@@ -6,9 +6,6 @@ $app = new \lib\App();
 
 $app->define(<<<'JSON'
 {
-  "settings": {
-    "options": {}
-  },
   "meta": {
     "options": {
       "linkedFile": "/Expense/spa_createExpense.php",
@@ -68,54 +65,6 @@ $app->define(<<<'JSON'
           {
             "type": "text",
             "name": "error"
-          },
-          {
-            "type": "text",
-            "name": "name"
-          },
-          {
-            "type": "text",
-            "name": "type"
-          },
-          {
-            "type": "number",
-            "name": "size"
-          },
-          {
-            "type": "text",
-            "name": "error"
-          },
-          {
-            "type": "text",
-            "name": "name"
-          },
-          {
-            "type": "text",
-            "name": "type"
-          },
-          {
-            "type": "number",
-            "name": "size"
-          },
-          {
-            "type": "text",
-            "name": "error"
-          },
-          {
-            "name": "name",
-            "type": "text"
-          },
-          {
-            "name": "type",
-            "type": "text"
-          },
-          {
-            "name": "size",
-            "type": "number"
-          },
-          {
-            "name": "error",
-            "type": "text"
           }
         ],
         "outputType": "file"
@@ -239,8 +188,20 @@ $app->define(<<<'JSON'
           {
             "type": "datetime",
             "name": "NOW"
+          },
+          {
+            "type": "number",
+            "name": "ItemID"
           }
         ]
+      },
+      {
+        "type": "text",
+        "name": "NewItem"
+      },
+      {
+        "type": "text",
+        "name": "NewItem[$key]"
       }
     ]
   },
@@ -302,9 +263,92 @@ $app->define(<<<'JSON'
         "module": "core",
         "action": "repeat",
         "options": {
-          "repeat": "{{$_POST.ItemID}}",
+          "repeat": "{{$_POST.UnitID}}",
           "exec": {
             "steps": [
+              {
+                "name": "",
+                "module": "core",
+                "action": "condition",
+                "options": {
+                  "if": "{{$_POST.NewItem[$key]}}",
+                  "then": {
+                    "steps": [
+                      {
+                        "name": "insertItem",
+                        "module": "dbupdater",
+                        "action": "insert",
+                        "options": {
+                          "connection": "ConnCS",
+                          "sql": {
+                            "type": "insert",
+                            "values": [
+                              {
+                                "table": "sub_categories",
+                                "column": "category_id",
+                                "type": "number",
+                                "value": "22"
+                              },
+                              {
+                                "table": "sub_categories",
+                                "column": "subcategory_name",
+                                "type": "text",
+                                "value": "{{$_POST.NewItem[$key]}}"
+                              }
+                            ],
+                            "table": "sub_categories",
+                            "returning": "id",
+                            "query": "INSERT INTO sub_categories\n(category_id, subcategory_name) VALUES ('22', :P1 /* {{$_POST.NewItem[$key]}} */)",
+                            "params": [
+                              {
+                                "name": ":P1",
+                                "type": "expression",
+                                "value": "{{$_POST.NewItem[$key]}}"
+                              }
+                            ]
+                          }
+                        },
+                        "meta": [
+                          {
+                            "name": "identity",
+                            "type": "text"
+                          },
+                          {
+                            "name": "affected",
+                            "type": "number"
+                          }
+                        ],
+                        "output": true
+                      },
+                      {
+                        "name": "ItemID",
+                        "module": "core",
+                        "action": "setvalue",
+                        "options": {
+                          "key": "ItemID",
+                          "value": "{{insertItem.identity}}"
+                        },
+                        "outputType": "number",
+                        "output": true
+                      }
+                    ]
+                  },
+                  "else": {
+                    "steps": {
+                      "name": "ItemID",
+                      "module": "core",
+                      "action": "setvalue",
+                      "options": {
+                        "key": "ItemID",
+                        "value": "{{$_POST.ItemID[$key]}}"
+                      },
+                      "outputType": "number",
+                      "output": true
+                    }
+                  }
+                },
+                "outputType": "boolean"
+              },
               {
                 "name": "insertExpense",
                 "module": "dbupdater",
@@ -324,7 +368,7 @@ $app->define(<<<'JSON'
                         "table": "expense",
                         "column": "category_id",
                         "type": "number",
-                        "value": "{{$value}}"
+                        "value": "{{ItemID}}"
                       },
                       {
                         "table": "expense",
@@ -348,7 +392,7 @@ $app->define(<<<'JSON'
                         "table": "expense",
                         "column": "unit",
                         "type": "number",
-                        "value": "{{$_POST.UnitID[$key]}}"
+                        "value": "{{$value}}"
                       },
                       {
                         "table": "expense",
@@ -360,13 +404,13 @@ $app->define(<<<'JSON'
                         "table": "expense",
                         "column": "receipt_url",
                         "type": "text",
-                        "value": "{{$_POST.target_photo.name}}"
+                        "value": "{{$parent.upload1.name}}"
                       },
                       {
                         "table": "expense",
                         "column": "receipt_name",
                         "type": "text",
-                        "value": "{{receipt_name}}"
+                        "value": "{{$parent.upload1.name}}"
                       },
                       {
                         "table": "expense",
@@ -394,7 +438,7 @@ $app->define(<<<'JSON'
                       }
                     ],
                     "table": "expense",
-                    "query": "INSERT INTO expense\n(user_id, category_id, invoice_number, invoice_name, quantity, unit, purchase_date, receipt_url, receipt_name, account, payment_type, remark, amount) VALUES (:P1 /* {{$parent.SecurityCS.identity}} */, :P2 /* {{$value}} */, :P3 /* {{$_POST.InvoiceNumber}} */, :P4 /* {{$_POST.InvoiceName}} */, :P5 /* {{$_POST.Quantity[$key]}} */, :P6 /* {{$_POST.UnitID[$key]}} */, :P7 /* {{$_POST.PurchaseDate}} */, :P8 /* {{$_POST.target_photo.name}} */, :P9 /* {{receipt_name}} */, :P10 /* {{$_POST.AccountID}} */, :P11 /* {{$_POST.PaymentMethod}} */, :P12 /* {{$_POST.Remark}} */, :P13 /* {{$_POST.Amount[$key]}} */)",
+                    "query": "INSERT INTO expense\n(user_id, category_id, invoice_number, invoice_name, quantity, unit, purchase_date, receipt_url, receipt_name, account, payment_type, remark, amount) VALUES (:P1 /* {{$parent.SecurityCS.identity}} */, :P2 /* {{ItemID}} */, :P3 /* {{$_POST.InvoiceNumber}} */, :P4 /* {{$_POST.InvoiceName}} */, :P5 /* {{$_POST.Quantity[$key]}} */, :P6 /* {{$value}} */, :P7 /* {{$_POST.PurchaseDate}} */, :P8 /* {{$parent.upload1.name}} */, :P9 /* {{$parent.upload1.name}} */, :P10 /* {{$_POST.AccountID}} */, :P11 /* {{$_POST.PaymentMethod}} */, :P12 /* {{$_POST.Remark}} */, :P13 /* {{$_POST.Amount[$key]}} */)",
                     "params": [
                       {
                         "name": ":P1",
@@ -404,7 +448,7 @@ $app->define(<<<'JSON'
                       {
                         "name": ":P2",
                         "type": "expression",
-                        "value": "{{$value}}"
+                        "value": "{{ItemID}}"
                       },
                       {
                         "name": ":P3",
@@ -424,7 +468,7 @@ $app->define(<<<'JSON'
                       {
                         "name": ":P6",
                         "type": "expression",
-                        "value": "{{$_POST.UnitID[$key]}}"
+                        "value": "{{$value}}"
                       },
                       {
                         "name": ":P7",
@@ -434,12 +478,12 @@ $app->define(<<<'JSON'
                       {
                         "name": ":P8",
                         "type": "expression",
-                        "value": "{{$_POST.target_photo.name}}"
+                        "value": "{{$parent.upload1.name}}"
                       },
                       {
                         "name": ":P9",
                         "type": "expression",
-                        "value": "{{receipt_name}}"
+                        "value": "{{$parent.upload1.name}}"
                       },
                       {
                         "name": ":P10",
@@ -461,7 +505,8 @@ $app->define(<<<'JSON'
                         "type": "expression",
                         "value": "{{$_POST.Amount[$key]}}"
                       }
-                    ]
+                    ],
+                    "returning": "id"
                   }
                 },
                 "meta": [
@@ -594,6 +639,24 @@ $app->define(<<<'JSON'
           {
             "name": "$value",
             "type": "object"
+          },
+          {
+            "name": "insertItem",
+            "type": "text",
+            "sub": [
+              {
+                "name": "identity",
+                "type": "text"
+              },
+              {
+                "name": "affected",
+                "type": "number"
+              }
+            ]
+          },
+          {
+            "name": "ItemID",
+            "type": "number"
           }
         ],
         "outputType": "array"

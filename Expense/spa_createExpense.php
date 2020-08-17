@@ -1,15 +1,8 @@
 <!-- Wappler include head-page="../index.php" appconnect="local" is="dmx-app" bootstrap4="cdn" fontawesome_4="cdn" jquery_slim_34="local" id="CreateExpense" components="{dmxFormatter:{},dmxNotifications:{},dmxBootstrap4Toasts:{}}" -->
 <dmx-value id="varCategoryID"></dmx-value>
-
-<dmx-serverconnect id="scInvoiceID" url="dmxConnect/api/Expense/getMaxInvoiceID.php"></dmx-serverconnect>
+<dmx-serverconnect id="scInvoiceID" url="dmxConnect/api/Expense/getMaxInvoiceID.php" noload="noload"></dmx-serverconnect>
 <dmx-datetime id="varDateTime"></dmx-datetime>
-
 <dmx-notifications id="notifies1" offset-x="30" offset-y="30" closable newest-on-top></dmx-notifications>
-<dmx-serverconnect id="scItemLists" url="dmxConnect/api/Common/getItems.php" dmx-param:categoryid=""></dmx-serverconnect>
-<dmx-serverconnect id="scAccountList" url="dmxConnect/api/Common/getAccountList.php"></dmx-serverconnect>
-<dmx-serverconnect id="scPaymentMethods" url="dmxConnect/api/Common/getPaymentMethods.php"></dmx-serverconnect>
-<dmx-serverconnect id="scUnits" url="dmxConnect/api/Common/getUnits.php"></dmx-serverconnect>
-<dmx-serverconnect id="scCategories" url="dmxConnect/api/Common/getItemCategory.php"></dmx-serverconnect>
 <dmx-value id="varCounter" dmx-bind:value="1"></dmx-value>
 <div class=" container-fluid  d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
 	<!--begin::Info-->
@@ -44,12 +37,18 @@
 				<h3 class="font-size-lg text-dark font-weight-bold mb-6">1. Item Info:</h3>
 
 				<div class="row" is="dmx-repeat" id="repeatItem" dmx-bind:repeat="varCounter.value">
-					<div class="col-lg-3">
+					<!-- <div class="col-lg-3">
 						<div class="form-group">
 							<label>Category:</label>
 							<select class="form-control" name="CategoryID" dmx-bind:options="scCategories.data.getCategories" optiontext="category_name" optionvalue="id" dmx-on:changed="scItemLists.load({categoryid: value})">
 								<option selected disabled value="">Categories</option>
 							</select>
+						</div>
+					</div> -->
+					<div class="col-lg-3">
+						<div class="form-group">
+							<label>Item Name</label>
+							<input type="text" class="form-control" name="NewItem[]">
 						</div>
 					</div>
 					<div class="col-lg-3">

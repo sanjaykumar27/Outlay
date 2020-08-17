@@ -37,7 +37,7 @@ class dbconnector extends Module
           foreach ($options->sql->columns as $column) {
             if ($column->column == $options->sql->sort || (isset($column->alias) && $column->alias == $options->sql->sort)) {
               $order = (object)array(
-                'column' => $column->column,
+                'column' => isset($column->alias) ? $column->alias : $column->column,
                 'direction' => isset($options->sql->dir) && strtoupper($options->sql->dir) == 'DESC' ? 'DESC' : 'ASC'
               );
 
@@ -161,7 +161,7 @@ class dbconnector extends Module
           foreach ($options->sql->columns as $column) {
             if ($column->column == $options->sql->sort || (isset($column->alias) && $column->alias == $options->sql->sort)) {
               $order = (object)array(
-                'column' => $column->column,
+                'column' => isset($column->alias) ? $column->alias : $column->column,
                 'direction' => isset($options->sql->dir) && strtoupper($options->sql->dir) == 'DESC' ? 'DESC' : 'ASC'
               );
 

@@ -6,11 +6,7 @@ $app = new \lib\App();
 
 $app->define(<<<'JSON'
 {
-  "settings": {
-    "options": {}
-  },
   "meta": {
-    "options": {},
     "$_GET": [
       {
         "type": "text",
@@ -70,8 +66,15 @@ $app->define(<<<'JSON'
             },
             "joins": [],
             "wheres": null,
-            "query": "SELECT id AS CategoryID, category_name AS CategoryName\nFROM categories",
-            "params": []
+            "query": "SELECT id AS CategoryID, category_name AS CategoryName\nFROM categories\nORDER BY category_name ASC",
+            "params": [],
+            "orders": [
+              {
+                "table": "categories",
+                "column": "category_name",
+                "direction": "ASC"
+              }
+            ]
           }
         },
         "output": true,
@@ -197,13 +200,20 @@ $app->define(<<<'JSON'
                     "conditional": null,
                     "valid": true
                   },
-                  "query": "SELECT subcategory_name AS ItemName, id AS ItemID\nFROM sub_categories\nWHERE category_id = :P1 /* {{CategoryID}} */",
+                  "query": "SELECT subcategory_name AS ItemName, id AS ItemID\nFROM sub_categories\nWHERE category_id = :P1 /* {{CategoryID}} */\nORDER BY subcategory_name ASC",
                   "params": [
                     {
                       "operator": "equal",
                       "type": "expression",
                       "name": ":P1",
                       "value": "{{CategoryID}}"
+                    }
+                  ],
+                  "orders": [
+                    {
+                      "table": "sub_categories",
+                      "column": "subcategory_name",
+                      "direction": "ASC"
                     }
                   ]
                 }
@@ -248,6 +258,20 @@ $app->define(<<<'JSON'
           {
             "name": "CategoryName",
             "type": "text"
+          },
+          {
+            "name": "queryItems",
+            "type": "array",
+            "sub": [
+              {
+                "name": "ItemName",
+                "type": "text"
+              },
+              {
+                "name": "ItemID",
+                "type": "number"
+              }
+            ]
           }
         ],
         "outputType": "array"

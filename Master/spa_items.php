@@ -1,4 +1,6 @@
-<!-- Wappler include head-page="../index.php" appconnect="local" is="dmx-app" bootstrap4="cdn" fontawesome_4="cdn" jquery_slim_34="local" id="Items" components="{dmxBootstrap4TableGenerator:{},dmxStateManagement:{},dmxBootstrap4PagingGenerator:{}}" -->
+<!-- Wappler include head-page="../index.php" appconnect="local" is="dmx-app" bootstrap4="cdn" fontawesome_4="cdn" jquery_slim_34="local" id="Items" components="{dmxBootstrap4TableGenerator:{},dmxStateManagement:{},dmxBootstrap4PagingGenerator:{},dmxBootstrap4Modal:{},dmxNotifications:{}}" -->
+<dmx-notifications id="notifies1"></dmx-notifications>
+
 <dmx-query-manager id="qm"></dmx-query-manager>
 <dmx-serverconnect id="scItemList" url="dmxConnect/api/Master/getItemList.php" noload="noload" dmx-param:limit="varPageValue.value ? varPageValue.value : 10" dmx-param:offset="query.offset" dmx-param:sort="" dmx-param:dir=""></dmx-serverconnect>
 
@@ -10,7 +12,7 @@
 		</div>
 	</div>
 	<div class="d-flex align-items-center">
-		<button class="btn btn-primary font-weight-bold btn-sm" data-toggle="modal" data-target="#createtarget">
+		<button class="btn btn-primary font-weight-bold btn-sm" data-toggle="modal" data-target="#modalCreateCategory">
 			<i class="flaticon-plus"></i>
 			Add Category
 		</button>
@@ -32,7 +34,7 @@
 					<tbody is="dmx-repeat" dmx-generator="bs4table" dmx-bind:repeat="scItemList.data.repeatCategories" id="repeatCategories">
 						<tr>
 							<td>{{$index + qm.data.offset.toNumber() + 1}}</td>
-							<td class="text-truncate">{{CategoryName}}</td>
+							<td class="text-truncate">{{CategoryName}} ({{CategoryID}})</td>
 							<td>
 								<span class="mr-2 my-1 badge custom-pill" dmx-repeat:repeat1="queryItems">
 									{{ItemName}}
@@ -79,6 +81,32 @@
 				</ul>
 
 			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="modalCreateCategory" is="dmx-bs4-modal" tabindex="-1" role="dialog" nocloseonclick="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<form action="dmxConnect/api/Master/createCategory.php" is="dmx-serverconnect-form" id="FormCreateCategory" method="post"
+				dmx-on:success="modalCreateCategory.hide();modalCreateCategory.FormCreateCategory.reset();scItemList.load();notifies1.success('Category created succesfully')" dmx-on:invalid="notifies1.danger(lastError.response)">
+				<div class="modal-header">
+					<h5 class="modal-title">New Category</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label>Category Name</label>
+						<input type="text" name="CategoryName" class="form-control" required>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary" dmx-bind:disabled="state.executing">Save <span class="spinner-border spinner-border-sm" dmx-show="state.executing" role="status"></span>
+					</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>

@@ -40,6 +40,7 @@ class App
         $this->scope->set(array(
             '$_ERROR' => $this->error,
             '$_SERVER' => $this->request->server,
+            '$_ENV' => $_ENV,
             '$_GET' => $this->request->get,
             '$_POST' => $this->request->post,
             '$_HEADER' => $this->request->headers,

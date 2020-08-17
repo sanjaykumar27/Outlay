@@ -1,4 +1,6 @@
 <!-- Wappler include head-page="../index.php" appconnect="local" is="dmx-app" bootstrap4="cdn" fontawesome_4="cdn" jquery_slim_33="cdn" id="ExpenseList" components="{dmxStateManagement:{},dmxBootstrap4Collapse:{},dmxFormatter:{},dmxBootstrap4Tooltips:{},dmxBootstrap4PagingGenerator:{},dmxBootstrap4Modal:{},dmxPreloader:{},dmxBootstrap4Alert:{}}" -->
+<dmx-serverconnect id="scInvoiceItems"></dmx-serverconnect>
+
 
 <dmx-value id="varExpenseID"></dmx-value>
 
@@ -9,17 +11,11 @@
 
 <dmx-datetime id="varDateTime"></dmx-datetime>
 <dmx-notifications id="notifies1" offset-x="30" offset-y="30" closable newest-on-top></dmx-notifications>
-<dmx-serverconnect id="scAccountList" url="dmxConnect/api/Common/getAccountList.php" noload="noload"></dmx-serverconnect>
-<dmx-serverconnect id="scPaymentMethods" url="dmxConnect/api/Common/getPaymentMethods.php" noload="noload"></dmx-serverconnect>
-<dmx-serverconnect id="scUnits" url="dmxConnect/api/Common/getUnits.php" noload="noload"></dmx-serverconnect>
 <dmx-query-manager id="qm"></dmx-query-manager>
-<dmx-serverconnect id="scCategories" url="dmxConnect/api/Common/getItemCategory.php"></dmx-serverconnect>
-<dmx-serverconnect id="scGetItems" url="dmxConnect/api/Common/getItems.php" dmx-param:categoryid="collapse1.FilterCategory.value"></dmx-serverconnect>
-
 <dmx-serverconnect id="scExpenseList" noload="noload" url="dmxConnect/api/Expense/ExpenseList.php" dmx-param:categoryid="collapse1.FilterCategory.value" dmx-param:itemid="collapse1.FilterItem.value" dmx-param:offset="query.offset"
-	dmx-param:limit="varPageValue.value ? varPageValue.value : 10" dmx-param:currentmonth="collapse1.ThisMonth.checked" dmx-param:crstartdate="varStartDate.value" dmx-param:crenddate="varEndDate.value" dmx-param:date="collapse1.date.value">
+	dmx-param:limit="varPageValue.value ? varPageValue.value : 15" dmx-param:currentmonth="collapse1.ThisMonth.checked" dmx-param:crstartdate="varStartDate.value" dmx-param:crenddate="varEndDate.value" dmx-param:date="collapse1.date.value">
 </dmx-serverconnect>
-<div class=" container-fluid  d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap bg-light py-2">
+<div class=" container-fluid  d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap py-2">
 	<div class="d-flex align-items-center flex-wrap mr-1">
 		<div class="d-flex align-items-baseline mr-5">
 			<h1 class="text-dark my-2 mr-5 font-weight-light">
@@ -28,7 +24,7 @@
 	</div>
 	<div class="d-flex align-items-center">
 		<a href="#" class="btn btn-primary font-weight-bold mr-2 py-3" data-toggle="collapse" data-target="#collapse1">
-			<i class="flaticon-interface-6"></i>
+			<i class="flaticon-interface-6"></i> Filter
 		</a>
 		<a href="./expense/create" class="btn btn-primary font-weight-bold">
 			<i class="flaticon-plus"></i>
@@ -42,12 +38,12 @@
 			<div class="row">
 				<div class="col-lg-3 col-sm-3 form-group">
 					<select class="form-control" id="FilterCategory" name="FilterCategory" dmx-bind:options="scCategories.data.getCategories" optiontext="category_name" optionvalue="id" style="width: 100% !important;"
-						dmx-on:changed="scGetItems.load()">
+						dmx-on:changed="scItemLists.load()">
 						<option value="" selected>Select Category</option>
 					</select>
 				</div>
 				<div class="col-lg-3 col-sm-3 form-group">
-					<select class="form-control" id="FilterItem" name="FilterItem" style="width: 100% !important;" dmx-bind:options="scGetItems.data.getItems" optiontext="subcategory_name" optionvalue="id">
+					<select class="form-control" id="FilterItem" name="FilterItem" style="width: 100% !important;" dmx-bind:options="scItemLists.data.getItems" optiontext="subcategory_name" optionvalue="id">
 						<option value="" selected>Select Item</option>
 					</select>
 				</div>
@@ -111,7 +107,7 @@
 				</span>
 			</div>
 		</ul> -->
-		<div class="card card-custom overflow-hidden shadow-lg">
+		<div class="card card-custom overflow-hidden shadow-sm">
 			<div class="card-body p-3">
 				<div class="table-responsive">
 					<table class="table table-hover table-striped">
@@ -124,21 +120,24 @@
 								<th scope="col">DATE</th>
 								<th scope="col">PAYMENT</th>
 								<th scope="col">REMARK</th>
-								<th scope="col" class="text-center">ACTION</th>
+								<th scope="col">ACTION</th>
 							</tr>
 						</thead>
 						<tbody is="dmx-repeat" id="repeat1" dmx-bind:repeat="scExpenseList.data.queryExpenseList.data.sort(invoice_number)">
 							<tr>
-								<td>{{invoice_number}}</td>
+								<td><a href="javascript:void(0)">{{invoice_number}}</a></td>
 								<td class="text-truncate">{{ItemName}}</td>
 								<td class="font-weight-bolder mt-3 text-truncate">{{amount.toNumber().formatCurrency("₹", ".", ",", "2")}}</td>
 								<td class="text-truncate">{{quantity + ' ' + Unit}}</td>
 								<td class="text-truncate">{{purchase_date.formatDate("dd MMM yy")}}</td>
 								<td class="text-truncate">{{PaymentType}}</td>
 								<td class="text-truncate" dmx-bs-tooltip="remark">{{remark.trunc(15, true, "...")}}</td>
-								<td class="text-center p-1">
+								<td class="text-truncate">
 									<button class="btn btn-sm btn-clean btn-icon mr-2" data-toggle="modal" data-target="#modal_update_expense" dmx-on:click="varExpenseID.setValue(Expense_ID)">
 										<i class="fa fa-pencil-square-o"></i>
+									</button>
+									<button class="btn btn-sm btn-clean btn-icon mr-2" data-toggle="modal" data-target="#modalReceipt" dmx-on:click="varExpenseID.setValue(Expense_ID)" dmx-show="receipt_name">
+										<i class="fa fa-paperclip"></i>
 									</button>
 								</td>
 							</tr>
@@ -150,6 +149,11 @@
 								</td>
 							</tr>
 						</tbody>
+						<tr>
+							<td colspan="8">
+								<h5 class="font-weight-bolder">Total: {{scExpenseList.data.queryExpenseList.data.sum(`amount`)}}</h5>
+							</td>
+						</tr>
 					</table>
 					<div class="d-flex flex-row justify-content-md-center align-items-center my-3">
 
@@ -174,7 +178,7 @@
 							<div class="d-flex flex-row justify-content-center align-items-center mb-2 mb-md-0">
 								<p class="mb-0">Page Size:&nbsp;</p>
 								<select class="form-control form-control-sm mr-4 rounded" style="width: 75px;" name="varPageValue" dmx-on:changed="scExpenseList.load()">
-									<option value="10" selected>10</option>
+									<option value="15" selected>15</option>
 									<option value="30">30</option>
 									<option value="50">50</option>
 									<option value="75">75</option>
@@ -192,7 +196,7 @@
 	</div>
 </div>
 
-<div class="modal fade" id="modal_update_expense" is="dmx-bs4-modal" tabindex="-1" role="dialog" nocloseonclick dmx-on:show-bs-modal="scAccountList.load();scPaymentMethods.load();scUnits.load()">
+<div class="modal fade" id="modal_update_expense" is="dmx-bs4-modal" tabindex="-1" role="dialog" nocloseonclick>
 	<div class="modal-dialog modal-xl" role="document">
 		<form is="dmx-serverconnect-form" id="FormUpdateExpense" method="post" action="dmxConnect/api/Expense/updateExpense.php"
 			dmx-on:success="modal_update_expense.hide();modal_update_expense.FormUpdateExpense.reset();varExpenseID.setValue('');notifies1.success(&quot;Expense Updated&quot;);scExpenseList.load()">
@@ -260,7 +264,7 @@
 						<div class="col-lg-4">
 							<div class="form-group">
 								<label>Item:</label>
-								<select class="form-control" name="category_id" style="width: 100% !important;" dmx-bind:options="scGetItems.data.getItems" optiontext="subcategory_name" optionvalue="id"
+								<select class="form-control" name="category_id" style="width: 100% !important;" dmx-bind:options="scItemLists.data.getItems" optiontext="subcategory_name" optionvalue="id"
 									dmx-bind:value="scExpenseList.data.queryExpenseList.data.where(`Expense_ID`, varExpenseID.value, &quot;==&quot;).values(`category_id`)">
 									<option value="" selected>Select Item</option>
 								</select>
@@ -306,5 +310,24 @@
 				</div>
 			</div>
 		</form>
+	</div>
+</div>
+
+<div class="modal fade" id="modalReceipt" is="dmx-bs4-modal" tabindex="-1" role="dialog" nocloseonclick="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">ExpenseID # {{varExpenseID.value}} | </h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<p><img class="w-100" dmx-bind:src="assets/uploads/{{scExpenseList.data.queryExpenseList.data.where(`Expense_ID`, varExpenseID.value, &quot;==&quot;).values(`receipt_name`)}}"></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
 	</div>
 </div>

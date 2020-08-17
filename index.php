@@ -1,3 +1,24 @@
+<?php 
+require('dmxConnectLib/dmxConnect.php');
+
+$app = new \lib\App();
+
+$app->exec(<<<'JSON'
+{
+	"steps": [
+		"Connections/ConnCS",
+		"SecurityProviders/SecurityCS",
+		{
+			"module": "auth",
+			"action": "restrict",
+			"options": {"permissions":"Active","loginUrl":"/login","forbiddenUrl":"/login","provider":"SecurityCS"}
+		}
+	]
+}
+JSON
+, TRUE)
+?>
+<!doctype html>
 <html is="dmx-app">
 
 <head>
@@ -11,6 +32,7 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Sacramento&display=swap" rel="stylesheet">
 	<!--begin::Page Vendors Styles(used by this page)-->
 	<link href="assets/plugins/custom/fullcalendar/fullcalendar.bundle79e8.css" rel="stylesheet" type="text/css" />
 	<!--begin::Global Theme Styles(used by all pages)-->
@@ -53,18 +75,28 @@
 	<script src="dmxAppConnect/dmxPreloader/dmxPreloader.js" defer=""></script>
 	<script src="dmxAppConnect/dmxSmoothScroll/dmxSmoothScroll.js" defer=""></script>
 	<script src="dmxAppConnect/dmxBootstrap4Alert/dmxBootstrap4Alert.js" defer=""></script>
-	<!-- <link href="assets/css/dark.css" rel="stylesheet" type="text/css" /> -->
+
 </head>
 
 <body id="index" class="header-fixed header-mobile-fixed sidebar-enabled page-loading" style="overflow-y: auto !important;">
+	<div id="crTheme" is="dmx-if" dmx-bind:condition="scGetTheme.data.getTheme.main_theme == 'Dark'">
+		<link href="assets/css/dark.css" rel="stylesheet" type="text/css" />
+	</div>
+	<dmx-serverconnect id="scGetTheme" url="dmxConnect/api/AccessControl/getTheme.php"></dmx-serverconnect>
+
+	<dmx-serverconnect id="scChangeTheme" noload="noload" url="dmxConnect/api/Other/Theme/ColorTheme.php" dmx-on:success="scGetTheme.load();notifies1.success('Theme Changed')"></dmx-serverconnect>
 	<dmx-smooth-scroll id="scroll1"></dmx-smooth-scroll>
 	<dmx-serverconnect id="scMonthlyReport" url="dmxConnect/api/Dashboard/getMonthlyExpense.php" onsuccess="MonthlyGraph();" noload="noload"></dmx-serverconnect>
 	<dmx-serverconnect id="scMostPurchasedItem" url="dmxConnect/api/Dashboard/getTop5Items.php" onsuccess="MonthlyGraph();" noload="noload"></dmx-serverconnect>
 	<dmx-serverconnect id="scLogout" url="dmxConnect/api/AccessControl/logout.php" noload="noload"></dmx-serverconnect>
-	<dmx-serverconnect id="scVerify" url="dmxConnect/api/AccessControl/scVerify.php" dmx-on:unauthorized="browser1.goto('login.php')"></dmx-serverconnect>
-
+	<!-- <dmx-serverconnect id="scVerify" url="dmxConnect/api/AccessControl/scVerify.php" dmx-on:unauthorized="browser1.goto('login.php')"></dmx-serverconnect> -->
+	<dmx-serverconnect id="scItemLists" url="dmxConnect/api/Common/getItems.php" dmx-param:categoryid="routeExpenseList.collapse1.FilterItem.value"></dmx-serverconnect>
+	<dmx-serverconnect id="scAccountList" url="dmxConnect/api/Common/getAccountList.php"></dmx-serverconnect>
+	<dmx-serverconnect id="scPaymentMethods" url="dmxConnect/api/Common/getPaymentMethods.php"></dmx-serverconnect>
+	<dmx-serverconnect id="scUnits" url="dmxConnect/api/Common/getUnits.php"></dmx-serverconnect>
+	<dmx-serverconnect id="scCategories" url="dmxConnect/api/Common/getItemCategory.php"></dmx-serverconnect>
 	<dmx-preloader id="preloader1" preview="true" spinner="circle" color="#d482b3" bgcolor="#000000e3" size="80"
-		dmx-show="scVerify.state.executing || scMostPurchasedItem.state.executing || scMonthlyReport.state.executing || routeExpenseList.scExpenseList.state.executing || routeExpenseList.scGetItems.state.executing || routeExpenseList.scCategories.state.executing || routeCreateExpense.scItemLists.state.executing || routeCreateExpense.scPaymentMethods.state.executing || routeCreateExpense.scUnits.state.executing || routeCreateExpense.scCategories.state.executing || routeCreateExpense.scInvoiceID.state.executing">
+		dmx-show="scVerify.state.executing || scMostPurchasedItem.state.executing || scMonthlyReport.state.executing || routeExpenseList.scExpenseList.state.executing || routeExpenseList.scGetItems.state.executing || routeExpenseList.scCategories.state.executing || routeCreateExpense.scItemLists.state.executing || routeCreateExpense.scPaymentMethods.state.executing || routeCreateExpense.scUnits.state.executing || routeCreateExpense.scCategories.state.executing || routeCreateExpense.scInvoiceID.state.executing || scChangeTheme.state.executing">
 	</dmx-preloader>
 	<div is="dmx-browser" id="browser1"></div>
 	<!--begin::Main-->
@@ -317,9 +349,9 @@
 					</a>
 					<!--end::Quick Panel-->
 					<!--begin::Languages-->
-					<div class="dropdown" data-toggle="tooltip" data-placement="right" data-container="body" data-boundary="window" title="Languages">
+					<div class="dropdown" data-toggle="tooltip" data-placement="right" data-container="body" data-boundary="window" title="Theme">
 						<a href="#" class="btn btn-icon btn-lg btn-borderless" data-toggle="dropdown" data-offset="0px,0px">
-							<img class="w-20px h-20px rounded" src="assets/media/svg/flags/226-united-states.svg" alt="image" />
+							<img class="w-20px h-20px rounded" src="assets/media/svg/flags/063-japan.svg" alt="image" />
 						</a>
 						<!--begin::Dropdown-->
 						<div class="dropdown-menu p-0 m-0 dropdown-menu-anim-up dropdown-menu-sm dropdown-menu-left">
@@ -327,54 +359,23 @@
 							<ul class="navi navi-hover py-4">
 								<!--begin::Item-->
 								<li class="navi-item">
-									<a href="#" class="navi-link">
+									<a href="#" class="navi-link" dmx-on:click="scChangeTheme.load({main_theme: 'Dark'})">
 										<span class="symbol symbol-20 mr-3">
 											<img src="assets/media/svg/flags/226-united-states.svg" alt="" />
 										</span>
-										<span class="navi-text">English</span>
+										<span class="navi-text">Dark</span>
 									</a>
 								</li>
 								<!--end::Item-->
 								<!--begin::Item-->
 								<li class="navi-item active">
-									<a href="#" class="navi-link">
+									<a href="#" class="navi-link" dmx-on:click="scChangeTheme.load({main_theme: 'Light'})">
 										<span class="symbol symbol-20 mr-3">
 											<img src="assets/media/svg/flags/128-spain.svg" alt="" />
 										</span>
-										<span class="navi-text">Spanish</span>
+										<span class="navi-text">Light</span>
 									</a>
 								</li>
-								<!--end::Item-->
-								<!--begin::Item-->
-								<li class="navi-item">
-									<a href="#" class="navi-link">
-										<span class="symbol symbol-20 mr-3">
-											<img src="assets/media/svg/flags/162-germany.svg" alt="" />
-										</span>
-										<span class="navi-text">German</span>
-									</a>
-								</li>
-								<!--end::Item-->
-								<!--begin::Item-->
-								<li class="navi-item">
-									<a href="#" class="navi-link">
-										<span class="symbol symbol-20 mr-3">
-											<img src="assets/media/svg/flags/063-japan.svg" alt="" />
-										</span>
-										<span class="navi-text">Japanese</span>
-									</a>
-								</li>
-								<!--end::Item-->
-								<!--begin::Item-->
-								<li class="navi-item">
-									<a href="#" class="navi-link">
-										<span class="symbol symbol-20 mr-3">
-											<img src="assets/media/svg/flags/195-france.svg" alt="" />
-										</span>
-										<span class="navi-text">French</span>
-									</a>
-								</li>
-								<!--end::Item-->
 							</ul>
 							<!--end::Nav-->
 						</div>
@@ -964,6 +965,19 @@
 									</a>
 								</div>
 								<div class="row">
+									<div class="col-lg-4 col-6">
+										<div class="card card-custom bg-danger mb-3">
+											<!--begin::Body-->
+											<div class="card-body p-4">
+												<span class="card-title  text-white font-size-h2 mb-0 d-block"><i class="fa fa-inr text-white"></i>
+													{{scMostPurchasedItem.data.TotalExpense.Total}}</span>
+												<span class="font-weight-bold text-white  font-size-sm">Total Expense</span>
+											</div>
+											<!--end::Body-->
+										</div>
+									</div>
+								</div>
+								<div class="row">
 									<div class="col-lg-8 mb-5">
 										<div class="card card-custom shadow-lg h-100">
 											<div class="card-header h-auto border-0">
@@ -974,10 +988,10 @@
 												</div>
 											</div>
 											<div class="chart-demo p-1">
-												<!-- <div id="expense_monthly" class="apex-charts"></div> -->
-												<dmx-chart id="chart1" legend="bottom" dmx-bind:data="scMonthlyReport.data.monthlyExpense" labels="dates.formatDate('MMM-yy')" dataset-1:value="amount" dataset-1:label="Amount" points="true"
-													point-style="rectRounded" width="1300" height="550" cutout="" colors="colors9" noanimation smooth="true" responsive="true" type="bar" point-size="" stacked="true">
-												</dmx-chart>
+												<div id="expense_monthly" class="apex-charts"></div>
+												<!-- <dmx-chart id="chart1" legend="bottom" dmx-bind:data="scMonthlyReport.data.monthlyExpense" labels="dates.formatDate('MMM-yy')" dataset-1:value="amount" dataset-1:label="Amount" points="true"
+													point-style="rectRounded" width="" height="" cutout="" colors="colors9" noanimation smooth="true" responsive="true" point-size="" stacked="true" type="bar">
+												</dmx-chart> -->
 											</div>
 										</div>
 									</div>
@@ -1007,7 +1021,7 @@
 					<!--begin::Entry-->
 					<!--begin::Container Routes-->
 					<div is="dmx-route" id="routeDashboard" path="/dashboard" url="spa_dashboard.php" onshow="MonthlyGraph();"></div>
-					<div is="dmx-route" id="routeCreateExpense" path="/expense/create" url="Expense/spa_createExpense.php"></div>
+					<div is="dmx-route" id="routeCreateExpense" path="/expense/create" url="Expense/spa_createExpense.php" dmx-on:show="scInvoiceID.load()"></div>
 					<div is="dmx-route" id="routeTarget" path="/targetList" url="Other/spa_targetList.php"></div>
 					<div is="dmx-route" id="routeExpenseList" path="/expense/list" url="Expense/spa_expenseList.php" dmx-on:show="scExpenseList.load({})">
 					</div>

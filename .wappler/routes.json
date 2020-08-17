@@ -1,6 +1,10 @@
 {
   "routes": [
     {
+      "path": "/login",
+      "url": "/login.php"
+    },
+    {
       "path": "/",
       "url": "/index.php",
       "name": "",

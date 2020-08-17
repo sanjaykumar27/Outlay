@@ -6,11 +6,7 @@ $app = new \lib\App();
 
 $app->define(<<<'JSON'
 {
-  "settings": {
-    "options": {}
-  },
   "meta": {
-    "options": {},
     "$_POST": [
       {
         "type": "number",
@@ -59,6 +55,10 @@ $app->define(<<<'JSON'
       {
         "type": "text",
         "name": "ExpenseID"
+      },
+      {
+        "type": "text",
+        "name": "target_photo"
       }
     ]
   },
@@ -76,6 +76,55 @@ $app->define(<<<'JSON'
             "Active"
           ]
         }
+      },
+      {
+        "name": "",
+        "module": "core",
+        "action": "condition",
+        "options": {
+          "if": "{{$_POST.target_photo}}",
+          "then": {
+            "steps": {
+              "name": "uploadFile",
+              "module": "upload",
+              "action": "upload",
+              "options": {
+                "path": "/assets/uploads",
+                "template": "{guid}{ext}",
+                "replaceSpace": true
+              },
+              "meta": [
+                {
+                  "name": "name",
+                  "type": "text"
+                },
+                {
+                  "name": "path",
+                  "type": "text"
+                },
+                {
+                  "name": "url",
+                  "type": "text"
+                },
+                {
+                  "name": "type",
+                  "type": "text"
+                },
+                {
+                  "name": "size",
+                  "type": "text"
+                },
+                {
+                  "name": "error",
+                  "type": "number"
+                }
+              ],
+              "outputType": "array",
+              "output": true
+            }
+          }
+        },
+        "outputType": "boolean"
       },
       {
         "name": "updateExpense",
@@ -145,6 +194,20 @@ $app->define(<<<'JSON'
                 "column": "amount",
                 "type": "number",
                 "value": "{{$_POST.amount}}"
+              },
+              {
+                "table": "expense",
+                "column": "receipt_name",
+                "type": "text",
+                "value": "{{uploadFile[0].name}}",
+                "condition": "{{uploadFile[0].name}}"
+              },
+              {
+                "table": "expense",
+                "column": "receipt_url",
+                "type": "text",
+                "value": "{{uploadFile[0].name}}",
+                "condition": "{{uploadFile[0].name}}"
               }
             ],
             "table": "expense",
@@ -166,7 +229,7 @@ $app->define(<<<'JSON'
               "conditional": null,
               "valid": true
             },
-            "query": "UPDATE expense\nSET category_id = :P1 /* {{$_POST.category_id}} */, invoice_number = :P2 /* {{$_POST.invoice_number}} */, invoice_name = :P3 /* {{$_POST.invoice_name}} */, quantity = :P4 /* {{$_POST.quantity}} */, unit = :P5 /* {{$_POST.unit}} */, purchase_date = :P6 /* {{$_POST.purchase_date}} */, account = :P7 /* {{$_POST.account}} */, payment_type = :P8 /* {{$_POST.payment_type}} */, remark = :P9 /* {{$_POST.remark}} */, amount = :P10 /* {{$_POST.amount}} */\nWHERE id = :P11 /* {{$_POST.ExpenseID}} */",
+            "query": "UPDATE expense\nSET category_id = :P1 /* {{$_POST.category_id}} */, invoice_number = :P2 /* {{$_POST.invoice_number}} */, invoice_name = :P3 /* {{$_POST.invoice_name}} */, quantity = :P4 /* {{$_POST.quantity}} */, unit = :P5 /* {{$_POST.unit}} */, purchase_date = :P6 /* {{$_POST.purchase_date}} */, account = :P7 /* {{$_POST.account}} */, payment_type = :P8 /* {{$_POST.payment_type}} */, remark = :P9 /* {{$_POST.remark}} */, amount = :P10 /* {{$_POST.amount}} */, receipt_name = :P11 /* {{uploadFile[0].name}} */, receipt_url = :P12 /* {{uploadFile[0].name}} */\nWHERE id = :P13 /* {{$_POST.ExpenseID}} */",
             "params": [
               {
                 "name": ":P1",
@@ -219,9 +282,19 @@ $app->define(<<<'JSON'
                 "value": "{{$_POST.amount}}"
               },
               {
+                "name": ":P11",
+                "type": "expression",
+                "value": "{{uploadFile[0].name}}"
+              },
+              {
+                "name": ":P12",
+                "type": "expression",
+                "value": "{{uploadFile[0].name}}"
+              },
+              {
                 "operator": "equal",
                 "type": "expression",
-                "name": ":P11",
+                "name": ":P13",
                 "value": "{{$_POST.ExpenseID}}"
               }
             ]
@@ -232,7 +305,8 @@ $app->define(<<<'JSON'
             "name": "affected",
             "type": "number"
           }
-        ]
+        ],
+        "output": true
       },
       {
         "name": "updateAccTransaction",
@@ -323,7 +397,8 @@ $app->define(<<<'JSON'
             "name": "affected",
             "type": "number"
           }
-        ]
+        ],
+        "output": true
       }
     ]
   }
