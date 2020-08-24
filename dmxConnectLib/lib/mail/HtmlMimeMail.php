@@ -652,7 +652,7 @@ class HtmlMimeMail
 	{
 		$m = preg_match_all('/(\w*[\x80-\xFF]+\w*)/', $input, $matches);
 		if ($m === true) {
-			$input = mb_encode_mimeheader($input,$charset, 'Q');
+			$input = mb_encode_mimeheader($input, $charset, 'Q');
 		}
 		return $input;
 	}

@@ -43,7 +43,7 @@
 					<div class="login-form login-signin">
 						<!--begin::Form-->
 						<form class="form" method="post" novalidate="novalidate" id="auth-form" is="dmx-serverconnect-form" action="dmxConnect/api/AccessControl/Login.php"
-							dmx-on:success="notifies1.success(&quot;Succesfully Logged In&quot;);browser1.goto('index.php')" dmx-on:unauthorized="notifies1.danger(&quot;Invalid Login&quot;)">
+							dmx-on:success="notifies1.success(&quot;Succesfully Logged In&quot;);browser1.goto('/./')" dmx-on:unauthorized="notifies1.danger(&quot;Invalid Login&quot;)">
 							<!--begin::Title-->
 							<div class="pb-13 pt-lg-0 pt-5">
 								<h3 class="text-dark" style="font-weight:300;font-size:32px">Welcome to OUTLAY</h3>

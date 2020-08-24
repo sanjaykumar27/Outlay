@@ -79,6 +79,13 @@ JSON
 </head>
 
 <body id="index" class="header-fixed header-mobile-fixed sidebar-enabled page-loading" style="overflow-y: auto !important;">
+	<dmx-serverconnect id="scCurrentMonthTotal" url="dmxConnect/api/Dashboard/CurrentMonth.php" noload="noload" dmx-param:crstartdate="varStartDate.value" dmx-param:crenddate="varEndDate.value"></dmx-serverconnect>
+
+	<dmx-value id="varPreviousLast" dmx-bind:value="'<?php echo date('Y-m-d', mktime(0, 0, 0, date('m'), 0)) ?>'"></dmx-value>
+	<dmx-value id="varPreviousFirst" dmx-bind:value="'<?php echo date('Y-m-d', mktime(0, 0, 0, date('m')-1, 1))?>'"></dmx-value>
+	<dmx-value id="varStartDate" dmx-bind:value="'<?php echo date('Y-m-01') ?>'"></dmx-value>
+	<dmx-value id="varEndDate" dmx-bind:value="'<?php echo date('Y-m-t') ?>'"></dmx-value>
+
 	<div id="crTheme" is="dmx-if" dmx-bind:condition="scGetTheme.data.getTheme.main_theme == 'Dark'">
 		<link href="assets/css/dark.css" rel="stylesheet" type="text/css" />
 	</div>
@@ -960,13 +967,13 @@ JSON
 						<div class="d-flex flex-column-fluid pt-2">
 							<div class="container-fluid">
 								<div class="text-right mb-2">
-									<a href="#" class="btn btn-sm btn-outline-primary" dmx-on:click="scMonthlyReport.load();scMostPurchasedItem.load()">
-										<i class="flaticon-refresh"></i>
+									<a href="#" class="btn btn-sm btn-outline-primary" dmx-on:click="scMonthlyReport.load();scMostPurchasedItem.load();scCurrentMonthTotal.load()">
+										<i class="fa fa-refresh"></i>
 									</a>
 								</div>
 								<div class="row">
-									<div class="col-lg-4 col-6">
-										<div class="card card-custom bg-danger mb-3">
+									<div class="col-lg-4 col-6 pr-2">
+										<div class="card card-custom bg-radial-gradient-danger shadow mb-3">
 											<!--begin::Body-->
 											<div class="card-body p-4">
 												<span class="card-title  text-white font-size-h2 mb-0 d-block"><i class="fa fa-inr text-white"></i>
@@ -976,10 +983,21 @@ JSON
 											<!--end::Body-->
 										</div>
 									</div>
+									<div class="col-lg-4 col-6 pl-2">
+										<div class="card card-custom bg-radial-gradient-info shadow mb-3">
+											<!--begin::Body-->
+											<div class="card-body p-4">
+												<span class="card-title  text-white font-size-h2 mb-0 d-block"><i class="fa fa-inr text-white"></i>
+													{{scCurrentMonthTotal.data.Total.TotalAmount}}</span>
+												<span class="font-weight-bold text-white  font-size-sm">Current Month</span>
+											</div>
+											<!--end::Body-->
+										</div>
+									</div>
 								</div>
 								<div class="row">
 									<div class="col-lg-8 mb-5">
-										<div class="card card-custom shadow-lg h-100">
+										<div class="card card-custom shadow h-100">
 											<div class="card-header h-auto border-0">
 												<div class="card-title">
 													<h3 class="card-label">
@@ -996,7 +1014,7 @@ JSON
 										</div>
 									</div>
 									<div class="col-lg-4 mb-5">
-										<div class="card card-custom card-stretch shadow-lg">
+										<div class="card card-custom card-stretch shadow">
 											<div class="card-header border-0">
 												<h4 class="card-title font-weight-bolder text-dark">Most Purchased Items</h4>
 											</div>

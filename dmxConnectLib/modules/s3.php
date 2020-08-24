@@ -163,7 +163,7 @@ class s3 extends Module
         option_require($options, 'provider');
         option_require($options, 'bucket');
         option_require($options, 'key');
-        option_default($options, 'expires', 30);
+        option_default($options, 'expires', 300);
 
         $options = $this->app->parseObject($options);
 
@@ -183,7 +183,8 @@ class s3 extends Module
         option_require($options, 'provider');
         option_require($options, 'bucket');
         option_require($options, 'key');
-        option_default($options, 'expires', 30);
+        option_default($options, 'expires', 300);
+        option_default($options, 'acl', NULL);
 
         $options = $this->app->parseObject($options);
 
@@ -191,7 +192,8 @@ class s3 extends Module
 
         $cmd = $s3->getCommand('PutObject', [
             'Bucket' => $options->bucket,
-            'Key' => $options->key
+            'Key' => $options->key,
+            'ACL' => $options->acl
         ]);
 
         $request = $s3->createPresignedRequest($cmd, '+' . $options->expires . ' seconds');

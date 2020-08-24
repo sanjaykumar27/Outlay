@@ -44,11 +44,11 @@ class mail extends Module
         $options = $this->app->parseObject($options);
 
         $options->from = $options->fromName != ''
-            ? '"' . $options->fromName . '" <' . $options->fromEmail . '>'
+            ? mb_encode_mimeheader($options->fromName, "UTF-8", "Q") . ' <' . $options->fromEmail . '>'
             : $options->fromEmail;
 
         $options->to = $options->toName != ''
-            ? '"' . $options->toName . '" <' . $options->toEmail . '>'
+            ? mb_encode_mimeheader($options->toName, "UTF-8", "Q") . ' <' . $options->toEmail . '>'
             : $options->toEmail;
 
         if ($options->source == 'file') {
