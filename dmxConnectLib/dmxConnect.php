@@ -4,6 +4,10 @@ define('BASE_URL', __DIR__);
 // default config
 $CONFIG_DEBUG = FALSE;
 $CONFIG_TEMP_FOLDER = sys_get_temp_dir();
+$CONFIG_CORS_ORIGIN = FALSE;
+$CONFIG_CORS_METHODS = 'GET,POST';
+$CONFIG_CORS_ALLOWED_HEADERS = '*';
+$CONFIG_CORS_CREDENTIALS = TRUE;
 
 $configPath = BASE_URL . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, '../dmxConnect/config.php');
 if (file_exists($configPath)) {
@@ -134,5 +138,30 @@ function option_default(&$options, $option, $value) {
 
 	if (!isset($options->$option)) {
 		$options->$option = $value;
+	}
+}
+
+if (CONFIG('CORS_ORIGIN') !== FALSE) {
+	if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+		$origin = CONFIG('CORS_ORIGIN') ?: '*';
+		$methods = CONFIG('CORS_METHODS');
+		$allowedHeaders = CONFIG('CORS_ALLOWED_HEADERS');
+		
+		header("HTTP/1.1 204 NO CONTENT");
+		header("Access-Control-Allow-Origin: $origin");
+		header("Access-Control-Allow-Methods: $methods");
+		if (CONFIG('CORS_CREDENTIALS') === TRUE) {
+			header("Access-Control-Allow-Credentials: true");
+		}
+		header("Access-Control-Allow-Headers: $allowedHeaders");
+
+		exit();
+	} else {
+		$origin = CONFIG('CORS_ORIGIN') ?: '*';
+		
+		header("Access-Control-Allow-Origin: $origin");
+		if (CONFIG('CORS_CREDENTIALS') === TRUE) {
+			header("Access-Control-Allow-Credentials: true");
+		}
 	}
 }

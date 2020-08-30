@@ -9,6 +9,12 @@ function MonthlyGraph() {
     }, 2000);
 }
 
+function CurrentMonthGraph() {
+    console.log('Graph Called');
+    var rec_data = dmx.app.data.routeExpenseList.scGenerateGraph.data.HTML;
+    $('#expense_monthly').html(rec_data);
+}
+
 $(function () {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/service-worker.js')

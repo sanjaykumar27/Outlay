@@ -192,6 +192,10 @@ $app->define(<<<'JSON'
           {
             "type": "number",
             "name": "ItemID"
+          },
+          {
+            "type": "text",
+            "name": "upload1"
           }
         ]
       },
@@ -221,44 +225,6 @@ $app->define(<<<'JSON'
         }
       },
       {
-        "name": "upload1",
-        "module": "upload",
-        "action": "upload",
-        "options": {
-          "fields": "{{$_POST.target_photo}}",
-          "path": "/assets/uploads",
-          "template": "{guid}{ext}",
-          "replaceSpace": true
-        },
-        "meta": [
-          {
-            "name": "name",
-            "type": "text"
-          },
-          {
-            "name": "path",
-            "type": "text"
-          },
-          {
-            "name": "url",
-            "type": "text"
-          },
-          {
-            "name": "type",
-            "type": "text"
-          },
-          {
-            "name": "size",
-            "type": "text"
-          },
-          {
-            "name": "error",
-            "type": "number"
-          }
-        ],
-        "outputType": "file"
-      },
-      {
         "name": "repeat1",
         "module": "core",
         "action": "repeat",
@@ -266,6 +232,19 @@ $app->define(<<<'JSON'
           "repeat": "{{$_POST.UnitID}}",
           "exec": {
             "steps": [
+              {
+                "name": "upload1",
+                "module": "upload",
+                "action": "upload",
+                "options": {
+                  "fields": "{{$_POST.target_photo[$key]}}",
+                  "path": "/assets/uploads",
+                  "template": "{guid}{ext}",
+                  "replaceSpace": true
+                },
+                "meta": [],
+                "outputType": "file"
+              },
               {
                 "name": "",
                 "module": "core",
@@ -374,13 +353,13 @@ $app->define(<<<'JSON'
                         "table": "expense",
                         "column": "invoice_number",
                         "type": "number",
-                        "value": "{{$_POST.InvoiceNumber}}"
+                        "value": "{{$_POST.InvoiceNumber[$key]}}"
                       },
                       {
                         "table": "expense",
                         "column": "invoice_name",
                         "type": "text",
-                        "value": "{{$_POST.InvoiceName}}"
+                        "value": "{{$_POST.InvoiceName[$key]}}"
                       },
                       {
                         "table": "expense",
@@ -398,37 +377,37 @@ $app->define(<<<'JSON'
                         "table": "expense",
                         "column": "purchase_date",
                         "type": "date",
-                        "value": "{{$_POST.PurchaseDate}}"
+                        "value": "{{$_POST.PurchaseDate[$key]}}"
                       },
                       {
                         "table": "expense",
                         "column": "receipt_url",
                         "type": "text",
-                        "value": "{{$parent.upload1.name}}"
+                        "value": "{{upload1.path}}"
                       },
                       {
                         "table": "expense",
                         "column": "receipt_name",
                         "type": "text",
-                        "value": "{{$parent.upload1.name}}"
+                        "value": "{{upload1.name}}"
                       },
                       {
                         "table": "expense",
                         "column": "account",
                         "type": "number",
-                        "value": "{{$_POST.AccountID}}"
+                        "value": "{{$_POST.AccountID[$key]}}"
                       },
                       {
                         "table": "expense",
                         "column": "payment_type",
                         "type": "number",
-                        "value": "{{$_POST.PaymentMethod}}"
+                        "value": "{{$_POST.PaymentMethod[$key]}}"
                       },
                       {
                         "table": "expense",
                         "column": "remark",
                         "type": "text",
-                        "value": "{{$_POST.Remark}}"
+                        "value": "{{$_POST.Remark[$key]}}"
                       },
                       {
                         "table": "expense",
@@ -438,7 +417,7 @@ $app->define(<<<'JSON'
                       }
                     ],
                     "table": "expense",
-                    "query": "INSERT INTO expense\n(user_id, category_id, invoice_number, invoice_name, quantity, unit, purchase_date, receipt_url, receipt_name, account, payment_type, remark, amount) VALUES (:P1 /* {{$parent.SecurityCS.identity}} */, :P2 /* {{ItemID}} */, :P3 /* {{$_POST.InvoiceNumber}} */, :P4 /* {{$_POST.InvoiceName}} */, :P5 /* {{$_POST.Quantity[$key]}} */, :P6 /* {{$value}} */, :P7 /* {{$_POST.PurchaseDate}} */, :P8 /* {{$parent.upload1.name}} */, :P9 /* {{$parent.upload1.name}} */, :P10 /* {{$_POST.AccountID}} */, :P11 /* {{$_POST.PaymentMethod}} */, :P12 /* {{$_POST.Remark}} */, :P13 /* {{$_POST.Amount[$key]}} */)",
+                    "query": "INSERT INTO expense\n(user_id, category_id, invoice_number, invoice_name, quantity, unit, purchase_date, receipt_url, receipt_name, account, payment_type, remark, amount) VALUES (:P1 /* {{$parent.SecurityCS.identity}} */, :P2 /* {{ItemID}} */, :P3 /* {{$_POST.InvoiceNumber[$key]}} */, :P4 /* {{$_POST.InvoiceName[$key]}} */, :P5 /* {{$_POST.Quantity[$key]}} */, :P6 /* {{$value}} */, :P7 /* {{$_POST.PurchaseDate[$key]}} */, :P8 /* {{upload1.path}} */, :P9 /* {{upload1.name}} */, :P10 /* {{$_POST.AccountID[$key]}} */, :P11 /* {{$_POST.PaymentMethod[$key]}} */, :P12 /* {{$_POST.Remark[$key]}} */, :P13 /* {{$_POST.Amount[$key]}} */)",
                     "params": [
                       {
                         "name": ":P1",
@@ -453,12 +432,12 @@ $app->define(<<<'JSON'
                       {
                         "name": ":P3",
                         "type": "expression",
-                        "value": "{{$_POST.InvoiceNumber}}"
+                        "value": "{{$_POST.InvoiceNumber[$key]}}"
                       },
                       {
                         "name": ":P4",
                         "type": "expression",
-                        "value": "{{$_POST.InvoiceName}}"
+                        "value": "{{$_POST.InvoiceName[$key]}}"
                       },
                       {
                         "name": ":P5",
@@ -473,32 +452,32 @@ $app->define(<<<'JSON'
                       {
                         "name": ":P7",
                         "type": "expression",
-                        "value": "{{$_POST.PurchaseDate}}"
+                        "value": "{{$_POST.PurchaseDate[$key]}}"
                       },
                       {
                         "name": ":P8",
                         "type": "expression",
-                        "value": "{{$parent.upload1.name}}"
+                        "value": "{{upload1.path}}"
                       },
                       {
                         "name": ":P9",
                         "type": "expression",
-                        "value": "{{$parent.upload1.name}}"
+                        "value": "{{upload1.name}}"
                       },
                       {
                         "name": ":P10",
                         "type": "expression",
-                        "value": "{{$_POST.AccountID}}"
+                        "value": "{{$_POST.AccountID[$key]}}"
                       },
                       {
                         "name": ":P11",
                         "type": "expression",
-                        "value": "{{$_POST.PaymentMethod}}"
+                        "value": "{{$_POST.PaymentMethod[$key]}}"
                       },
                       {
                         "name": ":P12",
                         "type": "expression",
-                        "value": "{{$_POST.Remark}}"
+                        "value": "{{$_POST.Remark[$key]}}"
                       },
                       {
                         "name": ":P13",
@@ -533,7 +512,7 @@ $app->define(<<<'JSON'
                         "table": "account_transaction",
                         "column": "account_id",
                         "type": "number",
-                        "value": "{{$_POST.AccountID}}"
+                        "value": "{{$_POST.AccountID[$key]}}"
                       },
                       {
                         "table": "account_transaction",
@@ -545,7 +524,7 @@ $app->define(<<<'JSON'
                         "table": "account_transaction",
                         "column": "date_of_transaction",
                         "type": "date",
-                        "value": "{{$_POST.PurchaseDate}}"
+                        "value": "{{$_POST.PurchaseDate[$key]}}"
                       },
                       {
                         "table": "account_transaction",
@@ -557,7 +536,7 @@ $app->define(<<<'JSON'
                         "table": "account_transaction",
                         "column": "type",
                         "type": "number",
-                        "value": "{{$_POST.PaymentMethod}}"
+                        "value": "{{$_POST.PaymentMethod[$key]}}"
                       },
                       {
                         "table": "account_transaction",
@@ -573,12 +552,12 @@ $app->define(<<<'JSON'
                       }
                     ],
                     "table": "account_transaction",
-                    "query": "INSERT INTO account_transaction\n(account_id, debit, date_of_transaction, expense_id, type, transaction_detail, created_at) VALUES (:P1 /* {{$_POST.AccountID}} */, :P2 /* {{$_POST.Amount[$key]}} */, :P3 /* {{$_POST.PurchaseDate}} */, :P4 /* {{insertExpense.identity}} */, :P5 /* {{$_POST.PaymentMethod}} */, 'Expense Transaction', :P6 /* {{NOW}} */)",
+                    "query": "INSERT INTO account_transaction\n(account_id, debit, date_of_transaction, expense_id, type, transaction_detail, created_at) VALUES (:P1 /* {{$_POST.AccountID[$key]}} */, :P2 /* {{$_POST.Amount[$key]}} */, :P3 /* {{$_POST.PurchaseDate[$key]}} */, :P4 /* {{insertExpense.identity}} */, :P5 /* {{$_POST.PaymentMethod[$key]}} */, 'Expense Transaction', :P6 /* {{NOW}} */)",
                     "params": [
                       {
                         "name": ":P1",
                         "type": "expression",
-                        "value": "{{$_POST.AccountID}}"
+                        "value": "{{$_POST.AccountID[$key]}}"
                       },
                       {
                         "name": ":P2",
@@ -588,7 +567,7 @@ $app->define(<<<'JSON'
                       {
                         "name": ":P3",
                         "type": "expression",
-                        "value": "{{$_POST.PurchaseDate}}"
+                        "value": "{{$_POST.PurchaseDate[$key]}}"
                       },
                       {
                         "name": ":P4",
@@ -598,14 +577,15 @@ $app->define(<<<'JSON'
                       {
                         "name": ":P5",
                         "type": "expression",
-                        "value": "{{$_POST.PaymentMethod}}"
+                        "value": "{{$_POST.PaymentMethod[$key]}}"
                       },
                       {
                         "name": ":P6",
                         "type": "expression",
                         "value": "{{NOW}}"
                       }
-                    ]
+                    ],
+                    "returning": "id"
                   }
                 },
                 "meta": [

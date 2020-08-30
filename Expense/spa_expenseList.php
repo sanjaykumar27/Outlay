@@ -1,5 +1,7 @@
 <!-- Wappler include head-page="../index.php" appconnect="local" is="dmx-app" bootstrap4="cdn" fontawesome_4="cdn" jquery_slim_33="cdn" id="ExpenseList" components="{dmxStateManagement:{},dmxBootstrap4Collapse:{},dmxFormatter:{},dmxBootstrap4Tooltips:{},dmxBootstrap4PagingGenerator:{},dmxBootstrap4Modal:{},dmxPreloader:{},dmxBootstrap4Alert:{}}" -->
-<dmx-serverconnect id="scInvoiceItems"></dmx-serverconnect>
+<dmx-serverconnect id="scGenerateGraph" url="dmxConnect/api/Expense/CurrentMonthGraph.php" onsuccess="CurrentMonthGraph();" dmx-param:date="Month.value"></dmx-serverconnect>
+
+<dmx-serverconnect id="scInvoiceItems" url="dmxConnect/api/Expense/getInvoiceItems.php" noload="noload"></dmx-serverconnect>
 
 
 <dmx-value id="varExpenseID"></dmx-value>
@@ -18,13 +20,15 @@
 		</div>
 	</div>
 	<div class="d-flex align-items-center">
-		<a href="#" class="btn btn-primary font-weight-bold mr-2 py-3" data-toggle="collapse" data-target="#collapse1">
+		<input type="month" id="Month" class="form-control w-75px bg-primary mr-1 text-white" name="Month" dmx-on:changed="scGenerateGraph.load({date: value})">
+		<a href="#" class="btn btn-primary font-weight-bold mr-1" data-toggle="collapse" data-target="#collapse1">
 			<i class="flaticon-interface-6"></i> Filter
 		</a>
 		<a href="./expense/create" class="btn btn-primary font-weight-bold">
 			<i class="flaticon-plus"></i>
 			Add Expense
 		</a>
+
 	</div>
 </div>
 <div class="d-flex flex-column-fluid pt-2">
@@ -33,7 +37,7 @@
 			<div class="row">
 				<div class="col-lg-3 col-sm-3 form-group">
 					<select class="form-control" id="FilterCategory" name="FilterCategory" dmx-bind:options="scCategories.data.getCategories" optiontext="category_name" optionvalue="id" style="width: 100% !important;"
-						dmx-on:changed="scItemLists.load()">
+						dmx-on:changed="scItemLists.load({categoryid: value})">
 						<option value="" selected>Select Category</option>
 					</select>
 				</div>
@@ -56,7 +60,7 @@
 			</div>
 			<div class="row justify-content-center">
 				<button class="btn btn-dropdown btn-light mr-2" dmx-on:click="FilterCategory.setValue('');FilterItem.setValue('');date.setValue('');scExpenseList.load({offset: 0});" data-toggle="collapse" data-target="#collapse1">Clear</button>
-				<button class="btn btn-outline-primary" dmx-on:click="scExpenseList.load({})" data-toggle="collapse" data-target="#collapse1">Search</button>
+				<button class="btn btn-outline-primary" dmx-on:click="scExpenseList.load({offset: 0})" data-toggle="collapse" data-target="#collapse1">Search</button>
 			</div>
 		</div>
 	</div>
@@ -64,6 +68,11 @@
 
 <div class="d-flex flex-column-fluid pt-2">
 	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-12 chart-demo p-1">
+				<div id="expense_monthly" class="apex-charts"></div>
+			</div>
+		</div>
 		<!-- <ul class="list-group" is="dmx-repeat" id="repeat2" dmx-bind:repeat="scExpenseList.data.queryExpenseList.data.sort(invoice_number)">
 			<div class="align-items-center bg-white d-flex mb-2 p-5 rounded shadow-lg">
 				<div class="d-flex flex-column flex-grow-1 mr-2">
@@ -120,8 +129,8 @@
 						</thead>
 						<tbody is="dmx-repeat" id="repeat1" dmx-bind:repeat="scExpenseList.data.queryExpenseList.data.sort(invoice_number)">
 							<tr>
-								<td><a href="javascript:void(0)">{{invoice_number}}</a></td>
-								<td class="text-truncate">{{ItemName}}</td>
+								<td><a href="javascript:void(0)" class="mouse-pointer" dmx-on:click="scInvoiceItems.load({invoiceid: invoice_number});ModalInvoice.show()">{{invoice_number}}</a></td>
+								<td class="text-truncate font-weight-bolder">{{ItemName}}</td>
 								<td class="font-weight-bolder mt-3 text-truncate">{{amount.toNumber().formatCurrency("₹", ".", ",", "2")}}</td>
 								<td class="text-truncate">{{quantity + ' ' + Unit}}</td>
 								<td class="text-truncate">{{purchase_date.formatDate("dd MMM yy")}}</td>
@@ -173,7 +182,7 @@
 							<div class="d-flex flex-row justify-content-center align-items-center mb-2 mb-md-0">
 								<p class="mb-0">Page Size:&nbsp;</p>
 								<select class="form-control form-control-sm mr-4 rounded" style="width: 75px;" name="varPageValue" dmx-on:changed="scExpenseList.load()">
-									<option value="15" selected>15</option>
+									<option value="10" selected>10</option>
 									<option value="30">30</option>
 									<option value="50">50</option>
 									<option value="75">75</option>
@@ -323,6 +332,60 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="ModalInvoice" is="dmx-bs4-modal" tabindex="-1" role="dialog" nocloseonclick="true">
+	<div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-body">
+				<!--begin::Invoice-->
+				<div class="row justify-content-center px-md-0">
+					<div class="col-md-12">
+						<!-- begin: Invoice header-->
+						<div class="d-flex justify-content-between flex-column border-bottom">
+							<h1 class="display-4 font-weight-boldest">INVOICE #{{scInvoiceItems.data.queryInvoiceItems[0].invoice_number}}<button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Close</button></h1>
+
+						</div>
+						<!--begin: Invoice body-->
+						<div class="row border-bottom ">
+							<div class="col-md-10 py-md-10 pr-md-10">
+								<div class="table-responsive">
+									<table class="table table-striped table-hover">
+										<thead>
+											<tr>
+												<th scope="col">ITEM</th>
+												<th scope="col">AMOUNT</th>
+												<th scope="col">QUANTITY</th>
+												<th scope="col">DATE</th>
+												<th scope="col">PAYMENT</th>
+												<th scope="col">REMARK</th>
+											</tr>
+										</thead>
+										<tbody is="dmx-repeat" id="repeatInvoiceItems" dmx-bind:repeat="scInvoiceItems.data.queryInvoiceItems">
+											<tr>
+												<td class="text-truncate font-weight-bolder">{{ItemName}}</td>
+												<td class="font-weight-bolder mt-3 text-truncate">{{amount.toNumber().formatCurrency("₹", ".", ",", "2")}}</td>
+												<td class="text-truncate">{{quantity + ' ' + Unit}}</td>
+												<td class="text-truncate">{{purchase_date.formatDate("dd MMM yy")}}</td>
+												<td class="text-truncate">{{PaymentType}}</td>
+												<td class="text-truncate" dmx-bs-tooltip="remark">{{remark.trunc(15, true, "...")}}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="col-md-2 border-left-md pl-md-10 py-md-10 text-center">
+								<!--begin::Total Amount-->
+								<div class="font-size-h4 font-weight-bolder text-muted mb-3">TOTAL</div>
+								<div class="font-size-h1 font-weight-boldest">₹ {{scInvoiceItems.data.queryInvoiceItems.sum(`amount`)}}</div>
+							</div>
+						</div>
+						<!--end: Invoice body-->
+					</div>
+				</div>
+			</div>
+
 		</div>
 	</div>
 </div>

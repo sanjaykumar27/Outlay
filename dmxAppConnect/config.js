@@ -17,18 +17,6 @@ dmx.config({
     "repeat1": {
       "meta": [
         {
-          "name": "$index",
-          "type": "number"
-        },
-        {
-          "name": "$key",
-          "type": "text"
-        },
-        {
-          "name": "$value",
-          "type": "object"
-        },
-        {
           "name": "invoice_number",
           "type": "number"
         },
@@ -74,6 +62,22 @@ dmx.config({
         },
         {
           "name": "PaymentType",
+          "type": "text"
+        },
+        {
+          "name": "Expense_ID",
+          "type": "number"
+        },
+        {
+          "name": "unitid",
+          "type": "number"
+        },
+        {
+          "name": "category_id",
+          "type": "number"
+        },
+        {
+          "name": "invoice_name",
           "type": "text"
         }
       ],

@@ -30,6 +30,7 @@ JSON
 	<title>Outlay</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
+
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Sacramento&display=swap" rel="stylesheet">
@@ -76,6 +77,8 @@ JSON
 	<script src="dmxAppConnect/dmxSmoothScroll/dmxSmoothScroll.js" defer=""></script>
 	<script src="dmxAppConnect/dmxBootstrap4Alert/dmxBootstrap4Alert.js" defer=""></script>
 
+	<link rel="stylesheet" href="dmxAppConnect/dmxAutocomplete/dmxAutocomplete.css" />
+	<script src="dmxAppConnect/dmxAutocomplete/dmxAutocomplete.js" defer=""></script>
 </head>
 
 <body id="index" class="header-fixed header-mobile-fixed sidebar-enabled page-loading" style="overflow-y: auto !important;">
@@ -97,13 +100,13 @@ JSON
 	<dmx-serverconnect id="scMostPurchasedItem" url="dmxConnect/api/Dashboard/getTop5Items.php" onsuccess="MonthlyGraph();" noload="noload"></dmx-serverconnect>
 	<dmx-serverconnect id="scLogout" url="dmxConnect/api/AccessControl/logout.php" noload="noload"></dmx-serverconnect>
 	<!-- <dmx-serverconnect id="scVerify" url="dmxConnect/api/AccessControl/scVerify.php" dmx-on:unauthorized="browser1.goto('login.php')"></dmx-serverconnect> -->
-	<dmx-serverconnect id="scItemLists" url="dmxConnect/api/Common/getItems.php" dmx-param:categoryid="routeExpenseList.collapse1.FilterItem.value"></dmx-serverconnect>
+	<dmx-serverconnect id="scItemLists" url="dmxConnect/api/Common/getItems.php"></dmx-serverconnect>
 	<dmx-serverconnect id="scAccountList" url="dmxConnect/api/Common/getAccountList.php"></dmx-serverconnect>
 	<dmx-serverconnect id="scPaymentMethods" url="dmxConnect/api/Common/getPaymentMethods.php"></dmx-serverconnect>
 	<dmx-serverconnect id="scUnits" url="dmxConnect/api/Common/getUnits.php"></dmx-serverconnect>
 	<dmx-serverconnect id="scCategories" url="dmxConnect/api/Common/getItemCategory.php"></dmx-serverconnect>
 	<dmx-preloader id="preloader1" preview="true" spinner="circle" color="#d482b3" bgcolor="#000000e3" size="80"
-		dmx-show="scVerify.state.executing || scMostPurchasedItem.state.executing || scMonthlyReport.state.executing || routeExpenseList.scExpenseList.state.executing || routeExpenseList.scGetItems.state.executing || routeExpenseList.scCategories.state.executing || routeCreateExpense.scItemLists.state.executing || routeCreateExpense.scPaymentMethods.state.executing || routeCreateExpense.scUnits.state.executing || routeCreateExpense.scCategories.state.executing || routeCreateExpense.scInvoiceID.state.executing || scChangeTheme.state.executing">
+		dmx-show="scVerify.state.executing || scMostPurchasedItem.state.executing || scMonthlyReport.state.executing || routeExpenseList.scExpenseList.state.executing || routeExpenseList.scGetItems.state.executing || routeExpenseList.scCategories.state.executing || routeCreateExpense.scItemLists.state.executing || routeCreateExpense.scPaymentMethods.state.executing || routeCreateExpense.scUnits.state.executing || routeCreateExpense.scCategories.state.executing || routeCreateExpense.scInvoiceID.state.executing || scChangeTheme.state.executing || routeExpenseList.scGenerateGraph.state.executing">
 	</dmx-preloader>
 	<div is="dmx-browser" id="browser1"></div>
 	<!--begin::Main-->
