@@ -46,7 +46,7 @@
 					<div class="col-lg-1 col-6">
 						<div class="form-group">
 							<label>Invoice</label>
-							<input type="number" step="0.1" name="InvoiceNumber[]" dmx-bind:value="scInvoiceID.data.getMaxInvoiceID.InvoiceID+1" class="form-control  " />
+							<input type="number" step="0.1" name="InvoiceNumber[]" dmx-bind:value="scInvoiceID.data.getMaxInvoiceID.InvoiceID+1" class="form-control" />
 						</div>
 					</div>
 					<div class="col-lg-2 col-6">
@@ -67,7 +67,7 @@
 					<div class="col-lg-1 col-6">
 						<div class="form-group">
 							<label>QTY:</label>
-							<input type="number" value="1" step="0.1" name="Quantity[]" class="form-control  " placeholder="Quantity" />
+							<input type="number" value="1" step="0.1" name="Quantity[]" class="form-control" placeholder="Quantity" />
 						</div>
 					</div>
 					<div class="col-lg-2 col-6">
@@ -81,13 +81,13 @@
 					<div class="col-lg-2 col-6">
 						<div class="form-group">
 							<label>Amount:</label>
-							<input type="number" id="Price" step="0.1" name="Amount[]" class="form-control  " placeholder="Amount" />
+							<input type="number" id="Price" step="0.1" name="Amount[]" class="form-control" placeholder="Amount" />
 						</div>
 					</div>
 					<div class="col-lg-2 col-6">
 						<div class="form-group">
 							<label>Date:</label>
-							<input type="date" name="PurchaseDate[]" class="form-control  " placeholder="Purchase Date" dmx-bind:value="varDateTime.datetime.formatDate(&quot;yyyy-MM-dd&quot;)" />
+							<input type="date" name="PurchaseDate[]" class="form-control" placeholder="Purchase Date" dmx-bind:value="varDateTime.datetime.formatDate(&quot;yyyy-MM-dd&quot;)" />
 						</div>
 					</div>
 					<div class="col-lg-2 col-6">
@@ -109,13 +109,13 @@
 					<div class="col-lg-3 col-6">
 						<div class="form-group">
 							<label>Invoice Name:</label>
-							<input type="text" name="InvoiceName[]" class="form-control  " placeholder="Invoice Name" />
+							<input type="text" name="InvoiceName[]" class="form-control" placeholder="Invoice Name" />
 						</div>
 					</div>
 					<div class="col-lg-3 col-6">
 						<div class="form-group">
 							<label>Remark:</label>
-							<textarea name="Remark[]" rows="1" class="form-control  " placeholder="Enter full name"></textarea>
+							<textarea name="Remark[]" rows="1" class="form-control" placeholder="Enter full name"></textarea>
 						</div>
 					</div>
 					<div class="col-lg-2">
