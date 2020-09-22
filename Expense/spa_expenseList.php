@@ -1,5 +1,6 @@
 <!-- Wappler include head-page="../index.php" appconnect="local" is="dmx-app" bootstrap4="cdn" fontawesome_4="cdn" jquery_slim_33="cdn" id="ExpenseList" components="{dmxStateManagement:{},dmxBootstrap4Collapse:{},dmxFormatter:{},dmxBootstrap4Tooltips:{},dmxBootstrap4PagingGenerator:{},dmxBootstrap4Modal:{},dmxPreloader:{},dmxBootstrap4Alert:{}}" -->
-<dmx-serverconnect id="scGenerateGraph" url="dmxConnect/api/Expense/CurrentMonthGraph.php" onsuccess="CurrentMonthGraph();" dmx-param:date="Month.value"></dmx-serverconnect>
+<dmx-value id="varShowGraph" dmx-bind:value="0"></dmx-value>
+<dmx-serverconnect id="scGenerateGraph" url="dmxConnect/api/Expense/CurrentMonthGraph.php" onsuccess="CurrentMonthGraph();" noload="noload"></dmx-serverconnect>
 
 <dmx-serverconnect id="scInvoiceItems" url="dmxConnect/api/Expense/getInvoiceItems.php" noload="noload"></dmx-serverconnect>
 
@@ -10,7 +11,8 @@
 <dmx-notifications id="notifies1" offset-x="30" offset-y="30" closable newest-on-top></dmx-notifications>
 <dmx-query-manager id="qm"></dmx-query-manager>
 <dmx-serverconnect id="scExpenseList" noload="noload" url="dmxConnect/api/Expense/ExpenseList.php" dmx-param:categoryid="collapse1.FilterCategory.value" dmx-param:itemid="collapse1.FilterItem.value" dmx-param:offset="query.offset"
-	dmx-param:limit="varPageValue.value ? varPageValue.value : 15" dmx-param:currentmonth="collapse1.ThisMonth.checked" dmx-param:crstartdate="varStartDate.value" dmx-param:crenddate="varEndDate.value" dmx-param:date="collapse1.date.value">
+	dmx-param:limit="varPageValue.value ? varPageValue.value : 15" dmx-param:currentmonth="collapse1.ThisMonth.checked" dmx-param:crstartdate="varStartDate.value" dmx-param:crenddate="varEndDate.value" dmx-param:date="collapse1.date.value"
+	dmx-on:success="scGenerateGraph.load({date: varDateTime.datetime.formatDate('y-MM')})">
 </dmx-serverconnect>
 <div class=" container-fluid  d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap py-2">
 	<div class="d-flex align-items-center flex-wrap mr-1">
@@ -20,7 +22,10 @@
 		</div>
 	</div>
 	<div class="d-flex align-items-center">
-		<input type="month" id="Month" class="form-control w-75px bg-primary mr-1 text-white" name="Month" dmx-on:changed="scGenerateGraph.load({date: value})">
+		<input type="month" id="Month" class="form-control w-75px  mr-1 " name="Month" dmx-on:changed="scGenerateGraph.load({date: value})">
+		<a href="#" class="btn btn-primary font-weight-bold mr-1" data-toggle="collapse" data-target="#collapseGraph">
+			<i class="flaticon-interface-6"></i> Show Graph
+		</a>
 		<a href="#" class="btn btn-primary font-weight-bold mr-1" data-toggle="collapse" data-target="#collapse1">
 			<i class="flaticon-interface-6"></i> Filter
 		</a>
@@ -28,7 +33,6 @@
 			<i class="flaticon-plus"></i>
 			Add Expense
 		</a>
-
 	</div>
 </div>
 <div class="d-flex flex-column-fluid pt-2">
@@ -68,7 +72,7 @@
 
 <div class="d-flex flex-column-fluid pt-2">
 	<div class="container-fluid">
-		<div class="row">
+		<div class="row" id="collapseGraph" is="dmx-bs4-collapse">
 			<div class="col-lg-12 chart-demo p-1">
 				<div id="expense_monthly" class="apex-charts"></div>
 			</div>
