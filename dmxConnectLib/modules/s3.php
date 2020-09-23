@@ -40,10 +40,16 @@ class s3 extends Module
 
         $s3 = $this->app->scope->get($options->provider);
 
-        return $s3->createBucket([
+        $result =  $s3->createBucket(array(
             'Bucket' => $options->bucket,
             'ACL' => $options->acl
-        ]);
+        ));
+
+        $client->waitUntil('BucketExists', array(
+            'Bucket' => $options->bucket
+        ));
+
+        return $result->toArray();
     }
 
     public function listBuckets($options) {
@@ -53,7 +59,7 @@ class s3 extends Module
 
         $s3 = $this->app->scope->get($options->provider);
 
-        $data = $s3->listBuckets();
+        $data = $s3->listBuckets()->toArray();
 
         foreach ($data['Buckets'] as &$bucket) {
             $bucket['CreationDate'] = (string)$bucket['CreationDate'];
@@ -70,9 +76,9 @@ class s3 extends Module
 
         $s3 = $this->app->scope->get($options->provider);
 
-        return $s3->deleteBucket([
+        return $s3->deleteBucket(array(
             'Bucket' => $options->bucket
-        ]);
+        ))->toArray();
     }
 
     public function listFiles($options) {
@@ -93,7 +99,7 @@ class s3 extends Module
             'Prefix' => $options->prefix,
             'ContinuationToken' => $options->continuationToken,
             'StartAfter' => $options->startAfter
-        ]);
+        ])->toArray();
 
         foreach ($data['Contents'] as &$content) {
             $content['LastModified'] = (string)$content['LastModified'];
@@ -115,12 +121,19 @@ class s3 extends Module
 
         $path = Path::toSystemPath($options->path);
 
-        return $s3->putObject([
+        $result = $s3->putObject(array(
             'Bucket' => $options->bucket,
             'Key' => $options->key,
             'Body' => file_get_contents($path),
             'ACL' => $options->acl
-        ]);
+        ));
+
+        $s3->waitUntil('ObjectExists', array(
+            'Bucket' => $options->bucket,
+            'Key' => $options->key
+        ));
+
+        return $result->toArray();
     }
 
     public function getFile($options) {
@@ -153,10 +166,10 @@ class s3 extends Module
 
         $s3 = $this->app->scope->get($options->provider);
 
-        return $s3->listObjects([
+        return $s3->deleteObject(array(
             'Bucket' => $options->bucket,
             'Key' => $options->key
-        ]);
+        ))->toArray();
     }
 
     public function signDownloadUrl($options) {
@@ -169,10 +182,10 @@ class s3 extends Module
 
         $s3 = $this->app->scope->get($options->provider);
 
-        $cmd = $s3->getCommand('GetObject', [
+        $cmd = $s3->getCommand('GetObject', array(
             'Bucket' => $options->bucket,
             'Key' => $options->key
-        ]);
+        ));
 
         $request = $s3->createPresignedRequest($cmd, '+' . $options->expires . ' seconds');
 
@@ -190,11 +203,11 @@ class s3 extends Module
 
         $s3 = $this->app->scope->get($options->provider);
 
-        $cmd = $s3->getCommand('PutObject', [
+        $cmd = $s3->getCommand('PutObject', array(
             'Bucket' => $options->bucket,
             'Key' => $options->key,
             'ACL' => $options->acl
-        ]);
+        ));
 
         $request = $s3->createPresignedRequest($cmd, '+' . $options->expires . ' seconds');
 

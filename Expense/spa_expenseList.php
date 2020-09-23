@@ -1,4 +1,4 @@
-<!-- Wappler include head-page="../index.php" appconnect="local" is="dmx-app" bootstrap4="cdn" fontawesome_4="cdn" jquery_slim_33="cdn" id="ExpenseList" components="{dmxStateManagement:{},dmxBootstrap4Collapse:{},dmxFormatter:{},dmxBootstrap4Tooltips:{},dmxBootstrap4PagingGenerator:{},dmxBootstrap4Modal:{},dmxPreloader:{},dmxBootstrap4Alert:{}}" -->
+<!-- Wappler include head-page="../index.php" appconnect="local" is="dmx-app" bootstrap4="cdn" fontawesome_4="cdn" jquery_slim_33="cdn" id="ExpenseList" components="{dmxStateManagement:{},dmxBootstrap4Collapse:{},dmxFormatter:{},dmxBootstrap4Tooltips:{},dmxBootstrap4PagingGenerator:{},dmxBootstrap4Modal:{},dmxPreloader:{},dmxBootstrap4Alert:{},dmxDatePicker:{}}" moment_2="cdn" -->
 <dmx-value id="varShowGraph" dmx-bind:value="0"></dmx-value>
 <dmx-serverconnect id="scGenerateGraph" url="dmxConnect/api/Expense/CurrentMonthGraph.php" onsuccess="CurrentMonthGraph();" noload="noload"></dmx-serverconnect>
 
@@ -12,7 +12,7 @@
 <dmx-query-manager id="qm"></dmx-query-manager>
 <dmx-serverconnect id="scExpenseList" noload="noload" url="dmxConnect/api/Expense/ExpenseList.php" dmx-param:categoryid="collapse1.FilterCategory.value" dmx-param:itemid="collapse1.FilterItem.value" dmx-param:offset="query.offset"
 	dmx-param:limit="varPageValue.value ? varPageValue.value : 15" dmx-param:currentmonth="collapse1.ThisMonth.checked" dmx-param:crstartdate="varStartDate.value" dmx-param:crenddate="varEndDate.value" dmx-param:date="collapse1.date.value"
-	dmx-on:success="scGenerateGraph.load({date: varDateTime.datetime.formatDate('y-MM')})">
+	dmx-on:success="scGenerateGraph.load({date: varDateTime.datetime.formatDate('y-MM')})" dmx-param:startdate="collapse1.DateRange.start.toDate()" dmx-param:enddate="collapse1.DateRange.end.toDate()">
 </dmx-serverconnect>
 <div class=" container-fluid  d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap py-2">
 	<div class="d-flex align-items-center flex-wrap mr-1">
@@ -50,10 +50,13 @@
 						<option value="" selected>Select Item</option>
 					</select>
 				</div>
-				<div class="col-lg-3 col-sm-3 form-group">
+				<div class="col-lg-2 col-sm-3 form-group">
 					<input type="date" class="form-control" id="date" name="date">
 				</div>
-				<div class="col-lg-3 col-sm-3 mt-3">
+				<div class="col-lg-2 col-sm-3 form-group">
+					<input type="text" class="form-control" name="DateRange" id="DateRange" name="date" is="dmx-date-range-picker">
+				</div>
+				<div class="col-lg-2 col-sm-3 mt-3">
 					<div class="custom-control custom-checkbox">
 						<label class="checkbox checkbox-outline checkbox-success">
 							<input type="checkbox" checked name="ThisMonth" value="1" /> Current Month
@@ -135,7 +138,7 @@
 							<tr>
 								<td><a href="javascript:void(0)" class="mouse-pointer" dmx-on:click="scInvoiceItems.load({invoiceid: invoice_number});ModalInvoice.show()">{{invoice_number}}</a></td>
 								<td class="text-truncate font-weight-bolder">{{ItemName}}</td>
-								<td class="font-weight-bolder mt-3 text-truncate">{{amount.toNumber().formatCurrency("₹", ".", ",", "2")}}</td>
+								<td class="font-weight-bolder mt-3 text-truncate">{{amount.toNumber().formatCurrency("₹ ", ".", ",", "2")}}</td>
 								<td class="text-truncate">{{quantity + ' ' + Unit}}</td>
 								<td class="text-truncate">{{purchase_date.formatDate("dd MMM yy")}}</td>
 								<td class="text-truncate">{{PaymentType}}</td>
@@ -157,10 +160,14 @@
 								</td>
 							</tr>
 						</tbody>
-						<tr>
-							<td colspan="8">
-								<h5 class="font-weight-bolder">Total: {{scExpenseList.data.queryExpenseList.data.sum(`amount`)}}</h5>
+						<tr class="bg-light-primary">
+							<td colspan="2" class="text-right">
+								<h5 class="font-weight-bolder">Total</h5>
 							</td>
+							<td>
+								<h5 class="font-weight-bolder">{{scExpenseList.data.TotalAmount.TotalAmount.toNumber().formatCurrency("₹ ", ".", ",", "2")}}</h5>
+							</td>
+							<td colspan="5"></td>
 						</tr>
 					</table>
 					<div class="d-flex flex-row justify-content-md-center align-items-center my-3">

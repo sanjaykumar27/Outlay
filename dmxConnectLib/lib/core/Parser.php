@@ -77,6 +77,7 @@ class Parser
 		$this->reserved['null'] = function() use (&$self) { return NULL; };
 		$this->reserved['true'] = function() use (&$self) { return TRUE; };
 		$this->reserved['false'] = function() use (&$self) { return FALSE; };
+		$this->reserved['_'] = function() use (&$self) { return array('__dmxScope__' => TRUE); };
     }
 
     public function parse($expression, Scope $scope = NULL) {
@@ -368,6 +369,10 @@ class Parser
 
 		$data = $value();
 
+		if ($this->getProperty($data, '__dmxScope__') != NULL) {
+			return $this->scope->get($index);
+		}
+
 		return $this->getProperty($data, $index);
 	}
 
@@ -398,6 +403,10 @@ class Parser
 				//return NULL;
                 throw new \Exception('Formatter ' . $token->value . ' does not exist.');
 			}
+		}
+
+		if ($this->getProperty($data, '__dmxScope__') != NULL) {
+			return $this->scope->get($token->value);
 		}
 
 		return $this->getProperty($data, $token->value);
