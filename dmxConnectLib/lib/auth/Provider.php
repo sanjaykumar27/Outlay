@@ -3,6 +3,7 @@
 namespace lib\auth;
 
 use \lib\App;
+use \lib\core\FileSystem;
 
 class Provider
 {
@@ -13,8 +14,25 @@ class Provider
 
 	protected $key;
 
+	public static function get(App $app, $name) {
+		if (isset($app->auth[$name])) {
+			return $app->auth[$name];
+		}
+
+		$path = realpath($app->get('ACTIONS_URL', BASE_URL . '/../dmxConnect/modules/SecurityProviders/' . $name . '.php'));
+		if (FileSystem::exists($path)) {
+			require(FileSystem::encode($path));
+			$data = json_decode($exports);
+            return new Provider($app, $data->options, $name);
+		}
+		
+		throw new \Exception('Security provider "' . $name . '" not found.');
+	}
+
 	public function __construct(App $app, $cfg, $name = NULL) {
 		$this->app = $app;
+
+		$cfg = $this->app->parseObject($cfg);
 
 		if (!isset($cfg->provider)) {
 	      throw new \Exception('Security provider is Required');
@@ -69,6 +87,8 @@ class Provider
 				$this->login($credentials[0], $credentials[1], TRUE, TRUE);
 			}
 		}
+
+		$this->app->auth[$name] = $this;
 	}
 
 	public function setIdentity($identity = FALSE) {

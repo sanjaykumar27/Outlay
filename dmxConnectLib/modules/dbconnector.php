@@ -8,8 +8,8 @@ use \lib\db\SqlBuilder;
 
 class dbconnector extends Module
 {
-    public function connect($options) {
-        return new Connection($this->app, $this->app->parseObject($options));
+    public function connect($options, $name) {
+        return new Connection($this->app, $this->app->parseObject($options), $name);
     }
 
     public function select($options) {
@@ -23,7 +23,7 @@ class dbconnector extends Module
 
         $options->sql->type = 'select';
 
-        $connection = $this->app->scope->get($options->connection);
+        $connection = Connection::get($this->app, $options->connection);
 
         if ($connection === NULL) {
             throw new \Exception('Connection "' . $options->connection . '" not found.');
@@ -76,7 +76,7 @@ class dbconnector extends Module
 
       $options->sql->type = 'select';
 
-      $connection = $this->app->scope->get($options->connection);
+      $connection = Connection::get($this->app, $options->connection);
 
       if ($connection === NULL) {
           throw new \Exception('Connection "' . $options->connection . '" not found.');
@@ -109,7 +109,7 @@ class dbconnector extends Module
 
         $options->sql->type = 'count';
 
-        $connection = $this->app->scope->get($options->connection);
+        $connection = Connection::get($this->app, $options->connection);
 
         if ($connection === NULL) {
             throw new \Exception('Connection "' . $options->connection . '" not found.');
@@ -147,7 +147,7 @@ class dbconnector extends Module
         if (is_null($options->sql->offset)) $options->sql->offset = 0;
         if (is_null($options->sql->limit)) $options->sql->limit = 25;
 
-        $connection = $this->app->scope->get($options->connection);
+        $connection = Connection::get($this->app, $options->connection);
 
         if ($connection === NULL) {
             throw new \Exception('Connection "' . $options->connection . '" not found.');

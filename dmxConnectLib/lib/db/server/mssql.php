@@ -55,7 +55,7 @@ class mssql
 			$query = preg_replace('/\s+ORDER\s+BY(.*)/', '', $query);
 			$query = preg_replace('/^SELECT\s+/', '', $query);
 
-			$query = 'SELECT * FROM (SELECT ROW_NUMBER() OVER (' . $over . ') AS dmx_rownum, ' . $query . ' AS dmx_tbl WHERE dmx_rownum > ' . $offset;
+			$query = 'SELECT * FROM (SELECT ROW_NUMBER() OVER (' . $over . ') AS dmx_rownum, ' . $query . ') AS dmx_tbl WHERE dmx_rownum > ' . $offset;
 			
 			if ($limit > 0) {
 				$query .= ' AND dmx_rownum <= ' . ($offset + $limit);

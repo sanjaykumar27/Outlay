@@ -102,7 +102,11 @@ function exception_handler($exception) {
 
 set_exception_handler('exception_handler');
 spl_autoload_register(function($class) {
-	$path = BASE_URL . DIRECTORY_SEPARATOR . str_replace("\\", DIRECTORY_SEPARATOR, $class) . '.php';
+	$path = BASE_URL . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'extensions' . DIRECTORY_SEPARATOR . 'server_connect' . DIRECTORY_SEPARATOR . str_replace("\\", DIRECTORY_SEPARATOR, $class) . '.php';
+
+	if (file_exists($path) === FALSE || is_readable($path) === FALSE) {
+		$path = BASE_URL . DIRECTORY_SEPARATOR . str_replace("\\", DIRECTORY_SEPARATOR, $class) . '.php';
+	}
 
 	if (file_exists($path) === FALSE || is_readable($path) === FALSE) {
 		return FALSE;

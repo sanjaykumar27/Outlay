@@ -37,8 +37,24 @@ class App
         $this->response = new Response($this);
         $this->session = new Session();
 
+        $this->db = array();
+        $this->mail = array();
+        $this->auth = array();
+        $this->oauth = array();
+        $this->s3 = array();
+        $this->jwt = array();
+
+        $globalsPath = BASE_URL . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, '../dmxConnect/globals.php');
+        if (file_exists($globalsPath)) {
+            include($globalsPath);
+            $globals = json_decode($exports);
+            if (isset($globals->data)) {
+                $this->scope->set($globals->data);
+            }
+        }
+
         $this->scope->set(array(
-            '$_ERROR' => $this->error,
+            '$_ERROR' => NULL,
             '$_SERVER' => $this->request->server,
             '$_ENV' => $_ENV,
             '$_GET' => $this->request->get,
@@ -70,7 +86,12 @@ class App
         if (isset($cfg->settings)) $this->settings($cfg->settings);
         if (isset($cfg->meta)) $this->meta($cfg->meta);
         if (isset($cfg->vars)) $this->set($cfg->vars);
-        if (isset($cfg->exec)) $this->exec($cfg->exec);
+        $path = realpath($this->get('ACTIONS_URL', BASE_URL . '/../dmxConnect/modules'));
+        if (file_exists($path . DIRECTORY_SEPARATOR . 'global.php')) {
+            require(FileSystem::encode($path . DIRECTORY_SEPARATOR . 'global.php'));
+            $this->exec(json_decode($exports), TRUE);
+        }
+        $this->exec($cfg);
     }
 
     protected function settings($settings) {
@@ -91,6 +112,10 @@ class App
     }
 
     public function exec($actions, $internal = FALSE) {
+        if (isset($actions->exec)) {
+            return $this->exec($actions->exec, $internal);
+        }
+
         if (is_string($actions)) {
             $actions = json_decode($actions);
 
@@ -99,19 +124,13 @@ class App
             }
         }
 
-        if (is_array($actions)) {
-            foreach ($actions as $action) {
-                $this->exec($action, $internal);
-            }
-        }
-
         $this->execSteps(isset($actions->steps) ? $actions->steps : $actions);
 
         if ($this->error !== FALSE) {
             if (isset($actions->catch)) {
                 $this->scope->set('$_ERROR', $this->error->getMessage());
-                $this->execSteps($actions->catch);
                 $this->error = FALSE;
+                $this->execSteps($actions->catch);
             } else {
                 throw $this->error;
             }
@@ -175,7 +194,7 @@ class App
                 } elseif (method_exists($module, '_'.$steps->action)) {
                     $data = $module->{'_'.$steps->action}(isset($steps->options) ? clone $steps->options : NULL, isset($steps->name) ? $steps->name : NULL);
                 } else {
-                    throw new \Exception("Action $step->action doesn't exist in $module", 1);
+                    throw new \Exception("Action $steps->action doesn't exist in $module", 1);
                 }
 			} catch (\Exception $err) {
 				$this->error = $err;

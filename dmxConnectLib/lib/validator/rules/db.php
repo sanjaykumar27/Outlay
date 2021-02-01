@@ -2,6 +2,7 @@
 
 namespace lib\validator\rules;
 
+use \lib\db\Connection;
 use \lib\db\SqlBuilder;
 
 class db extends \lib\core\Singleton
@@ -15,7 +16,7 @@ class db extends \lib\core\Singleton
         option_require($options, 'table');
         option_require($options, 'column');
 
-        $connection = $this->app->scope->get($options->connection);
+        $connection = Connection::get($this->app, $options->connection);
 
         if ($connection === NULL) {
             throw new \Exception('Connection "' . $options->connection . '" not found.');

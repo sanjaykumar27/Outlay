@@ -6,11 +6,7 @@ $app = new \lib\App();
 
 $app->define(<<<'JSON'
 {
-  "settings": {
-    "options": {}
-  },
   "meta": {
-    "options": {},
     "$_GET": [
       {
         "type": "text",
@@ -61,6 +57,14 @@ $app->define(<<<'JSON'
               {
                 "table": "sub_categories",
                 "column": "category_id"
+              },
+              {
+                "table": "sub_categories",
+                "column": "default_price"
+              },
+              {
+                "table": "sub_categories",
+                "column": "default_unit"
               }
             ],
             "table": {
@@ -106,7 +110,7 @@ $app->define(<<<'JSON'
               "conditional": null,
               "valid": true
             },
-            "query": "SELECT id, subcategory_name, category_id\nFROM sub_categories\nWHERE deleted = 0 AND (category_id = :P1 /* {{$_GET.categoryid}} */)\nORDER BY subcategory_name ASC",
+            "query": "SELECT id, subcategory_name, category_id, default_price, default_unit\nFROM sub_categories\nWHERE deleted = 0 AND (category_id = :P1 /* {{$_GET.categoryid}} */)\nORDER BY subcategory_name ASC",
             "params": [
               {
                 "operator": "equal",
@@ -137,6 +141,14 @@ $app->define(<<<'JSON'
           },
           {
             "name": "category_id",
+            "type": "number"
+          },
+          {
+            "name": "default_price",
+            "type": "number"
+          },
+          {
+            "name": "default_unit",
             "type": "number"
           }
         ],

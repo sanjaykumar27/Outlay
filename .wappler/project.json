@@ -1,5 +1,5 @@
 {
-  "projectName": "testproject",
+  "projectName": "OutlayCopy",
   "styleFile": "/css/style.css",
   "assetsFolder": "/assets",
   "frameworks": [
@@ -30,8 +30,8 @@
     {
       "access": "local",
       "name": "Localhost",
-      "remoteURL": "http://localhost/outlay",
-      "localFolder": "file:///F:/xampp/htdocs/Outlay"
+      "remoteURL": "http://localhost/OutlayCopy",
+      "localFolder": "file:///D:/xampp/htdocs/OutlayCopy"
     },
     {
       "access": "ftp",
@@ -44,5 +44,5 @@
       "ftpPassword": "54fa8bb6d2aaeac71cd04b2f"
     }
   ],
-  "activeTarget": "Server1"
+  "activeTarget": "Localhost"
 }

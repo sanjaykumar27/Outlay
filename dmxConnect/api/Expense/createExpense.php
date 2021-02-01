@@ -196,6 +196,10 @@ $app->define(<<<'JSON'
           {
             "type": "text",
             "name": "upload1"
+          },
+          {
+            "type": "number",
+            "name": "id"
           }
         ]
       },
@@ -206,6 +210,10 @@ $app->define(<<<'JSON'
       {
         "type": "text",
         "name": "NewItem[$key]"
+      },
+      {
+        "type": "number",
+        "name": "Amount[$key]"
       }
     ]
   },
@@ -273,16 +281,38 @@ $app->define(<<<'JSON'
                                 "column": "subcategory_name",
                                 "type": "text",
                                 "value": "{{$_POST.NewItem[$key]}}"
+                              },
+                              {
+                                "table": "sub_categories",
+                                "column": "default_price",
+                                "type": "number",
+                                "value": "{{$_POST.Amount[$key]}}"
+                              },
+                              {
+                                "table": "sub_categories",
+                                "column": "default_unit",
+                                "type": "number",
+                                "value": "{{$value}}"
                               }
                             ],
                             "table": "sub_categories",
                             "returning": "id",
-                            "query": "INSERT INTO sub_categories\n(category_id, subcategory_name) VALUES ('22', :P1 /* {{$_POST.NewItem[$key]}} */)",
+                            "query": "INSERT INTO sub_categories\n(category_id, subcategory_name, default_price, default_unit) VALUES ('22', :P1 /* {{$_POST.NewItem[$key]}} */, :P2 /* {{$_POST.Amount[$key]}} */, :P3 /* {{$value}} */)",
                             "params": [
                               {
                                 "name": ":P1",
                                 "type": "expression",
                                 "value": "{{$_POST.NewItem[$key]}}"
+                              },
+                              {
+                                "name": ":P2",
+                                "type": "expression",
+                                "value": "{{$_POST.Amount[$key]}}"
+                              },
+                              {
+                                "name": ":P3",
+                                "type": "expression",
+                                "value": "{{$value}}"
                               }
                             ]
                           }
@@ -493,6 +523,75 @@ $app->define(<<<'JSON'
                     "name": "identity",
                     "type": "text"
                   },
+                  {
+                    "name": "affected",
+                    "type": "number"
+                  }
+                ]
+              },
+              {
+                "name": "updateItem",
+                "module": "dbupdater",
+                "action": "update",
+                "options": {
+                  "connection": "ConnCS",
+                  "sql": {
+                    "type": "update",
+                    "values": [
+                      {
+                        "table": "sub_categories",
+                        "column": "default_price",
+                        "type": "number",
+                        "value": "{{$_POST.Amount[$key]}}"
+                      },
+                      {
+                        "table": "sub_categories",
+                        "column": "default_unit",
+                        "type": "number",
+                        "value": "{{$value}}"
+                      }
+                    ],
+                    "table": "sub_categories",
+                    "wheres": {
+                      "condition": "AND",
+                      "rules": [
+                        {
+                          "id": "id",
+                          "field": "id",
+                          "type": "double",
+                          "operator": "equal",
+                          "value": "{{ItemID}}",
+                          "data": {
+                            "column": "id"
+                          },
+                          "operation": "="
+                        }
+                      ],
+                      "conditional": null,
+                      "valid": true
+                    },
+                    "query": "UPDATE sub_categories\nSET default_price = :P1 /* {{$_POST.Amount[$key]}} */, default_unit = :P2 /* {{$value}} */\nWHERE id = :P3 /* {{ItemID}} */",
+                    "params": [
+                      {
+                        "name": ":P1",
+                        "type": "expression",
+                        "value": "{{$_POST.Amount[$key]}}"
+                      },
+                      {
+                        "name": ":P2",
+                        "type": "expression",
+                        "value": "{{$value}}"
+                      },
+                      {
+                        "operator": "equal",
+                        "type": "expression",
+                        "name": ":P3",
+                        "value": "{{ItemID}}"
+                      }
+                    ]
+                  }
+                },
+                "meta": [
                   {
                     "name": "affected",
                     "type": "number"

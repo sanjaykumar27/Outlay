@@ -74,7 +74,7 @@ $app->define(<<<'JSON'
         "module": "api",
         "action": "send",
         "options": {
-          "url": "https://www.mindfulinternet.net/api_generateGraph.php",
+          "url": "http://localhost/OutlayCopy/api_generateGraph.php",
           "method": "POST",
           "dataType": "x-www-form-urlencoded",
           "data": {

@@ -17,7 +17,7 @@ class dbupdater extends Module
 
         $options->sql->type = 'insert';
 
-        $connection = $this->app->scope->get($options->connection);
+        $connection = Connection::get($this->app, $options->connection);
 
         if ($connection === NULL) {
             throw new \Exception('Connection "' . $options->connection . '" not found.');
@@ -47,7 +47,7 @@ class dbupdater extends Module
 
         $options->sql->type = 'update';
 
-        $connection = $this->app->scope->get($options->connection);
+        $connection = Connection::get($this->app, $options->connection);
 
         if ($connection === NULL) {
             throw new \Exception('Connection "' . $options->connection . '" not found.');
@@ -77,7 +77,7 @@ class dbupdater extends Module
 
         $options->sql->type = 'delete';
 
-        $connection = $this->app->scope->get($options->connection);
+        $connection = Connection::get($this->app, $options->connection);
 
         if ($connection === NULL) {
             throw new \Exception('Connection "' . $options->connection . '" not found.');
@@ -106,7 +106,7 @@ class dbupdater extends Module
 
 		$options = $this->parseOptions($options);
 
-		$connection = $this->app->scope->get($options->connection);
+		$connection = Connection::get($this->app, $options->connection);
 
 		if ($connection === NULL) {
 			throw new \Exception('Connection "' . $options->connection . '" not found.');
@@ -146,7 +146,7 @@ class dbupdater extends Module
 
 		$options = $this->app->parseObject($options);
 
-        $connection = $this->app->scope->get($options->connection);
+        $connection = Connection::get($this->app, $options->connection);
 
         if ($connection === NULL) {
             throw new \Exception('Connection "' . $options->connection . '" not found.');

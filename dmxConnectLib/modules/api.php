@@ -3,113 +3,10 @@
 namespace modules;
 
 use \lib\core\Module;
-
-use \Lcobucci\JWT\Builder;
+use \lib\oauth\Oauth2;
 
 class api extends Module
 {
-    /*
-        $options
-        {
-            "alg": "String", // algorithm for signing (HS256, HS384, HS512, RS256, RS384, RS512, ES256, ES384, ES512)
-            "key": "String", // key for signing
-            "iss": "String", // issuer
-            "sub": "String", // subject
-            "aud": "String", // audience
-            "jti": "String", // token id
-            "iat": "Number", // time that the token was issued
-            "nbf": "Number", // time before which the token cannot be accepted
-            "exp": "Number", // expiration time
-            "headers": "Object", // header items
-            "claims": "Object" // claim items
-        }
-    */
-    public function jwt($options) {
-        $time = time();
-
-        $builder = new Builder();
-
-        if (isset($options->iss)) {
-            $builder->issuedBy($options->iss);
-        }
-
-        if (isset($options->sub)) {
-            $builder->relatedTo($options->sub);
-        }
-
-        if (isset($options->aud)) {
-            $builder->canOnlyBeUsedBy($options->aud);
-        }
-
-        if (isset($options->jti)) {
-            $builder->identifiedBy($options->jti, true);
-        }
-
-        if (isset($options->iat)) {
-            $time = $options->iat;
-        }
-
-        $builder->issuedAt($time);
-        $builder->canOnlyBeUsedAfter(isset($options->nbf) ? $options->nbf : $time + 60);
-        $builder->expiresAt(isset($options->exp) ? $options->exp : $time + 3600);
-
-        if (isset($options->headers)) {
-            foreach ($options->headers as $key => $value) {
-                $builder->withHeader($key, $value);
-            }
-        }
-
-        if (isset($options->claims)) {
-            foreach ($options->claims as $key => $value) {
-                $builder->with($key, $value);
-            }
-        }
-
-        if (isset($options->alg)) {
-            if (!isset($options->key)) {
-                throw new \Exception('API: option key is required for signing.');
-            }
-
-            switch ($options->alg) {
-                case 'HS256':
-                    $signer = new \Lcobucci\JWT\Signer\Hmac\Sha256();
-                    break;
-                case 'HS384':
-                    $signer = new \Lcobucci\JWT\Signer\Hmac\Sha384();
-                    break;
-                case 'HS512':
-                    $signer = new \Lcobucci\JWT\Signer\Hmac\Sha512();
-                    break;
-                case 'RS256':
-                    $signer = new \Lcobucci\JWT\Signer\Rsa\Sha256();
-                    break;
-                case 'RS384':
-                    $signer = new \Lcobucci\JWT\Signer\Rsa\Sha384();
-                    break;
-                case 'RS512':
-                    $signer = new \Lcobucci\JWT\Signer\Rsa\Sha512();
-                    break;
-                case 'ES256':
-                    $signer = new \Lcobucci\JWT\Signer\Ecdsa\Sha256();
-                    break;
-                case 'ES384':
-                    $signer = new \Lcobucci\JWT\Signer\Ecdsa\Sha384();
-                    break;
-                case 'ES512':
-                    $signer = new \Lcobucci\JWT\Signer\Ecdsa\Sha512();
-                    break;
-                default:
-                    throw new \Exception('API: unknown signing algorithm '.$options->alg.'.');
-            }
-
-            $builder->sign($signer, $options->key);
-        }
-
-        $token = $builder->getToken();
-
-        return (string)$token;
-    }
-
     public function get($options) {
         $options->method = 'GET';
         return $this->send($options);
@@ -178,7 +75,8 @@ class api extends Module
         }
 
         if ($options->oauth) {
-            $oauth2 = $this->app->scope->get($options->oauth);
+            //$oauth2 = $this->app->scope->get($options->oauth);
+            $oauth2 = Oauth2::get($this->app, $options->oauth);
             if ($oauth2 && $oauth2->access_token) {
                 $headers['Authorization'] = 'Bearer ' . $oauth2->access_token;
             }
@@ -357,7 +255,7 @@ class api extends Module
     }
 
     protected function parseBody($rawBody) {
-        $json = json_decode(preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $rawBody));
+        $json = json_decode($rawBody);
 
         if (json_last_error() === JSON_ERROR_NONE) {
             return $json;

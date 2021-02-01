@@ -2,10 +2,12 @@
 
 namespace modules;
 
+use \lib\core\FileSystem;
 use \lib\core\Module;
 use \lib\core\Scope;
 use \lib\core\Path;
-use \lib\mail\Mailer;
+
+use \PHPMailer\PHPMailer\PHPMailer;
 
 class mail extends Module
 {
@@ -17,9 +19,11 @@ class mail extends Module
 		option_default($options, 'username', '');
 		option_default($options, 'password', '');
 
-		$options = $this->app->parseObject($options);
+        $options = $this->app->parseObject($options);
+        
+        $this->app->mail[$name] = $options;
 
-        $this->getInstance($name)->setup($options);
+        return $options;
     }
 
     public function send($options) {
@@ -42,14 +46,59 @@ class mail extends Module
         option_default($options, 'baseUrl', '/');
 
         $options = $this->app->parseObject($options);
+        $setup = $this->getSetup($options->instance);
 
-        $options->from = $options->fromName != ''
-            ? mb_encode_mimeheader($options->fromName, "UTF-8", "Q") . ' <' . $options->fromEmail . '>'
-            : $options->fromEmail;
+        $mail = new PHPMailer(true);
 
-        $options->to = $options->toName != ''
-            ? mb_encode_mimeheader($options->toName, "UTF-8", "Q") . ' <' . $options->toEmail . '>'
-            : $options->toEmail;
+        $mail->CharSet = PHPMailer::CHARSET_UTF8;
+        $mail->Host = $setup->host;
+        $mail->Port = $setup->port;
+
+        if ($setup->server == 'smtp') {
+            $mail->isSMTP();
+            
+            if ($setup->useSSL) {
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+            }
+            
+            $mail->SMTPOptions = array(
+                'ssl' => array(
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true
+                )
+            );
+
+            if ($setup->username != '') {
+                $mail->SMTPAuth = true;
+                $mail->Username = $setup->username;
+                $mail->Password = $setup->password;
+            }
+        } else {
+            $mail->isSendmail();
+        }
+
+        $mail->setFrom($options->fromEmail, $options->fromName);
+
+        $mail->addAddress($options->toEmail, $options->toName);
+
+        if ($options->replyTo != '') {
+            $mail->addReplyTo($options->replyTo);
+        }
+
+        if ($options->cc != '') {
+            foreach (PHPMailer::parseAddresses($options->cc) as $email) {
+                $mail->addCC($email['address'], $email['name']);
+            }
+        }
+
+        if ($options->bcc != '') {
+            foreach (PHPMailer::parseAddresses($options->bcc) as $email) {
+                $mail->addBCC($email['address'], $email['name']);
+            }
+        }
+
+        $mail->Subject = $options->subject;
 
         if ($options->source == 'file') {
             $options->bodyFile = Path::toSystemPath($options->bodyFile);
@@ -57,15 +106,45 @@ class mail extends Module
             $options->body = $this->loadTemplate($options->bodyFile);
         }
 
-        if ($options->attachments) {
-            $options->attachments = Path::getFilesArray($options->attachments);
+        if ($options->contentType == 'html') {
+            $mail->msgHTML($options->body, $options->baseUrl);
+        } else {
+            $mail->Body = $options->body;
         }
 
-        $this->getInstance($options->instance)->send($options);
+        if ($options->attachments) {
+            $options->attachments = Path::getFilesArray($options->attachments);
+
+            foreach ($options->attachments as $attachment) {
+                $mail->addAttachment($attachment);
+            }
+        }
+
+        switch ($options->importance) {
+            case 0:
+                $mail->Priority = 5;
+            break;
+            case 2:
+                $mail->Priority = 1;
+            break;
+        }
+
+        return $mail->send();
     }
 
-    private function getInstance($name) {
-        return Mailer::getInstance($name, $this->app);
+    private function getSetup($name) {
+        if (isset($this->app->mail[$name])) {
+            return $this->app->mail[$name];
+        }
+
+        $path = realpath($this->app->get('ACTIONS_URL', BASE_URL . '/../dmxConnect/modules/Mailer/' . $name . '.php'));
+		if (FileSystem::exists($path)) {
+            require(FileSystem::encode($path));
+            $data = json_decode($exports);
+            return $this->setup($data->options, $name);
+		}
+		
+		throw new \Exception('Mailer "' . $name . '" not found.');
     }
 
     private function loadTemplate($path) {

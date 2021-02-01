@@ -11,8 +11,18 @@ class auth extends Module
 		return new Provider($this->app, $options, $name);
 	}
 
+	public function identify($options) {
+		option_require($options, 'provider');
+
+		$provider = Provider::get($this->app, $options->provider);
+
+		return $provider->identity;
+	}
+
 	public function validate($options) {
-		$provider = $this->app->scope->get($options->provider);
+		option_require($options, 'provider');
+
+		$provider = Provider::get($this->app, $options->provider);
 
 		switch ($_POST['action']) {
 			case 'login':
@@ -39,7 +49,7 @@ class auth extends Module
 
 		$options = $this->app->parseObject($options);
 
-		$provider = $this->app->scope->get($options->provider);
+		$provider = Provider::get($this->app, $options->provider);
 
 		return $provider->login($options->username, $options->password, $options->remember);
 	}
@@ -49,7 +59,7 @@ class auth extends Module
 
 		$options = $this->app->parseObject($options);
 
-		$provider = $this->app->scope->get($options->provider);
+		$provider = Provider::get($this->app, $options->provider);
 
 		return $provider->logout();
 	}
@@ -59,7 +69,7 @@ class auth extends Module
 
 		$options = $this->app->parseObject($options);
 
-		$provider = $this->app->scope->get($options->provider);
+		$provider = Provider::get($this->app, $options->provider);
 
 		return $provider->restrict($options);
 	}

@@ -174,6 +174,10 @@ $app->define(<<<'JSON'
                       "column": "id",
                       "alias": "ItemID",
                       "aggregate": ""
+                    },
+                    {
+                      "table": "sub_categories",
+                      "column": "category_id"
                     }
                   ],
                   "table": {
@@ -200,7 +204,7 @@ $app->define(<<<'JSON'
                     "conditional": null,
                     "valid": true
                   },
-                  "query": "SELECT subcategory_name AS ItemName, id AS ItemID\nFROM sub_categories\nWHERE category_id = :P1 /* {{CategoryID}} */\nORDER BY subcategory_name ASC",
+                  "query": "SELECT subcategory_name AS ItemName, id AS ItemID, category_id\nFROM sub_categories\nWHERE category_id = :P1 /* {{CategoryID}} */\nORDER BY subcategory_name ASC",
                   "params": [
                     {
                       "operator": "equal",
@@ -213,7 +217,8 @@ $app->define(<<<'JSON'
                     {
                       "table": "sub_categories",
                       "column": "subcategory_name",
-                      "direction": "ASC"
+                      "direction": "ASC",
+                      "recid": 1
                     }
                   ]
                 }
@@ -226,6 +231,10 @@ $app->define(<<<'JSON'
                 },
                 {
                   "name": "ItemID",
+                  "type": "number"
+                },
+                {
+                  "name": "category_id",
                   "type": "number"
                 }
               ],

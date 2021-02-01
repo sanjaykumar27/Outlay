@@ -1,10 +1,6 @@
 {
   "routes": [
     {
-      "path": "/login",
-      "url": "/login.php"
-    },
-    {
       "path": "/",
       "url": "/index.php",
       "name": "",
@@ -26,6 +22,18 @@
           "path": "/form-management",
           "id": "routeFormManagement",
           "url": "Master/spa_formList.php"
+        },
+        {
+          "type": "page",
+          "path": "/account/list",
+          "id": "routeAccountList",
+          "url": "Master/spa_accountList.php"
+        },
+        {
+          "type": "page",
+          "path": "/account/details/:accountid",
+          "id": "routeAccounDetails",
+          "url": "Master/spa_accountDetails.php"
         },
         {
           "type": "page",

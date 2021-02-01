@@ -6,11 +6,7 @@ $app = new \lib\App();
 
 $app->define(<<<'JSON'
 {
-  "settings": {
-    "options": {}
-  },
   "meta": {
-    "options": {},
     "$_GET": [
       {
         "type": "text",
@@ -61,6 +57,10 @@ $app->define(<<<'JSON'
               {
                 "table": "account_master",
                 "column": "bank_name"
+              },
+              {
+                "table": "account_master",
+                "column": "type"
               }
             ],
             "table": {
@@ -87,7 +87,7 @@ $app->define(<<<'JSON'
               "conditional": null,
               "valid": true
             },
-            "query": "SELECT id, account_owner, account_number, bank_name\nFROM account_master\nWHERE userid = :P1 /* {{SecurityCS.identity}} */",
+            "query": "SELECT id, account_owner, account_number, bank_name, type\nFROM account_master\nWHERE userid = :P1 /* {{SecurityCS.identity}} */",
             "params": [
               {
                 "operator": "equal",
@@ -115,6 +115,10 @@ $app->define(<<<'JSON'
           {
             "name": "bank_name",
             "type": "text"
+          },
+          {
+            "name": "type",
+            "type": "number"
           }
         ],
         "outputType": "array"

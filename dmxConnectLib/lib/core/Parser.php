@@ -19,6 +19,15 @@ if (file_exists($formatters_folder) && is_dir($formatters_folder)) {
     }
 }
 
+$user_formatters_folder = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'extensions' . DIRECTORY_SEPARATOR . 'server_connect' . DIRECTORY_SEPARATOR . 'formatters';
+if (file_exists($user_formatters_folder) && is_dir($user_formatters_folder)) {
+    foreach (FileSystem::readdir($user_formatters_folder) as $entry) {
+        if (substr($entry, -4) === ".php") {
+            include_once($user_formatters_folder . DIRECTORY_SEPARATOR . $entry);
+        }
+    }
+}
+
 class Parser
 {
     const OP_LEFT_CURLY = '{';

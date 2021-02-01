@@ -3,6 +3,7 @@
 namespace lib\auth;
 
 use lib\App;
+use lib\db\Connection;
 use lib\db\SqlBuilder;
 
 class DatabaseProvider
@@ -16,7 +17,8 @@ class DatabaseProvider
 
 		$this->app = $app;
 		$this->options = $options;
-		$this->connection = $this->app->scope->get($this->options->connection);
+		//$this->connection = $this->app->scope->get($this->options->connection);
+		$this->connection = Connection::get($app, $options->connection);
 	}
 
 	public function validate($username, $password, $usePasswordVerify) {

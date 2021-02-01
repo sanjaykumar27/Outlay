@@ -6,6 +6,7 @@ require(__DIR__ . '/../aws/aws-autoloader.php');
 
 use \lib\core\Module;
 use \lib\core\Path;
+use \lib\core\FileSystem;
 use \lib\db\Connection;
 use \lib\db\SqlBuilder;
 use \Aws\S3\S3Client;
@@ -20,7 +21,7 @@ class s3 extends Module
             $region = substr($options->endpoint, 3, $pos - 3);
         }
 
-        return new \Aws\S3\S3Client([
+        $this->app->s3[$name] = new \Aws\S3\S3Client([
             'version' => 'latest',
             'region' => $region,
             'endpoint' => 'https://' . $options->endpoint,
@@ -29,6 +30,23 @@ class s3 extends Module
                 'secret' => $options->secretAccessKey
             ]
         ]);
+
+        return $this->app->s3[$name];
+    }
+
+    private function getClient($name) {
+        if (isset($this->app->s3[$name])) {
+            return $this->app->s3[$name];
+        }
+
+        $path = realpath($this->app->get('ACTIONS_URL', BASE_URL . '/../dmxConnect/modules/s3/' . $name . '.php'));
+		if (FileSystem::exists($path)) {
+            require(FileSystem::encode($path));
+            $data = json_decode($exports);
+            return $this->provider($data->options, $name);
+		}
+		
+		throw new \Exception('S3 Client "' . $name . '" not found.');
     }
 
     public function createBucket($options) {
@@ -38,7 +56,7 @@ class s3 extends Module
 
         $options = $this->app->parseObject($options);
 
-        $s3 = $this->app->scope->get($options->provider);
+        $s3 = $this->getClient($options->provider);
 
         $result =  $s3->createBucket(array(
             'Bucket' => $options->bucket,
@@ -57,7 +75,7 @@ class s3 extends Module
 
         $options = $this->app->parseObject($options);
 
-        $s3 = $this->app->scope->get($options->provider);
+        $s3 = $this->getClient($options->provider);
 
         $data = $s3->listBuckets()->toArray();
 
@@ -74,7 +92,7 @@ class s3 extends Module
 
         $options = $this->app->parseObject($options);
 
-        $s3 = $this->app->scope->get($options->provider);
+        $s3 = $this->getClient($options->provider);
 
         return $s3->deleteBucket(array(
             'Bucket' => $options->bucket
@@ -91,7 +109,7 @@ class s3 extends Module
 
         $options = $this->app->parseObject($options);
 
-        $s3 = $this->app->scope->get($options->provider);
+        $s3 = $this->getClient($options->provider);
 
         $data = $s3->listObjectsV2([
             'Bucket' => $options->bucket,
@@ -117,14 +135,15 @@ class s3 extends Module
 
         $options = $this->app->parseObject($options);
 
-        $s3 = $this->app->scope->get($options->provider);
+        $s3 = $this->getClient($options->provider);
 
         $path = Path::toSystemPath($options->path);
 
         $result = $s3->putObject(array(
             'Bucket' => $options->bucket,
             'Key' => $options->key,
-            'Body' => file_get_contents($path),
+            'ContentType' => mime_content_type($path),
+            'Body' => fopen($path, 'rb'),
             'ACL' => $options->acl
         ));
 
@@ -144,17 +163,17 @@ class s3 extends Module
 
         $options = $this->app->parseObject($options);
 
-        $s3 = $this->app->scope->get($options->provider);
+        $s3 = $this->getClient($options->provider);
 
         $path = Path::toSystemPath($options->path);
 
         $data = $s3->getObject([
             'Bucket' => $options->bucket,
             'Key' => $options->key,
-            'Body' => file_get_contents($path)
+            'SaveAs' => $path . '/' . $options->key
         ]);
 
-        return file_put_contents($path, $data['Body']);
+        return;
     }
 
     public function deleteFile($options) {
@@ -164,7 +183,7 @@ class s3 extends Module
 
         $options = $this->app->parseObject($options);
 
-        $s3 = $this->app->scope->get($options->provider);
+        $s3 = $this->getClient($options->provider);
 
         return $s3->deleteObject(array(
             'Bucket' => $options->bucket,
@@ -180,7 +199,7 @@ class s3 extends Module
 
         $options = $this->app->parseObject($options);
 
-        $s3 = $this->app->scope->get($options->provider);
+        $s3 = $this->getClient($options->provider);
 
         $cmd = $s3->getCommand('GetObject', array(
             'Bucket' => $options->bucket,
@@ -201,7 +220,7 @@ class s3 extends Module
 
         $options = $this->app->parseObject($options);
 
-        $s3 = $this->app->scope->get($options->provider);
+        $s3 = $this->getClient($options->provider);
 
         $cmd = $s3->getCommand('PutObject', array(
             'Bucket' => $options->bucket,

@@ -217,5 +217,66 @@ dmx.config({
       ],
       "outputType": "array"
     }
+  },
+  "AccountDetails": {
+    "query": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      },
+      {
+        "type": "text",
+        "name": "offset"
+      },
+      {
+        "type": "text",
+        "name": "limit"
+      }
+    ],
+    "repeatAccounts": {
+      "meta": [
+        {
+          "name": "credit",
+          "type": "number"
+        },
+        {
+          "name": "debit",
+          "type": "number"
+        },
+        {
+          "name": "date_of_transaction",
+          "type": "date"
+        },
+        {
+          "name": "expense_id",
+          "type": "number"
+        },
+        {
+          "name": "from_account",
+          "type": "number"
+        },
+        {
+          "name": "to_account",
+          "type": "number"
+        },
+        {
+          "name": "transaction_detail",
+          "type": "text"
+        },
+        {
+          "name": "created_at",
+          "type": "datetime"
+        },
+        {
+          "name": "name",
+          "type": "text"
+        }
+      ],
+      "outputType": "array"
+    }
   }
 });

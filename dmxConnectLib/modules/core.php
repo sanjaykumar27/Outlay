@@ -4,6 +4,7 @@ namespace modules;
 
 use \lib\core\Module;
 use \lib\core\Scope;
+use \lib\core\FileSystem;
 
 class core extends Module
 {
@@ -141,4 +142,42 @@ class core extends Module
         header('Location: ' . $this->app->parseObject($options->url));
         exit();
     }
+
+    public function trycatch($options) {
+        option_require($options, 'try');
+
+        try {
+            $this->app->exec($options->try, TRUE);
+        } catch(\Exception $error) {
+            $this->app->scope->set('$_ERROR', $error->getMessage());
+            $this->app->error = FALSE;
+            if (isset($options->catch)) {
+                $this->app->exec($options->catch, TRUE);
+            }
+        }
+    }
+
+    public function exec($options) {
+        option_require($options, 'exec');
+
+        $data = array();
+
+        $path = realpath($this->app->get('ACTIONS_URL', BASE_URL . '/../dmxConnect/modules/lib/' . $options->exec . '.php'));
+		if (FileSystem::exists($path)) {
+            $appData = $this->app->data;
+            $this->app->data = array();
+            $scope = array();
+            $scope['$_PARAM'] = isset($options->params) ? $this->app->parseObject($options->params) : array();
+            $this->app->scope = new Scope($this->app->scope, $scope);
+			require(FileSystem::encode($path));
+            $this->app->exec(json_decode($exports), TRUE);
+            $data = $this->app->data;
+            $this->app->scope = $this->app->scope->parent;
+            $this->app->data = $appData;
+		} else {
+            throw new \Exception('There is no action called ' . $options->exec . ' found in the library.');
+        }
+
+        return $data;
+}
 }

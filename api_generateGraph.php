@@ -9,7 +9,7 @@ function MonthlyExpenseGraph($records)
     {
            
     $html = '<script>
-                var options={chart:{height:374,type:"line",dropShadow:{enabled:!0,top:10,left:0,bottom:0,right:0,blur:2,color:"#45404a2e",opacity:.35},toolbar:{show:!1}},stroke:{width:5,curve:"smooth"},series:[{name:"Likes",data:[';
+                var options={chart:{height:374,type:"line",dropShadow:{enabled:!0,top:10,left:0,bottom:0,right:0,blur:2,color:"#45404a2e",opacity:.35},toolbar:{show:!1}},stroke:{width:5,curve:"smooth"},series:[{name:"Amount",data:[';
                                     $i = 1;
             foreach ($records as $k => $val)
             {
