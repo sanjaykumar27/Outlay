@@ -1,10 +1,20 @@
 {
   "routes": [
     {
+      "path": "/auth",
+      "url": "/login.php"
+    },
+    {
       "path": "/",
       "url": "/index.php",
       "name": "",
       "routes": [
+        {
+          "type": "page",
+          "path": "/emi/list",
+          "id": "routeEmiList",
+          "url": "Loan/spa_emiList.php"
+        },
         {
           "type": "page",
           "path": "/form/detail/:form_id",

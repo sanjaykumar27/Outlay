@@ -11,7 +11,7 @@
 
 	<script src="dmxAppConnect/dmxBrowser/dmxBrowser.js" defer=""></script>
 
-	<meta name="ac:route" content="/login">
+	<meta name="ac:route" content="/auth">
 	<base href="/OutlayCopy/">
 
 	<meta charset="utf-8" />

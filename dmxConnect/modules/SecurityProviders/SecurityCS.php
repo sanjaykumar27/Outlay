@@ -11,7 +11,7 @@ $exports = <<<'JSON'
     "users": {
       "table": "user",
       "identity": "id",
-      "username": "email",
+      "username": "username",
       "password": "password"
     },
     "permissions": {
