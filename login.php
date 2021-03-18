@@ -2,7 +2,7 @@
 <html>
 
 <head>
-	<meta name="ac:base" content="/OutlayCopy">
+	<meta name="ac:base" content="/Outlay">
 	<link rel="stylesheet" href="dmxAppConnect/dmxNotifications/dmxNotifications.css" />
 
 	<script src="dmxAppConnect/dmxAppConnect.js"></script>
@@ -12,7 +12,7 @@
 	<script src="dmxAppConnect/dmxBrowser/dmxBrowser.js" defer=""></script>
 
 	<meta name="ac:route" content="/auth">
-	<base href="/OutlayCopy/">
+	<base href="/Outlay/">
 
 	<meta charset="utf-8" />
 	<title>OUTLAY | Login Page 1</title>

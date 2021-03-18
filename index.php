@@ -24,10 +24,10 @@ JSON
 
 
 <head>
-	<meta name="ac:base" content="/OutlayCopy">
+	<meta name="ac:base" content="/Outlay">
 
 	<meta name="ac:route" content="/">
-	<base href="/OutlayCopy/">
+	<base href="/Outlay/">
 	<script src="dmxAppConnect/dmxAppConnect.js"></script>
 	<meta charset="utf-8" />
 	<title>Outlay</title>
